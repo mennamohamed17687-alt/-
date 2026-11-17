@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم إدارة خُطوة (Admin Control Panel) | KHOTWA</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .admin-page-container {
+            padding: 30px 0 70px;
+        }
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            padding: 20px;
+        }
+        .modal-card {
+            background: #ffffff;
+            border-radius: var(--radius-md);
+            max-width: 650px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 28px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- رأس الصفحة -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="brand-logo" aria-label="خُطوة">
+                <span class="brand-icon" style="background:#fef3c7;border-color:#fde68a;">⚙️</span>
+                <span class="brand-title">
+                    <span class="ar">لوحة إدارة خُطوة</span>
+                    <span class="en">KHOTWA ADMIN</span>
+                </span>
+            </a>
+
+            <button class="nav-toggle-btn" aria-label="فتح القائمة الرئيسية" aria-expanded="false">
+                ☰
+            </button>
+
+            <nav class="main-nav" aria-label="التنقل">
+                <a href="index.html" class="nav-link">الواجهة الرئيسية 🌐</a>
+                <a href="discover.html" class="nav-link">اكتشف الأماكن</a>
+                <a href="admin.html" class="nav-link active">لوحة الإدارة ⚙️</a>
+                
+                <div id="navAuthContainer"></div>
+            </nav>
+        </div>
+    </header>
+
+    <main id="mainContent" class="admin-page-container">
+        <div class="container">
+
+            <!-- شريط تنبيه الصلاحيات إن لم يكن مسجلاً كمدير -->
+            <div id="adminAuthWarning" style="display:none;background:#fef2f2;border:1px solid #fecdd3;border-radius:var(--radius-md);padding:24px;margin-bottom:25px;text-align:center;">
+                <span style="font-size:35px;">🔒</span>
+                <h2 style="color:var(--danger);margin:10px 0 6px;">هذه اللوحة مخصصة لإدارة منصة خُطوة</h2>
+                <p style="color:var(--text-muted);font-size:14px;max-width:550px;margin:0 auto 18px;">
+                    يرجى تسجيل الدخول بحساب المسؤول للاطلاع على الإحصائيات واعتماد الأماكن والبلاغات.
+                </p>
+                <a href="login.html?redirect=admin.html" class="btn btn-primary">
+                    تسجيل الدخول كمدير منصة (admin@khotwa.org) 🔑
+                </a>
+            </div>
+
+            <!-- المحتوى الإداري الكامل للمسؤول -->
+            <div id="adminDashboardContent">
+                
+                <!-- رأس اللوحة والتحكم السريع -->
+                <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:15px;margin-bottom:25px;">
+                    <div>
+                        <h1 style="font-size:28px;color:var(--secondary-dark);margin:0 0 6px 0;">لوحة المراقبة والتحكم الشاملة</h1>
+                        <p style="color:var(--text-muted);margin:0;font-size:14.5px;">مرحباً بك في مركز إدارة المحتوى والمراجعة والتوثيق الميداني لمنصة خُطوة.</p>
+                    </div>
+
+                    <button type="button" id="btnOpenAddPlaceModal" class="btn btn-primary">
+                        + إضافة مكان جديد للقاعدة 🏛️
+                    </button>
+                </div>
+
+                <!-- شبكة بطاقات الإحصائيات الحية (KPIs) -->
+                <div class="admin-stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-num" id="statTotalPlaces">0</div>
+                        <div class="stat-label">إجمالي الأماكن</div>
+                    </div>
+                    <div class="stat-card" style="border-top:4px solid var(--success);">
+                        <div class="stat-num" id="statPublishedPlaces" style="color:var(--success);">0</div>
+                        <div class="stat-label">أماكن موثقة ومنشورة</div>
+                    </div>
+                    <div class="stat-card" style="border-top:4px solid var(--warning);">
+                        <div class="stat-num" id="statPendingSuggestions" style="color:var(--warning);">0</div>
+                        <div class="stat-label">اقتراحات قيد المراجعة</div>
+                    </div>
+                    <div class="stat-card" style="border-top:4px solid var(--danger);">
+                        <div class="stat-num" id="statPendingReports" style="color:var(--danger);">0</div>
+                        <div class="stat-label">بلاغات مستخدمين مفتوحة</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-num" id="statTotalUsers" style="color:var(--info);">0</div>
+                        <div class="stat-label">المستخدمين المسجلين</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-num" id="statTotalReviews" style="color:var(--accent);">0</div>
+                        <div class="stat-label">تقييمات الزوار</div>
+                    </div>
+                </div>
+
+                <!-- تبويبات إدارة المحتوى -->
+                <div class="admin-tabs" role="tablist">
+                    <button type="button" class="admin-tab-btn active" data-tab="tabPlaces">
+                        🏢 إدارة الأماكن والخدمات
+                    </button>
+                    <button type="button" class="admin-tab-btn" data-tab="tabSuggestions">
+                        ✍️ اقتراحات المستخدمين (<span id="tabBadgeSuggestions">0</span>)
+                    </button>
+                    <button type="button" class="admin-tab-btn" data-tab="tabReports">
+                        ⚠️ البلاغات والشكاوى (<span id="tabBadgeReports">0</span>)
+                    </button>
+                    <button type="button" class="admin-tab-btn" data-tab="tabAudit">
+                        📜 سجل العمليات (Audit Log)
+                    </button>
+                </div>
+
+                <!-- تبويب ١: إدارة الأماكن -->
+                <div id="tabPlaces" class="admin-tab-pane">
+                    <div style="background:#ffffff;border:1px solid var(--border-color);border-radius:var(--radius-md);padding:16px;margin-bottom:16px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+                        <input type="text" id="adminSearchPlacesInput" class="form-control" style="max-width:320px;" placeholder="ابحث باسم المكان أو المدينة...">
+                        <select id="adminFilterCategorySelect" class="form-control" style="width:auto;">
+                            <option value="">كل التصنيفات</option>
+                        </select>
+                    </div>
+
+                    <div style="overflow-x:auto;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>اسم المكان</th>
+                                    <th>التصنيف</th>
+                                    <th>المحافظة والمدينة</th>
+                                    <th>حالة التوثيق</th>
+                                    <th>التقييم</th>
+                                    <th>آخر تحديث</th>
+                                    <th>إجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminPlacesTableBody">
+                                <!-- يتم ملء الصفوف برمجياً -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- تبويب ٢: مراجعة اقتراحات المستخدمين -->
+                <div id="tabSuggestions" class="admin-tab-pane" style="display:none;">
+                    <div id="adminSuggestionsList" style="display:flex;flex-direction:column;gap:16px;">
+                        <!-- يتم ملء بطاقات الاقتراحات برمجياً -->
+                    </div>
+                </div>
+
+                <!-- تبويب ٣: مراجعة البلاغات -->
+                <div id="tabReports" class="admin-tab-pane" style="display:none;">
+                    <div id="adminReportsList" style="display:flex;flex-direction:column;gap:16px;">
+                        <!-- يتم ملء بطاقات البلاغات برمجياً -->
+                    </div>
+                </div>
+
+                <!-- تبويب ٤: سجل العمليات -->
+                <div id="tabAudit" class="admin-tab-pane" style="display:none;">
+                    <div style="overflow-x:auto;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>الوقت والتاريخ</th>
+                                    <th>المستخدم المسؤول</th>
+                                    <th>العملية المنفذة</th>
+                                    <th>التفاصيل والمستهدف</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminAuditTableBody">
+                                <!-- يتم ملؤها برمجياً -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- نافذة إضافة / تعديل مكان (Modal) -->
+    <div id="placeFormModal" class="modal-overlay" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="modalFormTitle">
+        <div class="modal-card">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;border-bottom:1px solid var(--border-color);padding-bottom:12px;">
+                <h3 id="modalFormTitle" style="margin:0;font-size:20px;color:var(--secondary-dark);">إضافة مكان جديد</h3>
+                <button type="button" id="btnCloseModal" style="background:transparent;border:none;font-size:24px;cursor:pointer;">&times;</button>
+            </div>
+
+            <form id="placeUpsertForm">
+                <input type="hidden" id="modalPlaceId">
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+                    <div>
+                        <label for="modalPlaceName" style="font-size:13px;font-weight:700;display:block;margin-bottom:4px;">اسم المكان *</label>
+                        <input type="text" id="modalPlaceName" class="form-control" required>
+                    </div>
+                    <div>
+                        <label for="modalPlaceNameEn" style="font-size:13px;font-weight:700;display:block;margin-bottom:4px;">الاسم بالإنجليزية</label>
+                        <input type="text" id="modalPlaceNameEn" class="form-control">
+                    </div>
+                </div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+                    <div>
+                        <label for="modalCategory" style="font-size:13px;font-weight:700;display:block;margin-bottom:4px;">التصنيف *</label>
+                        <select id="modalCategory" class="form-control" required></select>
+                    </div>
+                    <div>
+                        <label for="modalVerification" style="font-size:13px;font-weight:700;display:block;margin-bottom:4px;">حالة التوثيق *</label>
+                        <select id="modalVerification" class="form-control" required>
+                            <option value="verified">موثق ومتحقق ميدانياً ✓</option>
+                            <option value="pending">قيد التدقيق والمراجعة ⏳</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+                    <div>
+                        <label for="modalGov" style="font-size:13px;font-weight:700;display:block;margin-bottom:4px;">المحافظة *</label>
+                        <input type="text" id="modalGov" class="form-control" required placeholder="مثال: القاهرة">
+                    </div>
+                    <div>
+                        <label for="modalCity" style="font-size:13px;font-weight:700;display:block;margin-bottom:4px;">المدينة / الحي *</label>
+                        <input type="text" id="modalCity" class="form-control" required placeholder="مثال: مصر الجديدة">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="modalAddress">العنوان الكامل *</label>
+                    <input type="text" id="modalAddress" class="form-control" required>
+                </div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+                    <div>
+                        <label for="modalLat" style="font-size:13px;font-weight:700;display:block;margin-bottom:4px;">خط العرض Latitude</label>
+                        <input type="number" step="any" id="modalLat" class="form-control" value="30.0444">
+                    </div>
+                    <div>
+                        <label for="modalLng" style="font-size:13px;font-weight:700;display:block;margin-bottom:4px;">خط الطول Longitude</label>
+                        <input type="number" step="any" id="modalLng" class="form-control" value="31.2357">
+                    </div>
+                </div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+                    <div>
+                        <label for="modalPhone" style="font-size:13px;font-weight:700;display:block;margin-bottom:4px;">رقم الهاتف</label>
+                        <input type="tel" id="modalPhone" class="form-control">
+                    </div>
+                    <div>
+                        <label for="modalHours" style="font-size:13px;font-weight:700;display:block;margin-bottom:4px;">مواعيد العمل</label>
+                        <input type="text" id="modalHours" class="form-control" placeholder="9 ص - 9 م">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="modalDesc">الوصف التعريفي بالمكان *</label>
+                    <textarea id="modalDesc" rows="3" class="form-control" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="modalImage">رابط صورة المكان (URL)</label>
+                    <input type="url" id="modalImage" class="form-control" placeholder="https://...">
+                </div>
+
+                <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:20px;border-top:1px solid var(--border-color);padding-top:16px;">
+                    <button type="button" id="btnCancelModal" class="btn btn-secondary">إلغاء</button>
+                    <button type="submit" class="btn btn-primary">حفظ المكان في القاعدة 💾</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- تذييل الصفحة -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>لوحة إدارة منصة خُطوة KHOTWA © <span class="current-year">2026</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- سكريبتات النظام -->
+    <script src="js/data.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/accessibility.js"></script>
+    <script src="js/app.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // التحقق من الصلاحيات
+            const currentUser = KhotwaAuth.getCurrentUser();
+            const isAuthorizedAdmin = currentUser && currentUser.role === "admin";
+
+            if (!isAuthorizedAdmin) {
+                document.getElementById("adminAuthWarning").style.display = "block";
+                document.getElementById("adminDashboardContent").style.display = "none";
+                return;
+            }
+
+            // تعبئة التصنيفات في الفلتر والنموذج
+            const cats = KhotwaStore.getCategories();
+            const filterSelect = document.getElementById("adminFilterCategorySelect");
+            const modalSelect = document.getElementById("modalCategory");
+
+            cats.forEach(c => {
+                const opt1 = document.createElement("option");
+                opt1.value = c.id;
+                opt1.textContent = `${c.icon} ${c.name}`;
+                filterSelect.appendChild(opt1);
+
+                const opt2 = document.createElement("option");
+                opt2.value = c.id;
+                opt2.textContent = `${c.icon} ${c.name}`;
+                modalSelect.appendChild(opt2);
+            });
+
+            // تحميل البيانات
+            refreshDashboard();
+
+            // التنقل بين التبويبات
+            document.querySelectorAll(".admin-tab-btn").forEach(btn => {
+                btn.addEventListener("click", function () {
+                    document.querySelectorAll(".admin-tab-btn").forEach(b => b.classList.remove("active"));
+                    document.querySelectorAll(".admin-tab-pane").forEach(p => p.style.display = "none");
+                    this.classList.add("active");
+                    const target = this.getAttribute("data-tab");
+                    document.getElementById(target).style.display = "block";
+                });
+            });
+
+            // فلترة الأماكن
+            document.getElementById("adminSearchPlacesInput").addEventListener("input", filterPlacesTable);
+            document.getElementById("adminFilterCategorySelect").addEventListener("change", filterPlacesTable);
+
+            // النوافذ المنبثقة
+            document.getElementById("btnOpenAddPlaceModal").addEventListener("click", openAddPlaceModal);
+            document.getElementById("btnCloseModal").addEventListener("click", closeModal);
+            document.getElementById("btnCancelModal").addEventListener("click", closeModal);
+
+            // نموذج الحفظ
+            document.getElementById("placeUpsertForm").addEventListener("submit", handleSavePlace);
+        });
+
+        function refreshDashboard() {
+            // تحديث الإحصائيات
+            const stats = KhotwaStore.getStats();
+            document.getElementById("statTotalPlaces").textContent = stats.totalPlaces;
+            document.getElementById("statPublishedPlaces").textContent = stats.publishedPlaces;
+            document.getElementById("statPendingSuggestions").textContent = stats.pendingSuggestions;
+            document.getElementById("statPendingReports").textContent = stats.pendingReports;
+            document.getElementById("statTotalUsers").textContent = stats.totalUsers;
+            document.getElementById("statTotalReviews").textContent = stats.totalReviews;
+
+            document.getElementById("tabBadgeSuggestions").textContent = stats.pendingSuggestions;
+            document.getElementById("tabBadgeReports").textContent = stats.pendingReports;
+
+            // تحديث الجداول
+            renderPlacesTable(KhotwaStore.getAllPlaces());
+            renderSuggestionsList();
+            renderReportsList();
+            renderAuditTable();
+        }
+
+        function renderPlacesTable(places) {
+            const tbody = document.getElementById("adminPlacesTableBody");
+            if (!places || places.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:25px;">لا توجد أماكن مسجلة تطابق البحث.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = places.map(p => `
+                <tr>
+                    <td><strong>${p.name}</strong></td>
+                    <td>${p.categoryName}</td>
+                    <td>${p.governorate} – ${p.city}</td>
+                    <td>
+                        <span class="${p.verificationStatus === 'verified' ? 'badge-verified' : 'badge-pending'}" style="position:static;">
+                            ${p.verificationBadge}
+                        </span>
+                    </td>
+                    <td>★ ${p.rating}</td>
+                    <td>${p.lastUpdated}</td>
+                    <td>
+                        <div style="display:flex;gap:6px;">
+                            <a href="place-details.html?id=${p.id}" target="_blank" class="btn btn-light btn-sm" title="معاينة">👁️</a>
+                            <button onclick="editPlace('${p.id}')" class="btn btn-secondary btn-sm" title="تعديل">✏️</button>
+                            <button onclick="deletePlace('${p.id}')" class="btn btn-danger btn-sm" title="حذف">🗑️</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join("");
+        }
+
+        function filterPlacesTable() {
+            const q = document.getElementById("adminSearchPlacesInput").value.trim().toLowerCase();
+            const cat = document.getElementById("adminFilterCategorySelect").value;
+            const all = KhotwaStore.getAllPlaces();
+
+            const filtered = all.filter(p => {
+                if (cat && p.category !== cat) return false;
+                if (q && !p.name.toLowerCase().includes(q) && !p.city.toLowerCase().includes(q)) return false;
+                return true;
+            });
+
+            renderPlacesTable(filtered);
+        }
+
+        function openAddPlaceModal() {
+            document.getElementById("modalFormTitle").textContent = "إضافة مكان جديد لقاعدة خُطوة";
+            document.getElementById("modalPlaceId").value = "";
+            document.getElementById("placeUpsertForm").reset();
+            document.getElementById("placeFormModal").style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById("placeFormModal").style.display = "none";
+        }
+
+        function editPlace(id) {
+            const place = KhotwaStore.getPlaceById(id);
+            if (!place) return;
+
+            document.getElementById("modalFormTitle").textContent = `تعديل مكان: ${place.name}`;
+            document.getElementById("modalPlaceId").value = place.id;
+            document.getElementById("modalPlaceName").value = place.name;
+            document.getElementById("modalPlaceNameEn").value = place.nameEn || "";
+            document.getElementById("modalCategory").value = place.category;
+            document.getElementById("modalVerification").value = place.verificationStatus;
+            document.getElementById("modalGov").value = place.governorate;
+            document.getElementById("modalCity").value = place.city;
+            document.getElementById("modalAddress").value = place.address;
+            document.getElementById("modalLat").value = place.lat;
+            document.getElementById("modalLng").value = place.lng;
+            document.getElementById("modalPhone").value = place.phone || "";
+            document.getElementById("modalHours").value = place.workingHours || "";
+            document.getElementById("modalDesc").value = place.description;
+            document.getElementById("modalImage").value = place.images && place.images[0] ? place.images[0] : "";
+
+            document.getElementById("placeFormModal").style.display = "flex";
+        }
+
+        function handleSavePlace(e) {
+            e.preventDefault();
+            const id = document.getElementById("modalPlaceId").value;
+            const catId = document.getElementById("modalCategory").value;
+            const cats = KhotwaStore.getCategories();
+            const catObj = cats.find(c => c.id === catId);
+
+            const payload = {
+                name: document.getElementById("modalPlaceName").value.trim(),
+                nameEn: document.getElementById("modalPlaceNameEn").value.trim(),
+                category: catId,
+                categoryName: catObj ? catObj.name : "خدمات عامة",
+                verificationStatus: document.getElementById("modalVerification").value,
+                verificationBadge: document.getElementById("modalVerification").value === "verified" ? "موثق ومتحقق ميدانياً" : "قيد التدقيق والمراجعة",
+                governorate: document.getElementById("modalGov").value.trim(),
+                city: document.getElementById("modalCity").value.trim(),
+                address: document.getElementById("modalAddress").value.trim(),
+                lat: parseFloat(document.getElementById("modalLat").value) || 30.0444,
+                lng: parseFloat(document.getElementById("modalLng").value) || 31.2357,
+                phone: document.getElementById("modalPhone").value.trim(),
+                workingHours: document.getElementById("modalHours").value.trim(),
+                description: document.getElementById("modalDesc").value.trim()
+            };
+
+            const imgUrl = document.getElementById("modalImage").value.trim();
+            if (imgUrl) payload.images = [imgUrl];
+
+            if (id) {
+                // تعديل
+                KhotwaStore.updatePlace(id, payload);
+                KhotwaApp.showToast("تم تحديث بيانات المكان بنجاح! ✓", "success");
+            } else {
+                // إضافة جديد
+                KhotwaStore.addPlace(payload);
+                KhotwaApp.showToast("تم إضافة المكان الجديد ونشره بنجاح! 🏛️", "success");
+            }
+
+            closeModal();
+            refreshDashboard();
+        }
+
+        function deletePlace(id) {
+            if (confirm("هل أنت متأكد من حذف هذا المكان نهائياً من قاعدة البيانات؟")) {
+                KhotwaStore.deletePlace(id);
+                KhotwaApp.showToast("تم حذف المكان بنجاح.", "info");
+                refreshDashboard();
+            }
+        }
+
+        // مراجعة الاقتراحات
+        function renderSuggestionsList() {
+            const container = document.getElementById("adminSuggestionsList");
+            const suggestions = KhotwaStore.getSuggestions();
+
+            if (!suggestions || suggestions.length === 0) {
+                container.innerHTML = `<p style="padding:20px;text-align:center;color:var(--text-muted);background:white;border-radius:8px;">لا توجد مقترحات أماكن حالياً.</p>`;
+                return;
+            }
+
+            container.innerHTML = suggestions.map(sug => `
+                <div style="background:#ffffff;border:1px solid var(--border-color);border-radius:var(--radius-md);padding:20px;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:15px;">
+                    <div style="flex:1;min-width:280px;">
+                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                            <h3 style="margin:0;font-size:17px;color:var(--secondary-dark);">${sug.name}</h3>
+                            <span class="badge-category" style="position:static;">${sug.category}</span>
+                            <span class="status-badge ${sug.status === 'approved' ? 'status-available' : sug.status === 'rejected' ? 'status-unavailable' : 'status-unverified'}">
+                                ${sug.status === 'approved' ? 'معتمد ومنشور ✓' : sug.status === 'rejected' ? 'مرفوض ✕' : 'بانتظار المراجعة ⏳'}
+                            </span>
+                        </div>
+                        <p style="margin:0 0 6px 0;font-size:13px;color:var(--text-muted);">📍 ${sug.governorate} – ${sug.city} (${sug.address || 'بدون عنوان مفصل'})</p>
+                        <p style="margin:0 0 8px 0;font-size:13.5px;color:var(--text-main);"><strong>تجهيزات الإتاحة المقترحة:</strong> ${sug.featuresSummary}</p>
+                        <p style="margin:0 0 8px 0;font-size:13px;color:var(--text-muted);background:var(--bg-page);padding:8px;border-radius:4px;">"${sug.notes || 'لا توجد ملاحظات إضافية'}"</p>
+                        <small style="color:var(--text-muted);">مُقتَرَح بواسطة: <strong>${sug.submittedBy}</strong> (${sug.submitterEmail || 'بدون بريد'}) بتاريخ ${sug.submittedDate}</small>
+                    </div>
+
+                    ${sug.status === 'pending' ? `
+                        <div style="display:flex;gap:8px;">
+                            <button onclick="approveSuggestionAction('${sug.id}')" class="btn btn-primary btn-sm">قبول ونشر المكان ✓</button>
+                            <button onclick="rejectSuggestionAction('${sug.id}')" class="btn btn-light btn-sm" style="color:var(--danger);">رفض ✕</button>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join("");
+        }
+
+        function approveSuggestionAction(id) {
+            KhotwaStore.approveSuggestion(id);
+            KhotwaApp.showToast("تمت الموافقة على المكان ونشره في الأماكن النشطة! 🏛️", "success");
+            refreshDashboard();
+        }
+
+        function rejectSuggestionAction(id) {
+            const reason = prompt("اذكر سبب رفض الاقتراح (مثال: عدم اكتمال البيانات أو عدم ثبوت الإتاحة):");
+            if (reason !== null) {
+                KhotwaStore.rejectSuggestion(id, reason);
+                KhotwaApp.showToast("تم رفض الاقتراح.", "info");
+                refreshDashboard();
+            }
+        }
+
+        // مراجعة البلاغات
+        function renderReportsList() {
+            const container = document.getElementById("adminReportsList");
+            const reports = KhotwaStore.getReports();
+
+            if (!reports || reports.length === 0) {
+                container.innerHTML = `<p style="padding:20px;text-align:center;color:var(--text-muted);background:white;border-radius:8px;">لا توجد بلاغات مسجلة.</p>`;
+                return;
+            }
+
+            container.innerHTML = reports.map(rep => `
+                <div style="background:#ffffff;border:1px solid var(--border-color);border-radius:var(--radius-md);padding:20px;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:15px;">
+                    <div style="flex:1;min-width:280px;">
+                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                            <h3 style="margin:0;font-size:16px;color:var(--danger);">⚠️ ${rep.reportType}</h3>
+                            <span class="status-badge ${rep.status === 'resolved' ? 'status-available' : 'status-unverified'}">
+                                ${rep.status === 'resolved' ? 'تم الحل والمعالجة ✓' : 'قيد التدقيق ⏳'}
+                            </span>
+                        </div>
+                        <p style="margin:0 0 6px 0;font-size:14px;font-weight:bold;color:var(--secondary-dark);">المكان: ${rep.placeName}</p>
+                        <p style="margin:0 0 8px 0;font-size:13.5px;color:var(--text-main);background:#fff1f2;padding:10px;border-radius:4px;border:1px solid #fecdd3;">${rep.details}</p>
+                        <small style="color:var(--text-muted);">المُبلّغ: ${rep.reporterName} (${rep.reporterEmail || 'بدون بريد'}) بتاريخ ${rep.submittedDate}</small>
+                    </div>
+
+                    ${rep.status === 'pending' ? `
+                        <div>
+                            <button onclick="resolveReportAction('${rep.id}')" class="btn btn-primary btn-sm">تم الحل وتحديث البيانات ✓</button>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join("");
+        }
+
+        function resolveReportAction(id) {
+            KhotwaStore.resolveReport(id);
+            KhotwaApp.showToast("تم وضع علامة 'تم الحل' على البلاغ بنجاح! 🛡️", "success");
+            refreshDashboard();
+        }
+
+        // سجل العمليات
+        function renderAuditTable() {
+            const tbody = document.getElementById("adminAuditTableBody");
+            const logs = KhotwaStore.getAuditLogs();
+
+            if (!logs || logs.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:20px;">لا توجد سجلات بعد.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = logs.map(l => `
+                <tr>
+                    <td><small style="color:var(--text-muted);">${l.timestamp}</small></td>
+                    <td><strong>${l.actor}</strong></td>
+                    <td><span class="badge-category" style="position:static;background:var(--secondary);">${l.action}</span></td>
+                    <td>${l.details}</td>
+                </tr>
+            `).join("");
+        }
+    </script>
+</body>
+</html>

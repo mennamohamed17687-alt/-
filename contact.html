@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تواصل معنا | خُطوة – KHOTWA</title>
+    <meta name="description" content="تواصل مع فريق منصة خُطوة للاستفسارات، الشراكات المجتمعية، أو لطلب دعم فني ميسر.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- رأس الصفحة -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="brand-logo" aria-label="خُطوة">
+                <span class="brand-icon" aria-hidden="true">🧭</span>
+                <span class="brand-title">
+                    <span class="ar">خُطوة</span>
+                    <span class="en">KHOTWA</span>
+                </span>
+            </a>
+
+            <button class="nav-toggle-btn" aria-label="فتح القائمة الرئيسية" aria-expanded="false">
+                ☰
+            </button>
+
+            <nav class="main-nav" aria-label="التنقل الرئيسي">
+                <a href="index.html" class="nav-link">الرئيسية</a>
+                <a href="discover.html" class="nav-link">اكتشف الأماكن</a>
+                <a href="map.html" class="nav-link">الخريطة</a>
+                <a href="favorites.html" class="nav-link">المفضلة</a>
+                <a href="assistant.html" class="nav-link">المساعد الذكي 💬</a>
+                <a href="about.html" class="nav-link">من نحن</a>
+                <a href="contact.html" class="nav-link active">تواصل معنا</a>
+                
+                <div id="navAuthContainer"></div>
+            </nav>
+        </div>
+    </header>
+
+    <main id="mainContent" style="padding:45px 0 80px;">
+        <div class="container" style="max-width:900px;">
+
+            <div style="text-align:center;margin-bottom:40px;">
+                <span class="section-tag">قنوات تواصل مفتوحة وميسرة</span>
+                <h1 style="font-size:32px;color:var(--secondary-dark);margin:0 0 10px 0;">نحن هنا للاستماع إليك دائماً ✉️</h1>
+                <p style="color:var(--text-muted);font-size:16px;max-width:650px;margin:auto;line-height:1.9;">
+                    سواء كان لديك استفسار، رغبة في التعاون والشراكة، أو ملاحظة حول سهولة استخدام المنصة، يسعدنا تواصلك.
+                </p>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1.2fr 0.9fr;gap:30px;">
+                
+                <!-- نموذج التواصل -->
+                <div class="details-card">
+                    <h2>أرسل رسالتك</h2>
+
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="contactName">الاسم الكريم *</label>
+                            <input type="text" id="contactName" class="form-control" required placeholder="أدخل اسمك">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contactEmail">البريد الإلكتروني *</label>
+                            <input type="email" id="contactEmail" class="form-control" required placeholder="example@domain.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contactChannel">طريقة الرد والتواصل المفضلة لديك:</label>
+                            <select id="contactChannel" class="form-control">
+                                <option value="البريد الإلكتروني">البريد الإلكتروني المكتوب (مناسب للجميع)</option>
+                                <option value="محادثة واتساب">رسائل واتساب نصية (مناسب للصم وضعاف السمع)</option>
+                                <option value="مكالمة هاتفية">مكالمة صوتية هاتفية</option>
+                                <option value="فيديو لغة إشارة">مكالمة مرئية بلغة الإشارة (بالتنسيق المسبق)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contactSubject">موضوع الرسالة *</label>
+                            <input type="text" id="contactSubject" class="form-control" required placeholder="مثال: استفسار عن توثيق مكان أو اقتراح شراكة">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contactMessage">الرسالة *</label>
+                            <textarea id="contactMessage" rows="4" class="form-control" required placeholder="اكتب تفاصيل رسالتك هنا..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg" style="width:100%;">
+                            إرسال الرسالة 🚀
+                        </button>
+                    </form>
+                </div>
+
+                <!-- بيانات الاتصال والقنوات المباشرة -->
+                <div>
+                    <div class="details-card">
+                        <h2>بيانات التواصل المباشر</h2>
+
+                        <div style="display:flex;flex-direction:column;gap:18px;font-size:14.5px;">
+                            <div style="display:flex;align-items:flex-start;gap:12px;">
+                                <span style="font-size:22px;">📧</span>
+                                <div>
+                                    <strong style="color:var(--secondary-dark);display:block;">البريد الإلكتروني الرسمي:</strong>
+                                    <a href="mailto:info@khotwa.org" style="color:var(--primary);direction:ltr;display:inline-block;">info@khotwa.org</a>
+                                </div>
+                            </div>
+
+                            <div style="display:flex;align-items:flex-start;gap:12px;">
+                                <span style="font-size:22px;">📞</span>
+                                <div>
+                                    <strong style="color:var(--secondary-dark);display:block;">الخط المساعد والواتساب:</strong>
+                                    <span style="color:var(--text-main);direction:ltr;display:inline-block;font-weight:700;">+20 100 000 0000</span>
+                                </div>
+                            </div>
+
+                            <div style="display:flex;align-items:flex-start;gap:12px;">
+                                <span style="font-size:22px;">📍</span>
+                                <div>
+                                    <strong style="color:var(--secondary-dark);display:block;">مقر فريق المبادرة:</strong>
+                                    <span style="color:var(--text-main);">جمهورية مصر العربية – القاهرة والجيزة</span>
+                                </div>
+                            </div>
+
+                            <div style="display:flex;align-items:flex-start;gap:12px;">
+                                <span style="font-size:22px;">⏱️</span>
+                                <div>
+                                    <strong style="color:var(--secondary-dark);display:block;">أوقات الرد على الاستفسارات:</strong>
+                                    <span style="color:var(--text-main);">الأحد - الخميس (٩:٠٠ ص - ٥:٠٠ م)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="background:var(--primary-light);border:1px solid var(--primary-soft);border-radius:var(--radius-sm);padding:14px;margin-top:20px;font-size:13px;color:var(--primary-dark);line-height:1.8;">
+                            🤝 <strong>خدمة لغة الإشارة:</strong> يتوفر لدينا أعضاء متطوعون يجيدون لغة الإشارة المصرية للرد على المكالمات المرئية بالتنسيق عبر الواتساب.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- تذييل الصفحة -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>منصة خُطوة KHOTWA © <span class="current-year">2026</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- سكريبتات النظام -->
+    <script src="js/data.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/accessibility.js"></script>
+    <script src="js/app.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("contactForm").addEventListener("submit", function (e) {
+                e.preventDefault();
+                const name = document.getElementById("contactName").value.trim();
+                KhotwaApp.showToast(`شكراً لتواصلك يا ${name}! تم إرسال رسالتك بنجاح وسيتواصل معك فريق خُطوة في أقرب وقت. ✉️`, "success", 4500);
+                document.getElementById("contactForm").reset();
+            });
+        });
+    </script>
+</body>
+</html>

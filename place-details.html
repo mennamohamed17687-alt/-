@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تفاصيل المكان والإتاحة | خُطوة – KHOTWA</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Leaflet CSS للخرائط المضمنة -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+</head>
+<body>
+
+    <!-- رأس الصفحة -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="brand-logo" aria-label="خُطوة">
+                <span class="brand-icon" aria-hidden="true">🧭</span>
+                <span class="brand-title">
+                    <span class="ar">خُطوة</span>
+                    <span class="en">KHOTWA</span>
+                </span>
+            </a>
+
+            <button class="nav-toggle-btn" aria-label="فتح القائمة الرئيسية" aria-expanded="false">
+                ☰
+            </button>
+
+            <nav class="main-nav" aria-label="التنقل الرئيسي">
+                <a href="index.html" class="nav-link">الرئيسية</a>
+                <a href="discover.html" class="nav-link">اكتشف الأماكن</a>
+                <a href="map.html" class="nav-link">الخريطة</a>
+                <a href="favorites.html" class="nav-link">المفضلة</a>
+                <a href="assistant.html" class="nav-link">المساعد الذكي 💬</a>
+                <a href="about.html" class="nav-link">من نحن</a>
+                <a href="contact.html" class="nav-link">تواصل معنا</a>
+                
+                <div id="navAuthContainer"></div>
+            </nav>
+        </div>
+    </header>
+
+    <main id="mainContent">
+
+        <!-- شريط الرأس وتفاصيل العنوان -->
+        <section class="details-header">
+            <div class="container">
+                <div class="details-breadcrumb">
+                    <a href="index.html">الرئيسية</a> &gt; 
+                    <a href="discover.html">اكتشف الأماكن</a> &gt; 
+                    <span id="breadcrumbPlaceName" style="color:var(--text-main);font-weight:700;">تفاصيل المكان</span>
+                </div>
+
+                <div class="details-title-row">
+                    <div>
+                        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap;">
+                            <span id="placeCategoryBadge" class="badge-category" style="position:static;background:var(--secondary);">تصنيف</span>
+                            <span id="placeVerificationBadge" class="badge-verified" style="position:static;">✓ موثق ميدانياً</span>
+                            <span id="placeRatingBadge" class="rating-display" style="font-weight:bold;">★ 4.9</span>
+                        </div>
+
+                        <h1 id="placeTitle" style="margin:0 0 4px 0;">اسم المكان</h1>
+                        <p id="placeTitleEn" style="color:var(--text-muted);font-size:15px;margin:0 0 10px 0;"></p>
+                        
+                        <div style="color:var(--text-muted);font-size:14px;display:flex;align-items:center;gap:6px;">
+                            <span>📍</span>
+                            <span id="placeFullAddress">العنوان بالتفصيل</span>
+                        </div>
+                    </div>
+
+                    <div class="details-actions-bar">
+                        <button type="button" id="btnDetailsFavorite" class="btn btn-secondary">
+                            ♡ حفظ في المفضلة
+                        </button>
+                        <button type="button" id="btnSpeakDetails" class="btn btn-light" title="استمع إلى ملخص تفاصيل الإتاحة صوتياً">
+                            🔊 استمع للتفاصيل
+                        </button>
+                        <button type="button" id="btnSharePlace" class="btn btn-secondary" title="مشاركة هذا المكان">
+                            📤 مشاركة
+                        </button>
+                        <a id="btnReportIssue" href="report-issue.html" class="btn btn-secondary" style="color:var(--danger);border-color:#fca5a5;">
+                            ⚠️ أبلغ عن خطأ
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="container" style="padding-bottom: 70px;">
+            <div class="details-grid">
+                
+                <!-- العمود الأيمن الرئيسي -->
+                <div>
+                    
+                    <!-- معرض الصور -->
+                    <div class="details-card" style="padding:15px;">
+                        <div id="placeGalleryContainer" style="display:grid;grid-template-columns:2fr 1fr;gap:12px;border-radius:var(--radius-md);overflow:hidden;">
+                            <!-- يتم ملء الصور عبر JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- نبذة عن المكان -->
+                    <section class="details-card">
+                        <h2>نبذة وتعريف بالمكان</h2>
+                        <p id="placeDescriptionText" style="line-height:2;font-size:15px;color:var(--text-main);margin:0 0 15px 0;">
+                            جارٍ تحميل وصف المكان...
+                        </p>
+                        <div style="display:flex;flex-wrap:wrap;gap:8px;" id="placeServicesTags">
+                            <!-- الخدمات المقدمة -->
+                        </div>
+                    </section>
+
+                    <!-- جدول ومصفوفة تفاصيل الإتاحة الدقيقة -->
+                    <section class="details-card" aria-label="تفاصيل وميزات الإتاحة">
+                        <h2>تفاصيل التسهيلات والإتاحة المؤكدة ♿</h2>
+                        <p style="color:var(--text-muted);font-size:14px;margin-bottom:20px;">
+                            نوضح حالة كل ميزة وتجهيز بناءً على الزيارات والبيانات الميدانية الموثقة:
+                        </p>
+
+                        <!-- قسم الإتاحة الحركية -->
+                        <div class="access-category-block" id="blockMobility">
+                            <h3>♿ الإتاحة الحركية ومستخدمو الكراسي المتحركة</h3>
+                            <div class="access-features-list" id="listMobility"></div>
+                        </div>
+
+                        <!-- قسم الإتاحة البصرية -->
+                        <div class="access-category-block" id="blockVisual">
+                            <h3>👁️ الإتاحة للأشخاص ذوي الإعاقة البصرية</h3>
+                            <div class="access-features-list" id="listVisual"></div>
+                        </div>
+
+                        <!-- قسم الإتاحة السمعية -->
+                        <div class="access-category-block" id="blockHearing">
+                            <h3>🦻 الإتاحة للأشخاص ذوي الإعاقة السمعية</h3>
+                            <div class="access-features-list" id="listHearing"></div>
+                        </div>
+
+                        <!-- قسم الإتاحة الفكرية وصعوبات التعلم -->
+                        <div class="access-category-block" id="blockIntellectual">
+                            <h3>🧩 الإتاحة الفكرية وصعوبات التعلم</h3>
+                            <div class="access-features-list" id="listIntellectual"></div>
+                        </div>
+
+                        <!-- قسم التوحد والحساسية الحسية -->
+                        <div class="access-category-block" id="blockAutism">
+                            <h3>🌿 طيف التوحد والبيئة الحسية الهادئة</h3>
+                            <div class="access-features-list" id="listAutism"></div>
+                        </div>
+
+                        <!-- تنبيه الشفافية والموثوقية -->
+                        <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:var(--radius-sm);padding:14px;margin-top:20px;font-size:13.5px;color:#92400e;line-height:1.8;">
+                            <strong>تنبيه الأمان والشفافية:</strong>
+                            نحرص في خُطوة على أعلى درجات الدقة. إذا لاحظت أي تغيير أو إغلاق لأي مرفق إتاحة، يُرجى إبلاغنا فوراً عبر زر "أبلغ عن خطأ" لنقوم بتحديث المعلومة للجميع.
+                        </div>
+                    </section>
+
+                    <!-- التقييمات وتجارب الزوار -->
+                    <section class="details-card">
+                        <h2>تقييمات وتجارب الزوار ⭐</h2>
+                        
+                        <div style="background:var(--bg-page);border-radius:var(--radius-sm);padding:18px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:15px;">
+                            <div>
+                                <span id="ratingBigNumber" style="font-size:36px;font-weight:800;color:var(--primary);line-height:1;">4.9</span>
+                                <span style="color:var(--text-muted);font-size:14px;">من 5 نجوم</span>
+                                <div id="ratingStarsLarge" style="margin-top:4px;"></div>
+                            </div>
+                            <div>
+                                <span id="reviewsCountBadge" style="font-size:14px;font-weight:700;color:var(--secondary-dark);">
+                                    مبني على تجارب الزوار الفعلية
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- قائمة التقييمات الحالية -->
+                        <div id="placeReviewsList" style="display:flex;flex-direction:column;gap:16px;margin-bottom:30px;">
+                            <!-- يتم ملؤها عبر JavaScript -->
+                        </div>
+
+                        <!-- نموذج إضافة تقييم وملاحظة جديدة -->
+                        <div style="border-top:2px dashed var(--border-color);padding-top:24px;">
+                            <h3 style="font-size:17px;color:var(--secondary-dark);margin:0 0 14px 0;">شاركنا تجربتك وملاحظاتك حول إتاحة هذا المكان ✍️</h3>
+                            
+                            <form id="addReviewForm">
+                                <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+                                    <div>
+                                        <label for="reviewAuthorName" style="font-size:13px;font-weight:700;display:block;margin-bottom:4px;">اسمك أو لقبك</label>
+                                        <input type="text" id="reviewAuthorName" class="form-control" required placeholder="مثال: أحمد مصطفى">
+                                    </div>
+                                    <div>
+                                        <label for="reviewUserRole" style="font-size:13px;font-weight:700;display:block;margin-bottom:4px;">نوع الاهتمام / الإتاحة</label>
+                                        <select id="reviewUserRole" class="form-control">
+                                            <option value="مستخدم كرسي متحرك">مستخدم كرسي متحرك ♿</option>
+                                            <option value="شخص ذو إعاقة بصرية">شخص ذو إعاقة بصرية 👁️</option>
+                                            <option value="شخص ذو إعاقة سمعية">شخص ذو إعاقة سمعية 🦻</option>
+                                            <option value="ولي أمر طفل ذو توحد">ولي أمر طفل ذو توحد 🌿</option>
+                                            <option value="مرافق أو متطوع">مرافق أو متطوع 🤝</option>
+                                            <option value="زائر مهتم">زائر مهتم بالإتاحة</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="reviewRatingSelect">التقييم العام للإتاحة:</label>
+                                    <select id="reviewRatingSelect" class="form-control" style="width:auto;">
+                                        <option value="5">⭐⭐⭐⭐⭐ ممتاز (إتاحة كاملة ومريحة)</option>
+                                        <option value="4">⭐⭐⭐⭐ جيد جداً (تجهيزات جيدة مع ملاحظات بسيطة)</option>
+                                        <option value="3">⭐⭐⭐ متوسط (يحتاج بعض المساعدة)</option>
+                                        <option value="2">⭐⭐ دون المتوسط (تحديات في الوصول)</option>
+                                        <option value="1">⭐ ضعيف (غير ميسر بالشكل الكافي)</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="reviewCommentText">ملاحظاتك التفصيلية (المنحدرات، المصاعد، تعامل الموظفين، الهدوء...):</label>
+                                    <textarea id="reviewCommentText" rows="3" class="form-control" required placeholder="اكتب ملاحظاتك الواقعية لمساعدة غيرك في التخطيط لزيارتهم..."></textarea>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">
+                                    إرسال التقييم والملاحظة 🚀
+                                </button>
+                            </form>
+                        </div>
+
+                    </section>
+
+                </div>
+
+                <!-- العمود الأيسر (معلومات الاتصال، الخريطة، الأماكن المشابهة) -->
+                <div>
+                    
+                    <!-- بطاقة معلومات التواصل والمواعيد -->
+                    <div class="details-card">
+                        <h2>بيانات المكان والوصول</h2>
+
+                        <div style="display:flex;flex-direction:column;gap:14px;font-size:14px;">
+                            <div>
+                                <strong style="color:var(--text-muted);display:block;margin-bottom:2px;">ساعات العمل الرسمية:</strong>
+                                <span id="placeWorkingHours" style="color:var(--text-main);font-weight:600;"></span>
+                            </div>
+
+                            <div>
+                                <strong style="color:var(--text-muted);display:block;margin-bottom:2px;">رقم الهاتف:</strong>
+                                <a id="placePhoneLink" href="#" style="font-weight:700;color:var(--primary);direction:ltr;display:inline-block;"></a>
+                            </div>
+
+                            <div>
+                                <strong style="color:var(--text-muted);display:block;margin-bottom:2px;">الموقع الإلكتروني / الرابط:</strong>
+                                <a id="placeWebsiteLink" href="#" target="_blank" rel="noopener" style="word-break:break-all;"></a>
+                            </div>
+
+                            <div>
+                                <strong style="color:var(--text-muted);display:block;margin-bottom:2px;">مصدر وتوثيق المعلومات:</strong>
+                                <span id="placeSourceInfo" style="color:var(--text-main);"></span>
+                            </div>
+
+                            <div>
+                                <strong style="color:var(--text-muted);display:block;margin-bottom:2px;">تاريخ آخر تحديث:</strong>
+                                <span id="placeLastUpdated" style="color:var(--text-main);"></span>
+                            </div>
+                        </div>
+
+                        <!-- خريطة مصغرة للمكان -->
+                        <div style="margin-top:20px;border-top:1px solid var(--border-color);padding-top:16px;">
+                            <strong style="display:block;margin-bottom:10px;font-size:14px;">الموقع الجغرافي:</strong>
+                            <div id="placeMiniMap" style="height:220px;border-radius:var(--radius-sm);border:1px solid var(--border-color);overflow:hidden;margin-bottom:12px;"></div>
+                            
+                            <a id="btnGetDirections" href="#" target="_blank" rel="noopener" class="btn btn-primary" style="width:100%;text-align:center;">
+                                🚗 فتح الاتجاهات المباشرة للمكان
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- أماكن مشابهة وموصى بها -->
+                    <div class="details-card">
+                        <h2>أماكن ميسرة مشابهة</h2>
+                        <div id="similarPlacesList" style="display:flex;flex-direction:column;gap:12px;">
+                            <!-- يتم ملؤها عبر JavaScript -->
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- تذييل الصفحة -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>منصة خُطوة KHOTWA © <span class="current-year">2026</span> – كل خطوة تقرّبك من المكان المناسب.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- السكريبتات -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="js/data.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/accessibility.js"></script>
+    <script src="js/app.js"></script>
+
+    <script>
+        let currentPlace = null;
+        let miniMapInstance = null;
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const params = new URLSearchParams(window.location.search);
+            const placeId = params.get("id");
+
+            if (!placeId) {
+                // إذا لم يتم تمرير id، يتم فتح أول مكان متاح افتراضياً
+                const all = KhotwaStore.getAllPlaces();
+                if (all.length > 0) {
+                    window.location.href = `place-details.html?id=${all[0].id}`;
+                } else {
+                    window.location.href = "discover.html";
+                }
+                return;
+            }
+
+            currentPlace = KhotwaStore.getPlaceById(placeId);
+
+            if (!currentPlace) {
+                alert("عذراً، لم يتم العثور على المكان المطلوب في قاعدة البيانات.");
+                window.location.href = "discover.html";
+                return;
+            }
+
+            // تعبئة البيانات بالكامل
+            renderPlaceDetails(currentPlace);
+
+            // زر المفضلة
+            const favBtn = document.getElementById("btnDetailsFavorite");
+            updateFavBtnState(favBtn, currentPlace.id);
+            favBtn.addEventListener("click", function () {
+                const added = KhotwaStore.toggleFavorite(currentPlace.id);
+                updateFavBtnState(favBtn, currentPlace.id);
+                KhotwaApp.showToast(added ? "تمت إضافة المكان إلى المفضلة ❤️" : "تم حذف المكان من المفضلة.", added ? "success" : "info");
+            });
+
+            // زر المشاركة
+            document.getElementById("btnSharePlace").addEventListener("click", function () {
+                KhotwaApp.sharePlace(currentPlace.name);
+            });
+
+            // رابط الإبلاغ عن خطأ
+            document.getElementById("btnReportIssue").href = `report-issue.html?placeId=${currentPlace.id}`;
+
+            // زر القراءة الصوتية
+            const speakBtn = document.getElementById("btnSpeakDetails");
+            let isSpeaking = false;
+            speakBtn.addEventListener("click", function () {
+                if (isSpeaking) {
+                    KhotwaAccessibility.stopSpeaking();
+                    speakBtn.textContent = "🔊 استمع للتفاصيل";
+                    isSpeaking = false;
+                } else {
+                    const speechText = `المكان: ${currentPlace.name}. التصنيف: ${currentPlace.categoryName}. العنوان: ${currentPlace.address}. نبذة: ${currentPlace.description}. ميزات الإتاحة تشمل المنحدرات والمصاعد ودورات المياه المجهزة. تقييم المكان ${currentPlace.rating} من خمسة نجوم.`;
+                    KhotwaAccessibility.speakText(
+                        speechText,
+                        () => {
+                            isSpeaking = true;
+                            speakBtn.textContent = "⏹️ إيقاف القراءة الصوتية";
+                        },
+                        () => {
+                            isSpeaking = false;
+                            speakBtn.textContent = "🔊 استمع للتفاصيل";
+                        }
+                    );
+                }
+            });
+
+            // إرسال تقييم جديد
+            document.getElementById("addReviewForm").addEventListener("submit", function (e) {
+                e.preventDefault();
+                const author = document.getElementById("reviewAuthorName").value.trim();
+                const role = document.getElementById("reviewUserRole").value;
+                const rating = document.getElementById("reviewRatingSelect").value;
+                const comment = document.getElementById("reviewCommentText").value.trim();
+
+                KhotwaStore.addReview({
+                    placeId: currentPlace.id,
+                    userName: author,
+                    userRole: role,
+                    rating: rating,
+                    comment: comment
+                });
+
+                KhotwaApp.showToast("شكراً لمشاركتك! تم نشر تقييمك بنجاح وسيفيد المجتمع. ⭐", "success");
+                document.getElementById("addReviewForm").reset();
+
+                // إعادة تحميل بيانات المكان والتقييمات
+                currentPlace = KhotwaStore.getPlaceById(currentPlace.id);
+                renderReviews(currentPlace.id);
+                document.getElementById("ratingBigNumber").textContent = currentPlace.rating;
+                document.getElementById("placeRatingBadge").textContent = `★ ${currentPlace.rating}`;
+            });
+        });
+
+        function renderPlaceDetails(place) {
+            document.title = `${place.name} | خُطوة KHOTWA`;
+            document.getElementById("breadcrumbPlaceName").textContent = place.name;
+            document.getElementById("placeTitle").textContent = place.name;
+            document.getElementById("placeTitleEn").textContent = place.nameEn || "";
+            document.getElementById("placeCategoryBadge").textContent = place.categoryName;
+            document.getElementById("placeVerificationBadge").textContent = `✓ ${place.verificationBadge}`;
+            document.getElementById("placeRatingBadge").textContent = `★ ${place.rating}`;
+            document.getElementById("placeFullAddress").textContent = `${place.governorate} – ${place.city} – ${place.address}`;
+            document.getElementById("placeDescriptionText").textContent = place.description;
+
+            // الخدمات
+            const servicesContainer = document.getElementById("placeServicesTags");
+            if (place.services && place.services.length > 0) {
+                servicesContainer.innerHTML = place.services.map(s => `
+                    <span style="background:var(--primary-light);color:var(--primary-dark);font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:4px;">✓ ${s}</span>
+                `).join("");
+            }
+
+            // الصور
+            const gallery = document.getElementById("placeGalleryContainer");
+            const imgs = place.images || [];
+            if (imgs.length >= 2) {
+                gallery.innerHTML = `
+                    <img src="${imgs[0]}" alt="${place.name}" style="height:280px;width:100%;object-fit:cover;border-radius:var(--radius-sm);" onerror="KhotwaApp.handleImageError(this, '${place.name}')">
+                    <img src="${imgs[1]}" alt="${place.name} - صورة إضافية" style="height:280px;width:100%;object-fit:cover;border-radius:var(--radius-sm);" onerror="KhotwaApp.handleImageError(this, '${place.name}')">
+                `;
+            } else if (imgs.length === 1) {
+                gallery.style.gridTemplateColumns = "1fr";
+                gallery.innerHTML = `<img src="${imgs[0]}" alt="${place.name}" style="height:300px;width:100%;object-fit:cover;border-radius:var(--radius-sm);" onerror="KhotwaApp.handleImageError(this, '${place.name}')">`;
+            }
+
+            // معلومات التواصل
+            document.getElementById("placeWorkingHours").textContent = place.workingHours || "غير محدد بدقة";
+            const phoneEl = document.getElementById("placePhoneLink");
+            if (place.phone) {
+                phoneEl.textContent = place.phone;
+                phoneEl.href = `tel:${place.phone}`;
+            } else {
+                phoneEl.textContent = "غير متوفر";
+                phoneEl.removeAttribute("href");
+            }
+
+            const webEl = document.getElementById("placeWebsiteLink");
+            if (place.website) {
+                webEl.textContent = place.website;
+                webEl.href = place.website;
+            } else {
+                webEl.textContent = "لا يوجد موقع إلكتروني مسجل";
+                webEl.removeAttribute("href");
+            }
+
+            document.getElementById("placeSourceInfo").textContent = place.source || "توثيق المنصة";
+            document.getElementById("placeLastUpdated").textContent = place.lastUpdated || "2026-11-01";
+
+            // زر الاتجاهات
+            const dirUrl = `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}`;
+            document.getElementById("btnGetDirections").href = dirUrl;
+
+            // تفاصيل الإتاحة
+            renderAccessibilityCategory("listMobility", place.accessibilityDetails.mobility, "mobility");
+            renderAccessibilityCategory("listVisual", place.accessibilityDetails.visual, "visual");
+            renderAccessibilityCategory("listHearing", place.accessibilityDetails.hearing, "hearing");
+            renderAccessibilityCategory("listIntellectual", place.accessibilityDetails.intellectual, "intellectual");
+            renderAccessibilityCategory("listAutism", place.accessibilityDetails.autism, "autism");
+
+            // الخريطة المصغرة
+            initMiniMap(place.lat, place.lng, place.name);
+
+            // التقييمات
+            renderReviews(place.id);
+
+            // أماكن مشابهة
+            renderSimilarPlaces(place);
+        }
+
+        function renderAccessibilityCategory(containerId, dataObj, catKey) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            if (!dataObj || Object.keys(dataObj).length === 0) {
+                container.innerHTML = `<p style="color:var(--text-muted);font-size:13px;margin:0;">لم يتم تسجيل بيانات مؤكدة لهذه الفئة حتى الآن، وجارٍ التحقق الميداني.</p>`;
+                return;
+            }
+
+            const allFeatures = (KhotwaStore.getAccessibilityFeatures())[catKey] || [];
+
+            container.innerHTML = Object.entries(dataObj).map(([key, val]) => {
+                const featMeta = allFeatures.find(f => f.id === key) || { name: key, icon: "•" };
+                let statusBadge = '';
+                if (val.status === "available") {
+                    statusBadge = '<span class="status-badge status-available">متاح ومؤكد ✓</span>';
+                } else if (val.status === "unavailable") {
+                    statusBadge = '<span class="status-badge status-unavailable">غير متوفر ✕</span>';
+                } else {
+                    statusBadge = '<span class="status-badge status-unverified">قيد التدقيق ⏳</span>';
+                }
+
+                return `
+                    <div class="access-feature-row">
+                        <div class="feature-info">
+                            <span class="feature-name">${featMeta.icon} ${featMeta.name}</span>
+                            <span class="feature-note">${val.note || "تم التأكد من توفر الميزة"}</span>
+                        </div>
+                        <div>${statusBadge}</div>
+                    </div>
+                `;
+            }).join("");
+        }
+
+        function renderReviews(placeId) {
+            const container = document.getElementById("placeReviewsList");
+            const reviews = KhotwaStore.getReviewsForPlace(placeId);
+            document.getElementById("reviewsCountBadge").textContent = `${reviews.length} تقييم مسجل من الزوار`;
+
+            if (reviews.length === 0) {
+                container.innerHTML = `<p style="color:var(--text-muted);font-size:14px;">لا توجد تقييمات مكتوبة لهذا المكان بعد. كن أول من يشارك تجربته لمساعدة الآخرين!</p>`;
+                return;
+            }
+
+            container.innerHTML = reviews.map(rev => `
+                <div style="background:#ffffff;border:1px solid var(--border-color);border-radius:var(--radius-sm);padding:16px;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;">
+                        <div>
+                            <strong style="color:var(--secondary-dark);font-size:15px;">${rev.userName}</strong>
+                            <span style="font-size:12px;color:var(--primary);margin-right:8px;background:var(--primary-light);padding:2px 8px;border-radius:4px;">${rev.userRole}</span>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:6px;">
+                            ${KhotwaApp.renderStars(rev.rating)}
+                            <span style="font-size:12px;color:var(--text-muted);">${rev.date}</span>
+                        </div>
+                    </div>
+                    <p style="margin:0;font-size:14px;line-height:1.8;color:var(--text-main);">${rev.comment}</p>
+                </div>
+            `).join("");
+        }
+
+        function renderSimilarPlaces(place) {
+            const container = document.getElementById("similarPlacesList");
+            const all = KhotwaStore.getAllPlaces();
+            const similar = all.filter(p => p.id !== place.id && (p.category === place.category || p.governorate === place.governorate)).slice(0, 3);
+
+            if (similar.length === 0) {
+                container.innerHTML = `<p style="color:var(--text-muted);font-size:13px;">لا توجد أماكن أخرى مسجلة في هذا التصنيف حالياً.</p>`;
+                return;
+            }
+
+            container.innerHTML = similar.map(s => `
+                <a href="place-details.html?id=${s.id}" style="display:flex;gap:10px;align-items:center;background:var(--bg-page);padding:10px;border-radius:var(--radius-sm);border:1px solid var(--border-color);text-decoration:none;">
+                    <img src="${s.images[0]}" alt="${s.name}" style="width:65px;height:55px;object-fit:cover;border-radius:4px;" onerror="KhotwaApp.handleImageError(this, '${s.name}')">
+                    <div style="flex:1;">
+                        <h4 style="margin:0 0 3px 0;font-size:13.5px;color:var(--secondary-dark);">${s.name}</h4>
+                        <span style="font-size:12px;color:var(--text-muted);">📍 ${s.city}</span>
+                    </div>
+                </a>
+            `).join("");
+        }
+
+        function initMiniMap(lat, lng, name) {
+            if (miniMapInstance) {
+                miniMapInstance.remove();
+            }
+            miniMapInstance = L.map("placeMiniMap").setView([lat, lng], 14);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '© OpenStreetMap'
+            }).addTo(miniMapInstance);
+
+            L.marker([lat, lng]).addTo(miniMapInstance).bindPopup(`<strong>${name}</strong>`).openPopup();
+        }
+
+        function updateFavBtnState(btn, placeId) {
+            const isFav = KhotwaStore.isFavorite(placeId);
+            if (isFav) {
+                btn.classList.add("active");
+                btn.textContent = "❤️ في المفضلة";
+                btn.style.color = "#e11d48";
+                btn.style.borderColor = "#fecdd3";
+            } else {
+                btn.classList.remove("active");
+                btn.textContent = "♡ إضافة إلى المفضلة";
+                btn.style.color = "";
+                btn.style.borderColor = "";
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الملف الشخصي وإعدادات الحساب | خُطوة – KHOTWA</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- رأس الصفحة -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="brand-logo" aria-label="خُطوة">
+                <span class="brand-icon" aria-hidden="true">🧭</span>
+                <span class="brand-title">
+                    <span class="ar">خُطوة</span>
+                    <span class="en">KHOTWA</span>
+                </span>
+            </a>
+
+            <button class="nav-toggle-btn" aria-label="فتح القائمة الرئيسية" aria-expanded="false">
+                ☰
+            </button>
+
+            <nav class="main-nav" aria-label="التنقل الرئيسي">
+                <a href="index.html" class="nav-link">الرئيسية</a>
+                <a href="discover.html" class="nav-link">اكتشف الأماكن</a>
+                <a href="map.html" class="nav-link">الخريطة</a>
+                <a href="favorites.html" class="nav-link">المفضلة</a>
+                <a href="assistant.html" class="nav-link">المساعد الذكي 💬</a>
+                <a href="about.html" class="nav-link">من نحن</a>
+                <a href="contact.html" class="nav-link">تواصل معنا</a>
+                
+                <div id="navAuthContainer"></div>
+            </nav>
+        </div>
+    </header>
+
+    <main id="mainContent" style="padding:40px 0 80px;">
+        <div class="container" style="max-width:900px;">
+
+            <!-- بطاقة الترحيب بالمستخدم -->
+            <div class="details-card" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;background:linear-gradient(135deg, #eaf6f4 0%, #f4faf8 100%);">
+                <div style="display:flex;align-items:center;gap:18px;">
+                    <div id="userAvatarBig" style="width:70px;height:70px;background:var(--primary);color:#ffffff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;border:3px solid #ffffff;box-shadow:var(--shadow-md);">
+                        U
+                    </div>
+                    <div>
+                        <div style="display:flex;align-items:center;gap:8px;">
+                            <h1 id="userProfileName" style="font-size:24px;color:var(--secondary-dark);margin:0;">اسم المستخدم</h1>
+                            <span id="userRoleBadge" class="badge-category" style="position:static;background:var(--primary);">عضو</span>
+                        </div>
+                        <p id="userProfileEmail" style="color:var(--text-muted);margin:4px 0 0;font-size:14px;"></p>
+                    </div>
+                </div>
+
+                <div style="display:flex;gap:10px;">
+                    <a href="favorites.html" class="btn btn-secondary btn-sm">❤️ قائمة مفضلتي</a>
+                    <button type="button" onclick="KhotwaAuth.logout()" class="btn btn-light btn-sm" style="color:var(--danger);">تسجيل الخروج</button>
+                </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:24px;">
+                
+                <!-- تعديل البيانات الأساسية -->
+                <div>
+                    <div class="details-card">
+                        <h2>تعديل البيانات الأساسية</h2>
+                        
+                        <form id="editProfileForm">
+                            <div class="form-group">
+                                <label for="profName">الاسم بالكامل</label>
+                                <input type="text" id="profName" class="form-control" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="profPhone">رقم الهاتف</label>
+                                <input type="tel" id="profPhone" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="profCity">المحافظة / المدينة</label>
+                                <select id="profCity" class="form-control">
+                                    <option value="القاهرة">القاهرة</option>
+                                    <option value="الجيزة">الجيزة</option>
+                                    <option value="الإسكندرية">الإسكندرية</option>
+                                    <option value="أسوان">أسوان</option>
+                                    <option value="أخرى">أخرى</option>
+                                </select>
+                            </div>
+
+                            <!-- تفضيلات الإتاحة الافتراضية -->
+                            <div style="border-top:1px solid var(--border-color);padding-top:16px;margin-top:16px;">
+                                <label style="display:block;font-size:13.5px;font-weight:700;margin-bottom:10px;color:var(--secondary-dark);">
+                                    تفضيلاتي الافتراضية للإتاحة (لتحديد الفلاتر تلقائياً):
+                                </label>
+                                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                                    <label class="toggle-control" style="font-size:13px;">
+                                        <input type="checkbox" name="userPrefNeed" value="mobility">
+                                        <span>♿ إتاحة حركية</span>
+                                    </label>
+                                    <label class="toggle-control" style="font-size:13px;">
+                                        <input type="checkbox" name="userPrefNeed" value="visual">
+                                        <span>👁️ إتاحة بصرية</span>
+                                    </label>
+                                    <label class="toggle-control" style="font-size:13px;">
+                                        <input type="checkbox" name="userPrefNeed" value="hearing">
+                                        <span>🦻 إتاحة سمعية</span>
+                                    </label>
+                                    <label class="toggle-control" style="font-size:13px;">
+                                        <input type="checkbox" name="userPrefNeed" value="autism">
+                                        <span>🌿 طيف توحد/حسي</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="margin-top:18px;width:100%;">
+                                حفظ التغييرات والتفضيلات ✓
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- تغيير كلمة المرور والمنطقة الحساسة -->
+                <div>
+                    <!-- تغيير كلمة المرور -->
+                    <div class="details-card">
+                        <h2>تغيير كلمة المرور</h2>
+                        
+                        <form id="changePasswordForm">
+                            <div class="form-group">
+                                <label for="currPass">كلمة المرور الحالية</label>
+                                <input type="password" id="currPass" class="form-control" required placeholder="••••••••">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="newPass">كلمة المرور الجديدة</label>
+                                <input type="password" id="newPass" class="form-control" required minlength="6" placeholder="••••••••">
+                            </div>
+
+                            <button type="submit" class="btn btn-secondary" style="width:100%;">
+                                تحديث كلمة المرور 🔒
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- منطقة الخطر: حذف الحساب -->
+                    <div class="details-card" style="border-color:#fecdd3;">
+                        <h2 style="color:var(--danger);border-bottom-color:#fee2e2;">منطقة الحساب الحساسة</h2>
+                        <p style="font-size:13px;color:var(--text-muted);line-height:1.7;">
+                            عند حذف حسابك، سيتم حذف جميع بياناتك وتفضيلاتك المحفوظة نهائياً من قاعدة بيانات المنصة.
+                        </p>
+                        <button type="button" id="btnDeleteAccount" class="btn btn-danger btn-sm" style="width:100%;">
+                            حذف الحساب نهائياً 🗑️
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- تذييل الصفحة -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>منصة خُطوة KHOTWA © <span class="current-year">2026</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- سكريبتات النظام -->
+    <script src="js/data.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/accessibility.js"></script>
+    <script src="js/app.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // حماية الصفحة: تتطلب تسجيل دخول
+            const currentUser = KhotwaAuth.getCurrentUser();
+            if (!currentUser) {
+                window.location.href = "login.html?redirect=profile.html";
+                return;
+            }
+
+            // عرض البيانات
+            document.getElementById("userProfileName").textContent = currentUser.name;
+            document.getElementById("userAvatarBig").textContent = currentUser.name.charAt(0);
+            document.getElementById("userProfileEmail").textContent = currentUser.email;
+            document.getElementById("userRoleBadge").textContent = currentUser.role === "admin" ? "مدير النظام ⚙️" : "عضو موثق ✓";
+
+            document.getElementById("profName").value = currentUser.name;
+            document.getElementById("profPhone").value = currentUser.phone || "";
+            document.getElementById("profCity").value = currentUser.city || "القاهرة";
+
+            // تحديد تفضيلات الإتاحة
+            if (currentUser.accessibilityPreferences) {
+                currentUser.accessibilityPreferences.forEach(pref => {
+                    const cb = document.querySelector(`input[name="userPrefNeed"][value="${pref}"]`);
+                    if (cb) cb.checked = true;
+                });
+            }
+
+            // تحديث الملف الشخصي
+            document.getElementById("editProfileForm").addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                const name = document.getElementById("profName").value.trim();
+                const phone = document.getElementById("profPhone").value.trim();
+                const city = document.getElementById("profCity").value;
+
+                const prefs = [];
+                document.querySelectorAll('input[name="userPrefNeed"]:checked').forEach(cb => {
+                    prefs.push(cb.value);
+                });
+
+                const res = KhotwaAuth.updateProfile({
+                    name,
+                    phone,
+                    city,
+                    accessibilityPreferences: prefs
+                });
+
+                if (res.success) {
+                    KhotwaApp.showToast("تم تحديث بياناتك وتفضيلاتك بنجاح! ✓", "success");
+                    document.getElementById("userProfileName").textContent = res.user.name;
+                    document.getElementById("userAvatarBig").textContent = res.user.name.charAt(0);
+                    KhotwaAuth.renderNavAuth();
+                } else {
+                    KhotwaApp.showToast(res.message, "error");
+                }
+            });
+
+            // تغيير كلمة المرور
+            document.getElementById("changePasswordForm").addEventListener("submit", function (e) {
+                e.preventDefault();
+                const curr = document.getElementById("currPass").value;
+                const next = document.getElementById("newPass").value;
+
+                const res = KhotwaAuth.changePassword(curr, next);
+
+                if (res.success) {
+                    KhotwaApp.showToast(res.message, "success");
+                    document.getElementById("changePasswordForm").reset();
+                } else {
+                    KhotwaApp.showToast(res.message, "error");
+                }
+            });
+
+            // حذف الحساب
+            document.getElementById("btnDeleteAccount").addEventListener("click", function () {
+                if (confirm("تحذير: هل أنت متأكد تماماً من رغبتك في حذف حسابك نهائياً؟ لا يمكن التراجع عن هذا الإجراء.")) {
+                    KhotwaAuth.deleteAccount();
+                    alert("تم حذف حسابك بنجاح. شكراً لاستخدامك منصة خُطوة.");
+                    window.location.href = "index.html";
+                }
+            });
+        });
+    </script>
+</body>
+</html>

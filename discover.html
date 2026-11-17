@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اكتشف الأماكن والخدمات | خُطوة – KHOTWA</title>
+    <meta name="description" content="ابحث عن الأماكن والخدمات المجهزة للأشخاص ذوي الإعاقة مع فلاتر تفصيلية للإتاحة الحركية، البصرية، السمعية، والتوحد.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Leaflet CSS للخرائط التفاعلية -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <style>
+        .discover-page-container {
+            padding: 35px 0 60px;
+        }
+        .filter-panel-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 25px;
+        }
+        .filter-section-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--secondary-dark);
+            margin: 14px 0 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .checkbox-chips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 10px;
+        }
+        .chip-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-page);
+            border: 1px solid var(--border-color);
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 13.5px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        .chip-label:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+        .chip-label input[type="checkbox"] {
+            accent-color: var(--primary);
+            width: 17px;
+            height: 17px;
+        }
+        .results-control-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            margin-bottom: 25px;
+        }
+        .view-switchers {
+            display: flex;
+            gap: 6px;
+        }
+        .view-btn {
+            background: var(--bg-page);
+            border: 1px solid var(--border-color);
+            padding: 6px 14px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .view-btn.active {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+        }
+        .humane-notice {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-right: 5px solid var(--primary);
+            padding: 20px;
+            border-radius: var(--radius-md);
+            margin-bottom: 25px;
+            line-height: 1.8;
+            font-size: 14.5px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- رأس الصفحة -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="brand-logo" aria-label="خُطوة">
+                <span class="brand-icon" aria-hidden="true">🧭</span>
+                <span class="brand-title">
+                    <span class="ar">خُطوة</span>
+                    <span class="en">KHOTWA</span>
+                </span>
+            </a>
+
+            <button class="nav-toggle-btn" aria-label="فتح القائمة الرئيسية" aria-expanded="false">
+                ☰
+            </button>
+
+            <nav class="main-nav" aria-label="التنقل الرئيسي">
+                <a href="index.html" class="nav-link">الرئيسية</a>
+                <a href="discover.html" class="nav-link active">اكتشف الأماكن</a>
+                <a href="map.html" class="nav-link">الخريطة</a>
+                <a href="favorites.html" class="nav-link">المفضلة</a>
+                <a href="assistant.html" class="nav-link">المساعد الذكي 💬</a>
+                <a href="about.html" class="nav-link">من نحن</a>
+                <a href="contact.html" class="nav-link">تواصل معنا</a>
+                
+                <div id="navAuthContainer"></div>
+            </nav>
+        </div>
+    </header>
+
+    <main id="mainContent" class="discover-page-container">
+        <div class="container">
+            
+            <!-- عنوان الصفحة -->
+            <div style="margin-bottom: 25px;">
+                <h1 style="font-size:30px;color:var(--secondary-dark);margin:0 0 8px 0;">اكتشاف الأماكن والخدمات الدامجة</h1>
+                <p style="color:var(--text-muted);margin:0;font-size:15px;">
+                    استخدم نظام البحث والفلاتر الدقيقة لتحديد المكان والتسهيلات المطلوبة قبل الزيارة.
+                </p>
+            </div>
+
+            <!-- لوحة البحث والفلترة المتقدمة -->
+            <section class="filter-panel-card" aria-label="أدوات البحث والفلترة">
+                <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:15px;margin-bottom:15px;">
+                    <div class="form-group" style="margin:0;">
+                        <label for="filterQuery">اسم المكان أو الخدمة</label>
+                        <input type="text" id="filterQuery" class="form-control" placeholder="اكتب اسم المستشفى، المول، المركز...">
+                    </div>
+                    <div class="form-group" style="margin:0;">
+                        <label for="filterCategory">نوع المكان / التصنيف</label>
+                        <select id="filterCategory" class="form-control">
+                            <option value="">جميع التصنيفات</option>
+                            <!-- يتم ملؤها برمجياً -->
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin:0;">
+                        <label for="filterGov">المحافظة</label>
+                        <select id="filterGov" class="form-control">
+                            <option value="">كل المحافظات</option>
+                            <option value="القاهرة">القاهرة</option>
+                            <option value="الجيزة">الجيزة</option>
+                            <option value="الإسكندرية">الإسكندرية</option>
+                            <option value="أسوان">أسوان</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin:0;">
+                        <label for="filterCity">المدينة أو المنطقة</label>
+                        <input type="text" id="filterCity" class="form-control" placeholder="مثل: المعادي، مصر الجديدة...">
+                    </div>
+                </div>
+
+                <!-- خيار البحث حسب القرب الجغرافي -->
+                <div style="display:flex;align-items:center;gap:15px;flex-wrap:wrap;padding:12px;background:#f8fafc;border-radius:var(--radius-sm);margin-bottom:15px;border:1px dashed var(--border-color);">
+                    <button type="button" id="btnProximity" class="btn btn-secondary btn-sm">
+                        📍 الأماكن الأقرب لموقعي الحالي
+                    </button>
+                    <span id="proximityStatus" style="font-size:13px;color:var(--text-muted);">اضغط لتحديد الأماكن المحيطة بك بدقة</span>
+                </div>
+
+                <!-- فلاتر الإتاحة حسب نوع الاحتياج -->
+                <div>
+                    <span class="filter-section-title">
+                        <span>♿</span>
+                        <span>فلاتر الإتاحة والتسهيلات المطلوبة (يمكنك اختيار أكثر من فئة معاً):</span>
+                    </span>
+
+                    <div class="checkbox-chips-grid">
+                        <label class="chip-label">
+                            <input type="checkbox" name="needFilter" value="mobility">
+                            <span>♿ إتاحة حركية وكراسي متحركة</span>
+                        </label>
+                        <label class="chip-label">
+                            <input type="checkbox" name="needFilter" value="visual">
+                            <span>👁️ إتاحة بصرية وبرايل</span>
+                        </label>
+                        <label class="chip-label">
+                            <input type="checkbox" name="needFilter" value="hearing">
+                            <span>🦻 إتاحة سمعية ولغة إشارة</span>
+                        </label>
+                        <label class="chip-label">
+                            <input type="checkbox" name="needFilter" value="intellectual">
+                            <span>🧩 إتاحة فكرية وتعليمات مبسطة</span>
+                        </label>
+                        <label class="chip-label">
+                            <input type="checkbox" name="needFilter" value="autism">
+                            <span>🌿 طيف توحد وبيئة هادئة</span>
+                        </label>
+                        <label class="chip-label">
+                            <input type="checkbox" id="filterVerifiedOnly">
+                            <span>✓ أماكن موثقة ميدانياً فقط</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- أزرار الإجراءات للفلترة -->
+                <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:20px;border-top:1px solid var(--border-color);padding-top:15px;">
+                    <button type="button" id="btnResetFilters" class="btn btn-secondary btn-sm">
+                        إعادة ضبط الفلاتر
+                    </button>
+                    <button type="button" id="btnApplyFilters" class="btn btn-primary btn-sm">
+                        تطبيق الفلترة 🔍
+                    </button>
+                </div>
+            </section>
+
+            <!-- شريط نتائج البحث والترتيب -->
+            <div class="results-control-bar">
+                <div>
+                    <strong id="resultsCountLabel" style="color:var(--secondary-dark);font-size:16px;">جارٍ تحميل الأماكن...</strong>
+                    <span id="activeFiltersSummary" style="font-size:13px;color:var(--text-muted);margin-right:10px;"></span>
+                </div>
+
+                <div style="display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+                    <div style="display:flex;align-items:center;gap:6px;">
+                        <label for="sortResultsBy" style="font-size:13px;font-weight:700;">ترتيب حسب:</label>
+                        <select id="sortResultsBy" class="form-control" style="width:auto;padding:6px 12px;font-size:13px;">
+                            <option value="rating">الأعلى تقييماً ⭐</option>
+                            <option value="recent">الأحدث تحديثاً ⏱️</option>
+                            <option value="proximity">الأقرب مسافة 📍</option>
+                            <option value="name">أبجدياً (أ-ي) 🔤</option>
+                        </select>
+                    </div>
+
+                    <div class="view-switchers" role="group" aria-label="طريقة العرض">
+                        <button type="button" id="btnViewGrid" class="view-btn active" title="عرض شبكي">قائمة ▦</button>
+                        <button type="button" id="btnViewMap" class="view-btn" title="عرض على الخريطة">خريطة 🗺️</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- رسالة تجربة البحث الإنسانية عند عدم وجود تطابق كامل -->
+            <div id="humaneNoticeBox" class="humane-notice" style="display:none;" role="note">
+                <strong style="color:var(--primary-dark);display:block;margin-bottom:6px;">نصيحة بحث إنسانية من خُطوة 💡</strong>
+                <p id="humaneNoticeText" style="margin:0;">
+                    لم نجد مكاناً يطابق كافة الشروط الصارمة المحددة معاً، لكننا نعرض لك خيارات قريبة ومفيدة قد تلبي رغبتك، مع مراعاة أن نقص البيانات لا يعني بالضرورة عدم توفر الإتاحة.
+                </p>
+            </div>
+
+            <!-- حاوية عرض النتائج (الشبكة) -->
+            <div id="placesGridContainer" class="cards-grid-3">
+                <!-- يتم توليد البطاقات عبر JavaScript -->
+            </div>
+
+            <!-- حاوية عرض الخريطة المضمنة عند التبديل -->
+            <div id="discoverMapWrapper" style="display:none;height:520px;border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--border-color);margin-bottom:40px;">
+                <div id="discoverLeafletMap" style="width:100%;height:100%;"></div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- تذييل الصفحة -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3>🧭 خُطوة | KHOTWA</h3>
+                    <p>كل خطوة تقرّبك من المكان المناسب. منصة الإتاحة والدمج المجتمعي المستقل.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>روابط سريعة</h4>
+                    <ul>
+                        <li><a href="index.html">الرئيسية</a></li>
+                        <li><a href="discover.html">اكتشف الأماكن</a></li>
+                        <li><a href="map.html">الخريطة التفاعلية</a></li>
+                        <li><a href="favorites.html">المفضلة</a></li>
+                        <li><a href="assistant.html">المساعد الذكي</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>المشاركة والدعم</h4>
+                    <ul>
+                        <li><a href="suggest-place.html">اقترح مكاناً</a></li>
+                        <li><a href="report-issue.html">أبلغ عن خطأ</a></li>
+                        <li><a href="about.html">من نحن</a></li>
+                        <li><a href="contact.html">تواصل معنا</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>الخصوصية والأمان</h4>
+                    <ul>
+                        <li><a href="privacy.html">سياسة الخصوصية</a></li>
+                        <li><a href="terms.html">شروط الاستخدام</a></li>
+                        <li><a href="accessibility.html">دليل سهولة الوصول</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>جميع الحقوق محفوظة لمنصة خُطوة KHOTWA © <span class="current-year">2026</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- سكريبتات النظام والخرائط -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="js/data.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/accessibility.js"></script>
+    <script src="js/app.js"></script>
+
+    <script>
+        let currentUserLat = null;
+        let currentUserLng = null;
+        let currentMapInstance = null;
+        let currentMapMarkers = [];
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // تهيئة قائمة التصنيفات
+            const catSelect = document.getElementById("filterCategory");
+            const categories = KhotwaStore.getCategories();
+            categories.forEach(cat => {
+                const opt = document.createElement("option");
+                opt.value = cat.id;
+                opt.textContent = `${cat.icon} ${cat.name}`;
+                catSelect.appendChild(opt);
+            });
+
+            // قراءة البارامترات القادمة من الرابط (URL Params)
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get("q")) document.getElementById("filterQuery").value = urlParams.get("q");
+            if (urlParams.get("category")) document.getElementById("filterCategory").value = urlParams.get("category");
+            if (urlParams.get("gov")) document.getElementById("filterGov").value = urlParams.get("gov");
+            if (urlParams.get("need")) {
+                const need = urlParams.get("need");
+                const checkbox = document.querySelector(`input[name="needFilter"][value="${need}"]`);
+                if (checkbox) checkbox.checked = true;
+            }
+
+            // تطبيق البحث الأولي
+            performSearch();
+
+            // ربط أحداث الإدخال
+            document.getElementById("btnApplyFilters").addEventListener("click", performSearch);
+            document.getElementById("sortResultsBy").addEventListener("change", performSearch);
+            document.getElementById("btnResetFilters").addEventListener("click", resetFilters);
+
+            // تفعيل القرب الجغرافي
+            document.getElementById("btnProximity").addEventListener("click", function () {
+                const statusSpan = document.getElementById("proximityStatus");
+                KhotwaApp.getUserLocation(
+                    function (lat, lng) {
+                        currentUserLat = lat;
+                        currentUserLng = lng;
+                        statusSpan.textContent = "✓ تم تحديد موقعك! جارٍ ترتيب النتائج حسب الأقرب.";
+                        statusSpan.style.color = "var(--success)";
+                        document.getElementById("sortResultsBy").value = "proximity";
+                        performSearch();
+                    },
+                    function (errMsg) {
+                        statusSpan.textContent = errMsg;
+                        statusSpan.style.color = "var(--danger)";
+                        KhotwaApp.showToast(errMsg, "warning");
+                    }
+                );
+            });
+
+            // التبديل بين عرض الشبكة وعرض الخريطة
+            document.getElementById("btnViewGrid").addEventListener("click", function () {
+                this.classList.add("active");
+                document.getElementById("btnViewMap").classList.remove("active");
+                document.getElementById("placesGridContainer").style.display = "grid";
+                document.getElementById("discoverMapWrapper").style.display = "none";
+            });
+
+            document.getElementById("btnViewMap").addEventListener("click", function () {
+                this.classList.add("active");
+                document.getElementById("btnViewGrid").classList.remove("active");
+                document.getElementById("placesGridContainer").style.display = "none";
+                document.getElementById("discoverMapWrapper").style.display = "block";
+                initDiscoverMap();
+            });
+        });
+
+        function performSearch() {
+            const query = document.getElementById("filterQuery").value.trim();
+            const category = document.getElementById("filterCategory").value;
+            const governorate = document.getElementById("filterGov").value;
+            const city = document.getElementById("filterCity").value.trim();
+            const verifiedOnly = document.getElementById("filterVerifiedOnly").checked;
+            const sortBy = document.getElementById("sortResultsBy").value;
+
+            const selectedNeeds = [];
+            document.querySelectorAll('input[name="needFilter"]:checked').forEach(cb => {
+                selectedNeeds.push(cb.value);
+            });
+
+            // البحث الدقيق
+            let results = KhotwaStore.searchPlaces({
+                query,
+                category,
+                governorate,
+                city,
+                needs: selectedNeeds,
+                verifiedOnly,
+                sortBy,
+                userLat: currentUserLat,
+                userLng: currentUserLng
+            });
+
+            const noticeBox = document.getElementById("humaneNoticeBox");
+
+            // التجربة الإنسانية عند عدم وجود نتائج متطابقة تماماً
+            if (results.length === 0) {
+                // البحث المرن بعرض أماكن من نفس المحافظة أو التصنيف حتى لو كانت بيانات الإتاحة قيد التدقيق
+                results = KhotwaStore.searchPlaces({
+                    category: category || undefined,
+                    governorate: governorate || undefined,
+                    sortBy: "rating",
+                    userLat: currentUserLat,
+                    userLng: currentUserLng
+                });
+
+                noticeBox.style.display = "block";
+                document.getElementById("humaneNoticeText").innerHTML = `
+                    لم نجد مكاناً يطابق جميع فلاتر الإتاحة المحددة بدقة كاملة. 
+                    <strong>لكن حرصاً على مساعدتك، نعرض لك (${results.length}) من الأماكن البديلة أو القريبة</strong> التي قد تحتوي على تجهيزات مفيدة، مع العلم أن بعض بياناتها قيد التدقيق الميداني. 
+                    يمكنك تجربة إزالة بعض الفلاتر الصارمة لرؤية المزيد من الخيارات.
+                `;
+            } else {
+                noticeBox.style.display = "none";
+            }
+
+            // تحديث شريط العداد
+            document.getElementById("resultsCountLabel").textContent = `تم العثور على ${results.length} مكان ميسر`;
+
+            // رسم البطاقات
+            renderPlaceCards(results);
+
+            // تحديث الخريطة إذا كانت معروضة
+            if (document.getElementById("discoverMapWrapper").style.display === "block") {
+                updateDiscoverMapMarkers(results);
+            }
+        }
+
+        function renderPlaceCards(places) {
+            const container = document.getElementById("placesGridContainer");
+            if (!places || places.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 50px 20px; background: white; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <span style="font-size: 42px;">🔍</span>
+                        <h3 style="color: var(--secondary-dark); margin: 15px 0 8px;">لا توجد نتائج مسجلة لهذه المعايير حالياً</h3>
+                        <p style="color: var(--text-muted); line-height: 1.8; max-width: 500px; margin: 0 auto 20px;">
+                            نعمل باستمرار على توثيق وإضافة المزيد من الأماكن. هل تعرف مكاناً مجهزاً في هذه المنطقة؟ شارك معنا باقتراحه!
+                        </p>
+                        <a href="suggest-place.html" class="btn btn-primary">اقترح مكاناً جديداً ✍️</a>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = places.map(place => {
+                const isFav = KhotwaStore.isFavorite(place.id);
+                const distBadge = (place.distanceKm !== undefined && place.distanceKm !== null)
+                    ? `<span style="background:#e0f2fe;color:#0369a1;font-size:12px;font-weight:700;padding:3px 8px;border-radius:4px;">📍 يبعد ${place.distanceKm} كم</span>`
+                    : '';
+
+                return `
+                    <article class="place-card">
+                        <div class="place-card-media">
+                            <img src="${place.images[0]}" alt="${place.name}" onerror="KhotwaApp.handleImageError(this, '${place.name}')">
+                            <button class="place-fav-btn ${isFav ? 'active' : ''}" onclick="toggleFavCard(event, '${place.id}')" aria-label="حفظ في المفضلة" title="حفظ في المفضلة">
+                                ${isFav ? '❤️' : '♡'}
+                            </button>
+                            <span class="${place.verificationStatus === 'verified' ? 'badge-verified' : 'badge-pending'}">
+                                ${place.verificationBadge}
+                            </span>
+                            <span class="badge-category">${place.categoryName}</span>
+                        </div>
+                        <div class="place-card-body">
+                            <h3><a href="place-details.html?id=${place.id}">${place.name}</a></h3>
+                            <div class="place-location">
+                                <span>📍 ${place.governorate} – ${place.city}</span>
+                                ${distBadge}
+                            </div>
+                            <p class="place-card-desc">${place.description}</p>
+                            
+                            <div class="place-access-pills">
+                                ${place.accessibilityDetails.mobility ? '<span class="access-pill">♿ حركي</span>' : ''}
+                                ${place.accessibilityDetails.visual ? '<span class="access-pill">👁️ بصري</span>' : ''}
+                                ${place.accessibilityDetails.hearing ? '<span class="access-pill">🦻 سمعي</span>' : ''}
+                                ${place.accessibilityDetails.autism ? '<span class="access-pill">🌿 حسي</span>' : ''}
+                            </div>
+
+                            <div class="place-card-footer">
+                                <div class="rating-display">
+                                    ${KhotwaApp.renderStars(place.rating)}
+                                    <span style="font-size:12px;color:#64748b;">(${place.reviewsCount})</span>
+                                </div>
+                                <a href="place-details.html?id=${place.id}" class="btn btn-primary btn-sm">التفاصيل الكاملة</a>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }).join("");
+        }
+
+        function resetFilters() {
+            document.getElementById("filterQuery").value = "";
+            document.getElementById("filterCategory").value = "";
+            document.getElementById("filterGov").value = "";
+            document.getElementById("filterCity").value = "";
+            document.getElementById("filterVerifiedOnly").checked = false;
+            document.querySelectorAll('input[name="needFilter"]').forEach(cb => cb.checked = false);
+            currentUserLat = null;
+            currentUserLng = null;
+            document.getElementById("proximityStatus").textContent = "اضغط لتحديد الأماكن المحيطة بك بدقة";
+            document.getElementById("proximityStatus").style.color = "var(--text-muted)";
+            document.getElementById("sortResultsBy").value = "rating";
+            performSearch();
+        }
+
+        function toggleFavCard(event, placeId) {
+            event.preventDefault();
+            event.stopPropagation();
+            const btn = event.currentTarget;
+            const added = KhotwaStore.toggleFavorite(placeId);
+            if (added) {
+                btn.classList.add("active");
+                btn.textContent = "❤️";
+                KhotwaApp.showToast("تمت إضافة المكان إلى المفضلة ❤️", "success");
+            } else {
+                btn.classList.remove("active");
+                btn.textContent = "♡";
+                KhotwaApp.showToast("تمت إزالة المكان من المفضلة.", "info");
+            }
+        }
+
+        // خريطة البحث المضمنة
+        function initDiscoverMap() {
+            if (!currentMapInstance) {
+                currentMapInstance = L.map("discoverLeafletMap").setView([30.0444, 31.2357], 11);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(currentMapInstance);
+            }
+            const places = KhotwaStore.searchPlaces({});
+            updateDiscoverMapMarkers(places);
+            setTimeout(() => { currentMapInstance.invalidateSize(); }, 200);
+        }
+
+        function updateDiscoverMapMarkers(places) {
+            if (!currentMapInstance) return;
+            currentMapMarkers.forEach(m => currentMapInstance.removeLayer(m));
+            currentMapMarkers = [];
+
+            const bounds = [];
+            places.forEach(place => {
+                if (place.lat && place.lng) {
+                    const marker = L.marker([place.lat, place.lng]).addTo(currentMapInstance);
+                    const popupHtml = `
+                        <div class="map-popup-card">
+                            <img src="${place.images[0]}" alt="${place.name}">
+                            <div class="map-popup-card-content">
+                                <h4>${place.name}</h4>
+                                <p>📍 ${place.city}</p>
+                                <a href="place-details.html?id=${place.id}" class="btn btn-primary btn-sm" style="display:block;text-align:center;">عرض التفاصيل</a>
+                            </div>
+                        </div>
+                    `;
+                    marker.bindPopup(popupHtml);
+                    currentMapMarkers.push(marker);
+                    bounds.push([place.lat, place.lng]);
+                }
+            });
+
+            if (bounds.length > 0) {
+                currentMapInstance.fitBounds(bounds, { padding: [40, 40] });
+            }
+        }
+    </script>
+</body>
+</html>

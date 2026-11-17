@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء حساب جديد | خُطوة – KHOTWA</title>
+    <meta name="description" content="انضم إلى مجتمع خُطوة وخصص تفضيلات الإتاحة الخاصة بك لتسهيل استكشاف الأماكن المناسبة.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- رأس الصفحة -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="brand-logo" aria-label="خُطوة">
+                <span class="brand-icon" aria-hidden="true">🧭</span>
+                <span class="brand-title">
+                    <span class="ar">خُطوة</span>
+                    <span class="en">KHOTWA</span>
+                </span>
+            </a>
+
+            <button class="nav-toggle-btn" aria-label="فتح القائمة الرئيسية" aria-expanded="false">
+                ☰
+            </button>
+
+            <nav class="main-nav" aria-label="التنقل الرئيسي">
+                <a href="index.html" class="nav-link">الرئيسية</a>
+                <a href="discover.html" class="nav-link">اكتشف الأماكن</a>
+                <a href="map.html" class="nav-link">الخريطة</a>
+                <a href="favorites.html" class="nav-link">المفضلة</a>
+                <a href="assistant.html" class="nav-link">المساعد الذكي 💬</a>
+                <a href="about.html" class="nav-link">من نحن</a>
+                <a href="contact.html" class="nav-link">تواصل معنا</a>
+                
+                <div id="navAuthContainer"></div>
+            </nav>
+        </div>
+    </header>
+
+    <main id="mainContent" style="padding:45px 0 80px;">
+        <div class="container" style="max-width:580px;">
+
+            <div class="details-card" style="padding:35px 30px;box-shadow:var(--shadow-lg);">
+                <div style="text-align:center;margin-bottom:28px;">
+                    <span style="font-size:38px;">🌱</span>
+                    <h1 style="font-size:26px;color:var(--secondary-dark);margin:10px 0 6px 0;">انضم إلى مجتمع خُطوة</h1>
+                    <p style="color:var(--text-muted);font-size:14px;margin:0;">أنشئ حسابك المجاني لتخصيص فلاتر الإتاحة وحفظ أماكنك بسهولة.</p>
+                </div>
+
+                <form id="registerForm">
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+                        <div>
+                            <label for="regName" style="font-size:13px;font-weight:700;display:block;margin-bottom:4px;">الاسم الكامل *</label>
+                            <input type="text" id="regName" class="form-control" required placeholder="مثال: يوسف إبراهيم">
+                        </div>
+                        <div>
+                            <label for="regPhone" style="font-size:13px;font-weight:700;display:block;margin-bottom:4px;">رقم الهاتف (اختياري)</label>
+                            <input type="tel" id="regPhone" class="form-control" placeholder="01xxxxxxxxx">
+                        </div>
+                    </div>
+
+                    <div style="display:grid;grid-template-columns:1.3fr 1fr;gap:14px;margin-bottom:14px;">
+                        <div>
+                            <label for="regEmail" style="font-size:13px;font-weight:700;display:block;margin-bottom:4px;">البريد الإلكتروني *</label>
+                            <input type="email" id="regEmail" class="form-control" required placeholder="name@example.com">
+                        </div>
+                        <div>
+                            <label for="regCity" style="font-size:13px;font-weight:700;display:block;margin-bottom:4px;">المدينة / المحافظة</label>
+                            <select id="regCity" class="form-control">
+                                <option value="القاهرة">القاهرة</option>
+                                <option value="الجيزة">الجيزة</option>
+                                <option value="الإسكندرية">الإسكندرية</option>
+                                <option value="أسوان">أسوان</option>
+                                <option value="أخرى">أخرى</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;">
+                        <div>
+                            <label for="regPassword" style="font-size:13px;font-weight:700;display:block;margin-bottom:4px;">كلمة المرور (٦ خانات فأكثر) *</label>
+                            <input type="password" id="regPassword" class="form-control" required minlength="6" placeholder="••••••••">
+                        </div>
+                        <div>
+                            <label for="regPasswordConfirm" style="font-size:13px;font-weight:700;display:block;margin-bottom:4px;">تأكيد كلمة المرور *</label>
+                            <input type="password" id="regPasswordConfirm" class="form-control" required minlength="6" placeholder="••••••••">
+                        </div>
+                    </div>
+
+                    <!-- تفضيلات الإتاحة المسبقة -->
+                    <div style="background:#f8fafc;border:1px solid var(--border-color);border-radius:var(--radius-sm);padding:16px;margin-bottom:20px;">
+                        <span style="display:block;font-size:13.5px;font-weight:700;color:var(--secondary-dark);margin-bottom:8px;">
+                            تفضيلات الإتاحة الخاصة بك (اختياري لتخصيص نتائجك تلقائياً):
+                        </span>
+
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                            <label class="toggle-control" style="font-size:13px;">
+                                <input type="checkbox" name="prefNeed" value="mobility">
+                                <span>♿ إتاحة حركية وكراسي متحركة</span>
+                            </label>
+                            <label class="toggle-control" style="font-size:13px;">
+                                <input type="checkbox" name="prefNeed" value="visual">
+                                <span>👁️ إتاحة بصرية وبرايل</span>
+                            </label>
+                            <label class="toggle-control" style="font-size:13px;">
+                                <input type="checkbox" name="prefNeed" value="hearing">
+                                <span>🦻 إتاحة سمعية ولغة إشارة</span>
+                            </label>
+                            <label class="toggle-control" style="font-size:13px;">
+                                <input type="checkbox" name="prefNeed" value="autism">
+                                <span>🌿 طيف توحد وبيئة هادئة</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg" style="width:100%;">
+                        إنشاء الحساب وبدء الاستخدام 🎉
+                    </button>
+                </form>
+
+                <div style="text-align:center;margin-top:22px;border-top:1px solid var(--border-color);padding-top:16px;font-size:14px;color:var(--text-muted);">
+                    <p style="margin:0;">لديك حساب بالفعل؟ <a href="login.html" style="font-weight:bold;color:var(--primary);">تسجيل الدخول مباشرة</a></p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- تذييل الصفحة -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>منصة خُطوة KHOTWA © <span class="current-year">2026</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- سكريبتات النظام -->
+    <script src="js/data.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/accessibility.js"></script>
+    <script src="js/app.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("registerForm").addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                const name = document.getElementById("regName").value.trim();
+                const email = document.getElementById("regEmail").value.trim();
+                const phone = document.getElementById("regPhone").value.trim();
+                const city = document.getElementById("regCity").value;
+                const password = document.getElementById("regPassword").value;
+                const confirmPassword = document.getElementById("regPasswordConfirm").value;
+
+                if (password !== confirmPassword) {
+                    KhotwaApp.showToast("كلمتا المرور غير متطابقتين، يرجى التأكد.", "error");
+                    return;
+                }
+
+                const prefs = [];
+                document.querySelectorAll('input[name="prefNeed"]:checked').forEach(cb => {
+                    prefs.push(cb.value);
+                });
+
+                const result = KhotwaAuth.register({
+                    name,
+                    email,
+                    phone,
+                    city,
+                    password,
+                    accessibilityPreferences: prefs
+                });
+
+                if (result.success) {
+                    KhotwaApp.showToast(`تم إنشاء حسابك بنجاح! أهلاً بك في خُطوة يا ${name} 🎉`, "success", 3000);
+                    setTimeout(() => {
+                        window.location.href = "profile.html";
+                    }, 1200);
+                } else {
+                    KhotwaApp.showToast(result.message, "error", 4000);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أبلغ عن خطأ أو تحديث معلومة | خُطوة – KHOTWA</title>
+    <meta name="description" content="نموذج للإبلاغ عن معلومات خاطئة أو مرافق إتاحة معطلة لدعم دقة وموثوقية منصة خُطوة.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- رأس الصفحة -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="brand-logo" aria-label="خُطوة">
+                <span class="brand-icon" aria-hidden="true">🧭</span>
+                <span class="brand-title">
+                    <span class="ar">خُطوة</span>
+                    <span class="en">KHOTWA</span>
+                </span>
+            </a>
+
+            <button class="nav-toggle-btn" aria-label="فتح القائمة الرئيسية" aria-expanded="false">
+                ☰
+            </button>
+
+            <nav class="main-nav" aria-label="التنقل الرئيسي">
+                <a href="index.html" class="nav-link">الرئيسية</a>
+                <a href="discover.html" class="nav-link">اكتشف الأماكن</a>
+                <a href="map.html" class="nav-link">الخريطة</a>
+                <a href="favorites.html" class="nav-link">المفضلة</a>
+                <a href="assistant.html" class="nav-link">المساعد الذكي 💬</a>
+                <a href="about.html" class="nav-link">من نحن</a>
+                <a href="contact.html" class="nav-link">تواصل معنا</a>
+                
+                <div id="navAuthContainer"></div>
+            </nav>
+        </div>
+    </header>
+
+    <main id="mainContent" style="padding:40px 0 70px;">
+        <div class="container" style="max-width:700px;">
+
+            <div style="text-align:center;margin-bottom:30px;">
+                <span class="section-tag" style="color:var(--danger);">تدقيق وشفافية</span>
+                <h1 style="font-size:28px;color:var(--secondary-dark);margin:0 0 10px 0;">أبلغ عن خطأ أو تحديث معلومة ⚠️</h1>
+                <p style="color:var(--text-muted);font-size:15px;line-height:1.8;">
+                    دقة المعلومات هي أمانتنا الأولى. إذا لاحظت أن أحد مرافق الإتاحة غير متوفر ميدانياً أو أن رقم الهاتف أو العنوان قد تغير، يُرجى إبلاغنا لنتخذ الإجراء الفوري.
+                </p>
+            </div>
+
+            <div class="details-card" style="padding:32px 28px;">
+                <form id="reportIssueForm">
+                    
+                    <div class="form-group">
+                        <label for="reportPlaceSelect">المكان المعني بالبلاغ *</label>
+                        <select id="reportPlaceSelect" class="form-control" required>
+                            <option value="">اختر المكان من القائمة...</option>
+                            <!-- يتم ملؤها عبر JavaScript -->
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reportTypeSelect">نوع المشكلة أو التحديث *</label>
+                        <select id="reportTypeSelect" class="form-control" required>
+                            <option value="بيانات إتاحة غير دقيقة أو معطلة">بيانات إتاحة غير دقيقة أو معطلة (مثل تعطل مصعد أو عدم توفر منحدر)</option>
+                            <option value="رقم الهاتف غير صحيح أو لا يعمل">رقم الهاتف غير صحيح أو لا يعمل</option>
+                            <option value="تغير في العنوان أو مكان المدخل">تغير في العنوان أو مكان المدخل الرئيسي</option>
+                            <option value="تعديل مواعيد العمل">تعديل مواعيد وساعات العمل</option>
+                            <option value="إغلاق المكان كلياً">المكان مغلق كلياً أو تم نقله</option>
+                            <option value="محتوى غير لائق أو تقييم مخالف">محتوى غير لائق أو تعليق مخالف</option>
+                            <option value="أخرى">أخرى</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reportDetails">التفاصيل والتوضيح *</label>
+                        <textarea id="reportDetails" rows="4" class="form-control" required placeholder="اشرح لنا ما لاحظته بالتحديد حتى يتمكن فريق التدقيق من تصحيح المعلومة بدقة..."></textarea>
+                    </div>
+
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;">
+                        <div>
+                            <label for="reporterName" style="font-size:13px;font-weight:700;display:block;margin-bottom:4px;">اسمك (اختياري)</label>
+                            <input type="text" id="reporterName" class="form-control" placeholder="اسمك الكريم">
+                        </div>
+                        <div>
+                            <label for="reporterEmail" style="font-size:13px;font-weight:700;display:block;margin-bottom:4px;">بريدك للتواصل عند الحل</label>
+                            <input type="email" id="reporterEmail" class="form-control" placeholder="example@email.com">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg" style="width:100%;">
+                        إرسال البلاغ للتدقيق الفوري 🛡️
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- تذييل الصفحة -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>منصة خُطوة KHOTWA © <span class="current-year">2026</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- سكريبتات النظام -->
+    <script src="js/data.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/accessibility.js"></script>
+    <script src="js/app.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const places = KhotwaStore.getAllPlaces();
+            const selectEl = document.getElementById("reportPlaceSelect");
+
+            places.forEach(p => {
+                const opt = document.createElement("option");
+                opt.value = p.id;
+                opt.textContent = `${p.name} (${p.city})`;
+                selectEl.appendChild(opt);
+            });
+
+            // إذا تم تمرير placeId عبر الرابط
+            const urlParams = new URLSearchParams(window.location.search);
+            const prePlaceId = urlParams.get("placeId");
+            if (prePlaceId && selectEl.querySelector(`option[value="${prePlaceId}"]`)) {
+                selectEl.value = prePlaceId;
+            }
+
+            const currentUser = KhotwaAuth.getCurrentUser();
+            if (currentUser) {
+                document.getElementById("reporterName").value = currentUser.name;
+                document.getElementById("reporterEmail").value = currentUser.email;
+            }
+
+            document.getElementById("reportIssueForm").addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                const placeId = selectEl.value;
+                const placeObj = places.find(p => p.id === placeId);
+                const placeName = placeObj ? placeObj.name : "مكان عام";
+                const reportType = document.getElementById("reportTypeSelect").value;
+                const details = document.getElementById("reportDetails").value.trim();
+                const reporterName = document.getElementById("reporterName").value.trim() || "زائر للمنصة";
+                const reporterEmail = document.getElementById("reporterEmail").value.trim();
+
+                KhotwaStore.addReport({
+                    placeId,
+                    placeName,
+                    reportType,
+                    details,
+                    reporterName,
+                    reporterEmail
+                });
+
+                KhotwaApp.showToast("تم استلام بلاغك وسيقوم فريق التدقيق بمتابعته وتحديث البيانات فوراً. شكراً لمساعدتنا! 🛡️", "success", 4500);
+
+                document.getElementById("reportIssueForm").reset();
+                setTimeout(() => {
+                    window.location.href = placeId ? `place-details.html?id=${placeId}` : "discover.html";
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>

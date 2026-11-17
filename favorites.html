@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أماكني المفضلة | خُطوة – KHOTWA</title>
+    <meta name="description" content="قائمتك الشخصية للأماكن الميسرة المحفوظة لتسهيل الرجوع إليها والتخطيط للزيارة.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- رأس الصفحة -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="brand-logo" aria-label="خُطوة">
+                <span class="brand-icon" aria-hidden="true">🧭</span>
+                <span class="brand-title">
+                    <span class="ar">خُطوة</span>
+                    <span class="en">KHOTWA</span>
+                </span>
+            </a>
+
+            <button class="nav-toggle-btn" aria-label="فتح القائمة الرئيسية" aria-expanded="false">
+                ☰
+            </button>
+
+            <nav class="main-nav" aria-label="التنقل الرئيسي">
+                <a href="index.html" class="nav-link">الرئيسية</a>
+                <a href="discover.html" class="nav-link">اكتشف الأماكن</a>
+                <a href="map.html" class="nav-link">الخريطة</a>
+                <a href="favorites.html" class="nav-link active">المفضلة</a>
+                <a href="assistant.html" class="nav-link">المساعد الذكي 💬</a>
+                <a href="about.html" class="nav-link">من نحن</a>
+                <a href="contact.html" class="nav-link">تواصل معنا</a>
+                
+                <div id="navAuthContainer"></div>
+            </nav>
+        </div>
+    </header>
+
+    <main id="mainContent" style="padding:40px 0 70px;">
+        <div class="container">
+            
+            <!-- عنوان الصفحة وشريط الإجراءات -->
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;margin-bottom:30px;">
+                <div>
+                    <h1 style="font-size:30px;color:var(--secondary-dark);margin:0 0 8px 0;">❤️ أماكني المفضلة</h1>
+                    <p style="color:var(--text-muted);margin:0;font-size:15px;">
+                        الأماكن التي قمت بحفظها لسهولة الرجوع إليها والتخطيط لزياراتك القادمة.
+                    </p>
+                </div>
+
+                <div style="display:flex;gap:10px;" id="favActionsBar">
+                    <button type="button" id="btnPrintFavorites" class="btn btn-secondary btn-sm" title="طباعة أو تصدير القائمة">
+                        🖨️ طباعة القائمة
+                    </button>
+                    <button type="button" id="btnClearAllFavorites" class="btn btn-light btn-sm" style="color:var(--danger);">
+                        مسح الكل 🗑️
+                    </button>
+                </div>
+            </div>
+
+            <!-- شريط البحث داخل المفضلة -->
+            <div id="searchFavWrapper" style="margin-bottom:25px;max-width:400px;">
+                <input type="text" id="searchInFavs" class="form-control" placeholder="ابحث داخل قائمة مفضلتك...">
+            </div>
+
+            <!-- حاوية عرض بطاقات المفضلة -->
+            <div id="favoritesCardsGrid" class="cards-grid-3">
+                <!-- يتم توليد البطاقات عبر JavaScript -->
+            </div>
+
+            <!-- حالة القائمة الفارغة -->
+            <div id="emptyFavoritesState" style="display:none;text-align:center;padding:70px 20px;background:#ffffff;border:1px solid var(--border-color);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);max-width:650px;margin:30px auto;">
+                <div style="font-size:55px;margin-bottom:15px;">♡</div>
+                <h2 style="font-size:24px;color:var(--secondary-dark);margin:0 0 10px 0;">قائمتك المفضلة فارغة حالياً</h2>
+                <p style="color:var(--text-muted);line-height:1.9;margin:0 0 25px 0;">
+                    لم تقم بحفظ أي أماكن بعد. أثناء تصفحك للأماكن، يمكنك الضغط على رمز القلب (♡) في أي مكان لحفظه هنا والرجوع إليه بسرعة في أي وقت.
+                </p>
+                <a href="discover.html" class="btn btn-primary btn-lg">
+                    استكشف الأماكن الميسرة الآن 🔍
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- تذييل الصفحة -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>منصة خُطوة KHOTWA © <span class="current-year">2026</span> – كل خطوة تقرّبك من المكان المناسب.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- سكريبتات النظام -->
+    <script src="js/data.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/accessibility.js"></script>
+    <script src="js/app.js"></script>
+
+    <script>
+        let myFavPlaces = [];
+
+        document.addEventListener("DOMContentLoaded", function () {
+            loadFavorites();
+
+            // طباعة القائمة
+            document.getElementById("btnPrintFavorites").addEventListener("click", function () {
+                window.print();
+            });
+
+            // مسح الكل
+            document.getElementById("btnClearAllFavorites").addEventListener("click", function () {
+                if (confirm("هل أنت متأكد من رغبتك في مسح جميع الأماكن المحفوظة في المفضلة؟")) {
+                    localStorage.setItem("khotwa_favorites_v1", JSON.stringify([]));
+                    KhotwaApp.showToast("تم إفراغ المفضلة بنجاح.", "info");
+                    loadFavorites();
+                }
+            });
+
+            // البحث داخل المفضلة
+            document.getElementById("searchInFavs").addEventListener("input", function (e) {
+                const q = e.target.value.trim().toLowerCase();
+                const filtered = myFavPlaces.filter(p => p.name.toLowerCase().includes(q) || p.city.toLowerCase().includes(q));
+                renderFavoritesList(filtered);
+            });
+        });
+
+        function loadFavorites() {
+            myFavPlaces = KhotwaStore.getFavoritePlaces();
+            renderFavoritesList(myFavPlaces);
+        }
+
+        function renderFavoritesList(places) {
+            const grid = document.getElementById("favoritesCardsGrid");
+            const emptyState = document.getElementById("emptyFavoritesState");
+            const actionsBar = document.getElementById("favActionsBar");
+            const searchWrapper = document.getElementById("searchFavWrapper");
+
+            if (!places || places.length === 0) {
+                grid.style.display = "none";
+                emptyState.style.display = "block";
+                actionsBar.style.display = "none";
+                searchWrapper.style.display = "none";
+                return;
+            }
+
+            grid.style.display = "grid";
+            emptyState.style.display = "none";
+            actionsBar.style.display = "flex";
+            searchWrapper.style.display = "block";
+
+            grid.innerHTML = places.map(place => `
+                <article class="place-card">
+                    <div class="place-card-media">
+                        <img src="${place.images[0]}" alt="${place.name}" onerror="KhotwaApp.handleImageError(this, '${place.name}')">
+                        <button class="place-fav-btn active" onclick="removeFavoriteItem('${place.id}')" aria-label="إزالة من المفضلة" title="إزالة من المفضلة">
+                            ❤️
+                        </button>
+                        <span class="badge-verified">✓ ${place.verificationBadge}</span>
+                        <span class="badge-category">${place.categoryName}</span>
+                    </div>
+                    <div class="place-card-body">
+                        <h3><a href="place-details.html?id=${place.id}">${place.name}</a></h3>
+                        <div class="place-location">
+                            <span>📍 ${place.governorate} – ${place.city}</span>
+                        </div>
+                        <p class="place-card-desc">${place.description}</p>
+                        
+                        <div class="place-card-footer">
+                            <button onclick="removeFavoriteItem('${place.id}')" class="btn btn-light btn-sm" style="color:var(--danger);">
+                                إزالة ✕
+                            </button>
+                            <a href="place-details.html?id=${place.id}" class="btn btn-primary btn-sm">عرض التفاصيل ←</a>
+                        </div>
+                    </div>
+                </article>
+            `).join("");
+        }
+
+        function removeFavoriteItem(placeId) {
+            KhotwaStore.toggleFavorite(placeId);
+            KhotwaApp.showToast("تمت إزالة المكان من المفضلة.", "info");
+            loadFavorites();
+        }
+    </script>
+</body>
+</html>

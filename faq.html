@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الأسئلة الشائعة | خُطوة – KHOTWA</title>
+    <meta name="description" content="إجابات واضحة عن الأسئلة الأكثر شيوعاً حول منصة خُطوة، وكيفية استخدام فلاتر الإتاحة، ومعايير توثيق الأماكن.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .faq-item {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: border-color var(--transition-fast);
+        }
+        .faq-question {
+            width: 100%;
+            text-align: right;
+            padding: 18px 20px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--secondary-dark);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .faq-question:hover {
+            color: var(--primary);
+        }
+        .faq-answer {
+            padding: 0 20px 20px;
+            font-size: 14.5px;
+            line-height: 1.9;
+            color: var(--text-main);
+            display: none;
+            border-top: 1px solid var(--border-subtle);
+        }
+        .faq-item.open .faq-answer {
+            display: block;
+        }
+        .faq-item.open {
+            border-color: var(--primary);
+        }
+        .faq-arrow {
+            font-size: 14px;
+            transition: transform 0.2s;
+        }
+        .faq-item.open .faq-arrow {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- رأس الصفحة -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="brand-logo" aria-label="خُطوة">
+                <span class="brand-icon" aria-hidden="true">🧭</span>
+                <span class="brand-title">
+                    <span class="ar">خُطوة</span>
+                    <span class="en">KHOTWA</span>
+                </span>
+            </a>
+
+            <button class="nav-toggle-btn" aria-label="فتح القائمة الرئيسية" aria-expanded="false">
+                ☰
+            </button>
+
+            <nav class="main-nav" aria-label="التنقل الرئيسي">
+                <a href="index.html" class="nav-link">الرئيسية</a>
+                <a href="discover.html" class="nav-link">اكتشف الأماكن</a>
+                <a href="map.html" class="nav-link">الخريطة</a>
+                <a href="favorites.html" class="nav-link">المفضلة</a>
+                <a href="assistant.html" class="nav-link">المساعد الذكي 💬</a>
+                <a href="about.html" class="nav-link">من نحن</a>
+                <a href="contact.html" class="nav-link">تواصل معنا</a>
+                
+                <div id="navAuthContainer"></div>
+            </nav>
+        </div>
+    </header>
+
+    <main id="mainContent" style="padding:45px 0 80px;">
+        <div class="container" style="max-width:850px;">
+
+            <div style="text-align:center;margin-bottom:40px;">
+                <span class="section-tag">إجابات وتوضيحات</span>
+                <h1 style="font-size:32px;color:var(--secondary-dark);margin:0 0 10px 0;">الأسئلة الشائعة ❓</h1>
+                <p style="color:var(--text-muted);font-size:16px;max-width:650px;margin:auto;line-height:1.9;">
+                    جمعنا لك الإجابات عن أكثر الأسئلة شيوعاً حول كيفية استخدام خُطوة ومعايير التوثيق المتبعة.
+                </p>
+            </div>
+
+            <!-- تصنيف: عن المنصة -->
+            <h2 style="font-size:20px;color:var(--primary-dark);margin:0 0 16px 0;">١. عن فكرة المنصة واستخدامها</h2>
+
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    <span>هل استخدام منصة خُطوة مجاني بالكامل؟</span>
+                    <span class="faq-arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    نعم، منصة خُطوة مجانية تماماً ١٠٠٪ لجميع المستخدمين، والأسر، والجهات الراغبة في توثيق إتاحتها. لا توجد أي رسوم أو اشتراكات على تصفح الأماكن أو استخدام الخريطة أو حفظ المفضلة.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    <span>هل أنا مجبر على إنشاء حساب لتصفح الأماكن؟</span>
+                    <span class="faq-arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    أبداً! يمكنك تصفح كافة الأماكن، واستخدام البحث المتقدم، والخريطة التفاعلية، وحفظ أماكن في المفضلة كزائر بدون أي تسجيل دخول. يمنحك إنشاء الحساب ميزة حفظ التفضيلات ومزامنة المفضلة والمشاركة بالتقييمات.
+                </div>
+            </div>
+
+            <!-- تصنيف: فلاتر الإتاحة والبحث -->
+            <h2 style="font-size:20px;color:var(--primary-dark);margin:30px 0 16px 0;">٢. فلاتر الإتاحة والبحث الذكي</h2>
+
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    <span>هل يمكنني اختيار أكثر من نوع إتاحة في نفس عملية البحث؟</span>
+                    <span class="faq-arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    نعم بالتأكيد! يتيح لك نظام البحث دمج عدة فلاتر معاً (مثلاً: إتاحة حركية + إتاحة بصرية + بيئة هادئة للتوحد)، لنعرض لك الأماكن التي تراعي كل تلك المتطلبات في وقت واحد.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    <span>ماذا تفعل المنصة إذا لم تعثر على مكان يطابق فلاتري بدقة؟</span>
+                    <span class="faq-arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    نطبق مبدأ <strong>"تجربة البحث الإنسانية"</strong>؛ فلا نقول لك أبداً "هذا المكان غير مناسب لك"، بل نعرض بدائل قريبة ومشابهة في منطقتك، ونوضح بشفافية أن بعض بيانات الإتاحة قيد الفحص والتدقيق الميداني.
+                </div>
+            </div>
+
+            <!-- تصنيف: التحقق والموثوقية -->
+            <h2 style="font-size:20px;color:var(--primary-dark);margin:30px 0 16px 0;">٣. التحقق وموثوقية البيانات</h2>
+
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    <span>ما الفرق بين "موثق ومتحقق ميدانياً" و"قيد التدقيق"؟</span>
+                    <span class="faq-arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    • <strong>موثق ومتحقق ميدانياً:</strong> مكان قام فريق خُطوة أو جهة معتمدة بزيارته والتأكد من مطابقة المنحدرات والمصاعد والتجهيزات فعلياً.<br>
+                    • <strong>قيد التدقيق والمراجعة:</strong> مكان تم اقتراحه أو وردت معلومات أولية عنه، وجارٍ استكمال الفحص الميداني له.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    <span>وجدت ميزة إتاحة معطلة في أحد الأماكن، كيف أبلغكم؟</span>
+                    <span class="faq-arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    في كل بطاقة مكان يوجد زر <strong>"أبلغ عن خطأ ⚠️"</strong>، يمكنك الضغط عليه وتحديد المرفق المعطل (مثل مصعد أو منحدر)، وسيقوم فريق التدقيق بتحديث بطاقة المكان فوراً لتنبيه باقي الزوار.
+                </div>
+            </div>
+
+            <!-- تصنيف: إمكانية الوصول في الموقع -->
+            <h2 style="font-size:20px;color:var(--primary-dark);margin:30px 0 16px 0;">٤. أدوات سهولة الوصول في الموقع</h2>
+
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    <span>كيف أفعّل وضع التباين العالي أو تكبير الخط؟</span>
+                    <span class="faq-arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    يمكنك في أي وقت الضغط على الزر الدائري العائم لسهولة الوصول (♿) في الزاوية، أو الضغط على اختصار <strong>Alt + A</strong> من لوحة المفاتيح لتظهر لك لوحة التحكم وتغيير الخط، والتباين، وإيقاف الحركات.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    <span>هل يدعم الموقع قارئات الشاشة والتحويل إلى صوت؟</span>
+                    <span class="faq-arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    نعم، الموقع مبني بـ HTML الدلالي المتوافق تماماً مع قارئات الشاشة مثل NVDA وJAWS وVoiceOver، كما يحتوي على ميزة استماع صوتية مدمجة باللغة العربية داخل صفحات الأماكن وإعدادات الوصول.
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- تذييل الصفحة -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>منصة خُطوة KHOTWA © <span class="current-year">2026</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- سكريبتات النظام -->
+    <script src="js/data.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/accessibility.js"></script>
+    <script src="js/app.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".faq-question").forEach(btn => {
+                btn.addEventListener("click", function () {
+                    const item = this.parentElement;
+                    const isOpen = item.classList.toggle("open");
+                    this.setAttribute("aria-expanded", isOpen ? "true" : "false");
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>خُطوة | KHOTWA – كل خطوة تقرّبك من المكان المناسب</title>
+    <meta name="description" content="منصة خُطوة لمساعدة الأشخاص ذوي الإعاقة وأسرهم على اكتشاف الأماكن والخدمات العامة والخاصة ومعرفة تفاصيل الإتاحة والتسهيلات قبل الزيارة.">
+    <meta name="keywords" content="خُطوة, KHOTWA, سهولة الوصول, إمكانية الوصول, ذوي الإعاقة, كراسي متحركة, لغة الإشارة, برايل, التوحد, مصر">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- رأس الصفحة وشريط التنقل الرئيسي -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="brand-logo" aria-label="الصفحة الرئيسية لمنصة خُطوة">
+                <span class="brand-icon" aria-hidden="true">🧭</span>
+                <span class="brand-title">
+                    <span class="ar">خُطوة</span>
+                    <span class="en">KHOTWA</span>
+                </span>
+            </a>
+
+            <button class="nav-toggle-btn" aria-label="فتح القائمة الرئيسية" aria-expanded="false">
+                ☰
+            </button>
+
+            <nav class="main-nav" aria-label="التنقل الرئيسي">
+                <a href="index.html" class="nav-link active">الرئيسية</a>
+                <a href="discover.html" class="nav-link">اكتشف الأماكن</a>
+                <a href="map.html" class="nav-link">الخريطة</a>
+                <a href="favorites.html" class="nav-link">المفضلة</a>
+                <a href="assistant.html" class="nav-link">المساعد الذكي 💬</a>
+                <a href="about.html" class="nav-link">من نحن</a>
+                <a href="contact.html" class="nav-link">تواصل معنا</a>
+                
+                <div id="navAuthContainer" style="display:flex;align-items:center;gap:10px;">
+                    <!-- يتم تحديث هذا الجزء تلقائياً عبر auth.js -->
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main id="mainContent">
+
+        <!-- القسم الترحيبي (Hero Section) -->
+        <section class="hero-section">
+            <div class="container">
+                <div class="hero-grid">
+                    <div>
+                        <div class="hero-badge">
+                            <span>🤝</span>
+                            <span>منصة الإتاحة والدمج المجتمعي الأولى</span>
+                        </div>
+                        
+                        <h1 class="hero-title">
+                            كل خطوة تقرّبك من <span>المكان المناسب</span>.
+                        </h1>
+
+                        <p class="hero-lead">
+                            نساعد الأشخاص ذوي الإعاقة وأسرهم على استكشاف الأماكن العامة والخدمات في مدينتك، ومعرفة تفاصيل وتجهيزات الإتاحة المؤكدة قبل الذهاب، لتخطيط زيارتك بكل راحة واستقلالية.
+                        </p>
+
+                        <div class="hero-actions">
+                            <a href="discover.html" class="btn btn-primary btn-lg">
+                                ابدأ اكتشاف الأماكن 🔍
+                            </a>
+                            <a href="assistant.html" class="btn btn-light btn-lg">
+                                اسأل مساعد خُطوة الذكي 🤖
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="hero-visual-card">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80" 
+                             alt="شخص يستخدم كرسياً متحركاً يتحرك باستقلالية داخل بيئة مهيأة وميسرة" 
+                             class="hero-visual-img"
+                             onerror="KhotwaApp.handleImageError(this, 'خُطوة للإتاحة')">
+                        <div class="hero-visual-overlay">
+                            <h3>نحو مدن دامجة ومتاحة للجميع</h3>
+                            <p>معلومات دقيقة، مصادر موثوقة، ومجتمع متكاتف يدعم الاستقلالية وحرية الحركة.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- مربع البحث البارز -->
+                <div class="hero-search-box" style="margin-top: 40px;">
+                    <div class="search-input-group">
+                        <label for="heroSearchQuery">عن ماذا تبحث؟</label>
+                        <input type="text" id="heroSearchQuery" placeholder="اسم المكان، المستشفى، المول، المطعم...">
+                    </div>
+                    <div class="search-input-group">
+                        <label for="heroCategorySelect">تصنيف المكان</label>
+                        <select id="heroCategorySelect">
+                            <option value="">جميع التصنيفات</option>
+                            <option value="hospitals">مستشفيات وعيادات</option>
+                            <option value="pharmacies">صيدليات</option>
+                            <option value="rehab">مراكز تأهيل</option>
+                            <option value="malls">مراكز تسوق</option>
+                            <option value="entertainment">ثقافة وترفيه</option>
+                            <option value="transport">مواصلات ونقل</option>
+                            <option value="daily_services">بنوك وخدمات يومية</option>
+                        </select>
+                    </div>
+                    <div class="search-input-group">
+                        <label for="heroGovSelect">المحافظة</label>
+                        <select id="heroGovSelect">
+                            <option value="">كل المحافظات</option>
+                            <option value="القاهرة">القاهرة</option>
+                            <option value="الجيزة">الجيزة</option>
+                            <option value="الإسكندرية">الإسكندرية</option>
+                            <option value="أسوان">أسوان</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button type="button" id="heroSearchBtn" class="btn btn-primary" style="height: 44px; width: 100%;">
+                            بحث 🔍
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم أنواع الإعاقات والاحتياجات التي تدعمها المنصة -->
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">شمولية وتنوع</span>
+                    <h2 class="section-title">منصة مخصصة لخدمة مختلف الاحتياجات</h2>
+                    <p class="section-subtitle">
+                        نؤمن بأن كل شخص لديه متطلبات فريدة، لذا نوفر بيانات مفصلة تغطي كافة جوانب الوصول والتسهيلات:
+                    </p>
+                </div>
+
+                <div class="cards-grid-3">
+                    <div class="need-card">
+                        <div class="need-icon">♿</div>
+                        <h3>الإعاقة الحركية</h3>
+                        <p>منحدرات ميسرة، مصاعد واسعة، دورات مياه مجهزة بمقابض مساعدة، مواقف سيارات مخصصة، وممرات خالية من العتبات.</p>
+                        <a href="discover.html?need=mobility" class="btn btn-light btn-sm">استكشف الأماكن المهيأة ←</a>
+                    </div>
+
+                    <div class="need-card">
+                        <div class="need-icon">👁️</div>
+                        <h3>الإعاقة البصرية</h3>
+                        <p>لوحات إرشادية بطريقة برايل، تباين ألوان مرتفع، مسارات أرضية بارزة وملموسة، وإرشادات صوتية ومساعدة شخصية.</p>
+                        <a href="discover.html?need=visual" class="btn btn-light btn-sm">استكشف الأماكن المهيأة ←</a>
+                    </div>
+
+                    <div class="need-card">
+                        <div class="need-icon">🦻</div>
+                        <h3>الإعاقة السمعية</h3>
+                        <p>شاشات رقمية للإعلانات والتعليمات، قنوات تواصل مكتوبة، مترجمو لغة إشارة، وأنظمة إنذار ضوئية مرئية للطوارئ.</p>
+                        <a href="discover.html?need=hearing" class="btn btn-light btn-sm">استكشف الأماكن المهيأة ←</a>
+                    </div>
+
+                    <div class="need-card">
+                        <div class="need-icon">🧩</div>
+                        <h3>الإعاقة الفكرية وصعوبات التعلم</h3>
+                        <p>إرشادات مبسطة وواضحة، لوحات سهلة الفهم مدعومة بالأيقونات، إجراءات دخول ميسرة، ودعم وجود المرافق.</p>
+                        <a href="discover.html?need=intellectual" class="btn btn-light btn-sm">استكشف الأماكن المهيأة ←</a>
+                    </div>
+
+                    <div class="need-card">
+                        <div class="need-icon">🌿</div>
+                        <h3>طيف التوحد والحساسية الحسية</h3>
+                        <p>مساحات هادئة للاسترخاء، بيئات منخفضة الضوضاء والموسيقى، إضاءة غير ساطعة، ومؤشرات لأوقات الهدوء والازدحام.</p>
+                        <a href="discover.html?need=autism" class="btn btn-light btn-sm">استكشف الأماكن المهيأة ←</a>
+                    </div>
+
+                    <div class="need-card">
+                        <div class="need-icon">🤝</div>
+                        <h3>الإعاقات المتعددة وكبار السن</h3>
+                        <p>إمكانية دمج عدة فلاتر في عملية بحث واحدة لتخصيص النتائج بما يتطابق بدقة مع احتياجاتك الشخصية أو أسرتك.</p>
+                        <a href="discover.html" class="btn btn-light btn-sm">تخصيص بحث متعدد ←</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم تصنيفات الأماكن -->
+        <section class="section section-alt">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">استكشف حسب المجال</span>
+                    <h2 class="section-title">تصنيفات الأماكن والخدمات</h2>
+                    <p class="section-subtitle">
+                        سواء كنت تبحث عن رعاية صحية، مؤسسة تعليمية، محطة نقل، أو وجهة ترفيهية، خُطوة تغطي كافة احتياجاتك اليومية:
+                    </p>
+                </div>
+
+                <div class="cards-grid-4" id="homeCategoriesGrid">
+                    <!-- يتم ملء التصنيفات ديناميكياً من store.js -->
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم الأماكن المقترحة والمحدثة حديثاً -->
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">أماكن موثقة</span>
+                    <h2 class="section-title">أماكن مجهزة ومتحقق منها ميدانياً</h2>
+                    <p class="section-subtitle">
+                        نخبة من الأماكن التي تم تدقيق تجهيزاتها والتأكد من ملاءمتها بمصادر مؤكدة:
+                    </p>
+                </div>
+
+                <div class="cards-grid-3" id="homeFeaturedPlacesGrid">
+                    <!-- يتم ملء الأماكن المميزة ديناميكياً -->
+                </div>
+
+                <div style="text-align: center; margin-top: 40px;">
+                    <a href="discover.html" class="btn btn-secondary btn-lg">
+                        عرض جميع الأماكن في المنصة (١٢+ مكان موثق) 📋
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم كيف تعمل المنصة -->
+        <section class="section section-alt">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">سهولة وانسيابية</span>
+                    <h2 class="section-title">كيف تساعدك خُطوة في ٤ خطوات؟</h2>
+                    <p class="section-subtitle">
+                        خطوات بسيطة ومباشرة تمكنك من اتخاذ القرار الأمثل قبل الخروج من المنزل:
+                    </p>
+                </div>
+
+                <div class="steps-grid">
+                    <div class="step-card">
+                        <div class="step-number">١</div>
+                        <h3>ابحث وحدد احتياجاتك</h3>
+                        <p>استخدم محرك البحث والفلاتر الذكية لاختيار نوع الإتاحة التي تهمك وموقعك الجغرافي.</p>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-number">٢</div>
+                        <h3>تعرّف على حالة التجهيزات</h3>
+                        <p>اطلع على بطاقة المكان لتعرف ما هو متاح ومؤكد، وما هو قيد الفحص بدقة وشفافية تامة.</p>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-number">٣</div>
+                        <h3>خطط لزيارتك باطمئنان</h3>
+                        <p>افتح الاتجاهات على الخريطة التفاعلية، وتواصل مع المكان أو احفظه في قائمتك المفضلة.</p>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-number">٤</div>
+                        <h3>شارك تجربتك وادعم غيرك</h3>
+                        <p>أضف تقييمك لمستوى الإتاحة الفعلي، أو اقترح مكاناً جديداً لتوسيع شبكة الأماكن الدامجة.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم مميزات منصة خُطوة -->
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">القيمة المضافة</span>
+                    <h2 class="section-title">لماذا تختار منصة خُطوة؟</h2>
+                    <p class="section-subtitle">
+                        صممت المنصة بمعايير تقنية وإنسانية رفيعة لتلبي تطلعات مجتمع الأشخاص ذوي الإعاقة:
+                    </p>
+                </div>
+
+                <div class="cards-grid-3">
+                    <div class="need-card" style="align-items: flex-start; text-align: right;">
+                        <div class="need-icon">🛡️</div>
+                        <h3>شفافية ومصداقية البيانات</h3>
+                        <p>نوضح بجلاء حالة كل ميزة: (متاح ومؤكد، غير متاح، قيد التحقق، أو لم تتوفر معلومات بعد)، ولا نطلق وعوداً غير دقيقة.</p>
+                    </div>
+
+                    <div class="need-card" style="align-items: flex-start; text-align: right;">
+                        <div class="need-icon">🗺️</div>
+                        <h3>خريطة تفاعلية بدون تكلفة</h3>
+                        <p>ربط مباشر ومجاني مع خرائط حقيقية تمكنك من تحديد مكانك وتتبع مسار الوصول بضغطة زر واحدة.</p>
+                    </div>
+
+                    <div class="need-card" style="align-items: flex-start; text-align: right;">
+                        <div class="need-icon">🤖</div>
+                        <h3>مساعد ذكي يعتمد على الحقائق</h3>
+                        <p>مساعد افتراضي يوجهك لاختيار الفلاتر ويجيب عن الأسئلة الشائعة مستنداً فقط إلى بيانات المنصة الموثقة دون اختلاق.</p>
+                    </div>
+
+                    <div class="need-card" style="align-items: flex-start; text-align: right;">
+                        <div class="need-icon">♿</div>
+                        <h3>الموقع نفسه ميسر 100%</h3>
+                        <p>تطبيق معايير WCAG 2.2 AA، ودعم قارئات الشاشة، تباين عالي، تكبير خط، وأدوات مساعدة مدمجة لجميع الزوار.</p>
+                    </div>
+
+                    <div class="need-card" style="align-items: flex-start; text-align: right;">
+                        <div class="need-icon">❤️</div>
+                        <h3>أماكني المفضلة دون إجبار</h3>
+                        <p>يمكنك حفظ الأماكن والرجوع إليها كزائر فوراً دون الحاجة لتسجيل حساب، مع إمكانية المزامنة السحابية للمسجلين.</p>
+                    </div>
+
+                    <div class="need-card" style="align-items: flex-start; text-align: right;">
+                        <div class="need-icon">🌱</div>
+                        <h3>مجتمع تفاعلي مستمر بالنمو</h3>
+                        <p>إمكانية اقتراح أماكن جديدة والإبلاغ عن أي تعديل، مع لوحة إدارة ذكية لمراجعة كل مشاركة قبل نشرها.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم أهمية معرفة الإتاحة قبل الزيارة -->
+        <section class="section section-alt">
+            <div class="container">
+                <div class="hero-grid" style="align-items: center;">
+                    <div>
+                        <span class="section-tag">أثر حقيقي في الحياة اليومية</span>
+                        <h2 class="section-title">أهمية معرفة تفاصيل الإتاحة قبل الزيارة</h2>
+                        <p style="font-size: 16px; line-height: 2; color: var(--text-main);">
+                            بالنسبة للشخص ذي الإعاقة وأسرته، فإن الذهاب إلى مكان مجهول الإتاحة قد يتحول من نزهة أو قضاء مصلحة إلى تجربة محبطة ومرهقة؛ وجود درجتين فقط عند المدخل كفيل بمنع مستخدم الكرسي المتحرك من الدخول، وغياب الإشارات المرئية قد يعزل الشخص الأصم تماماً.
+                        </p>
+                        <p style="font-size: 16px; line-height: 2; color: var(--text-main);">
+                            منصة <strong>خُطوة</strong> وُجدت لتمنحك <strong>الاستقلالية وحرية الاختيار</strong>، وتوفر عليك الوقت والجهد وعناء المفاجآت، لتعرف مسبقاً هل المكان مجهز لك؟ وكيف تصل إليه بأمان وكرامة.
+                        </p>
+                        <div style="margin-top: 25px;">
+                            <a href="about.html" class="btn btn-secondary">اقرأ المزيد عن رؤيتنا وقيمنا ←</a>
+                        </div>
+                    </div>
+                    <div>
+                        <img src="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?auto=format&fit=crop&w=800&q=80" 
+                             alt="مجموعة متنوعة من الأشخاص يشاركون في مساحة عامة ميسرة"
+                             style="border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); width: 100%; height: 350px; object-fit: cover;"
+                             onerror="KhotwaApp.handleImageError(this, 'الدمج المجتمعي')">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- دعوة للمشاركة واقتراح مكان جديد -->
+        <section class="container">
+            <div class="cta-banner">
+                <h2>هل تعرف مكاناً مجهزاً وميسراً في منطقتك؟</h2>
+                <p>
+                    ساهم معنا في إثراء قاعدة بيانات خُطوة! اقترح مكاناً جديداً أو أبلغنا عن أي تحديث في التسهيلات لمساعدة آلاف الأشخاص وأسرهم على خوض تجارب أكثر سهولة.
+                </p>
+                <div style="display:flex;justify-content:center;gap:15px;flex-wrap:wrap;">
+                    <a href="suggest-place.html" class="btn btn-light btn-lg">
+                        اقترح مكاناً جديداً الآن ✍️
+                    </a>
+                    <a href="contact.html" class="btn btn-secondary btn-lg" style="background:transparent;border-color:white;color:white;">
+                        تواصل مع فريق الموثقين ✉️
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- تذييل الصفحة الشامل (Footer) -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+                        <span style="font-size:28px;">🧭</span>
+                        <h3 style="margin:0;">خُطوة | KHOTWA</h3>
+                    </div>
+                    <p>
+                        منصة رقمية متخصصة في توثيق إتاحة الأماكن والخدمات، ودمج الأشخاص ذوي الإعاقة بالمجتمع باستقلالية وأمان.
+                    </p>
+                    <p style="color:#94a3b8;font-size:13px;margin-top:15px;">
+                        الشعار: «كل خطوة تقرّبك من المكان المناسب.»
+                    </p>
+                </div>
+
+                <div class="footer-col">
+                    <h4>روابط سريعة</h4>
+                    <ul>
+                        <li><a href="index.html">الرئيسية</a></li>
+                        <li><a href="discover.html">اكتشف الأماكن</a></li>
+                        <li><a href="map.html">الخريطة التفاعلية</a></li>
+                        <li><a href="favorites.html">أماكني المفضلة</a></li>
+                        <li><a href="assistant.html">المساعد الذكي</a></li>
+                        <li><a href="suggest-place.html">اقترح مكاناً</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>عن المشروع</h4>
+                    <ul>
+                        <li><a href="about.html">من نحن وفكرة المشروع</a></li>
+                        <li><a href="accessibility.html">إعدادات ودليل سهولة الوصول</a></li>
+                        <li><a href="faq.html">الأسئلة الشائعة</a></li>
+                        <li><a href="report-issue.html">أبلغ عن معلومة خاطئة</a></li>
+                        <li><a href="contact.html">تواصل معنا</a></li>
+                        <li><a href="admin.html">لوحة تحكم المسؤول</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>الخصوصية والشفافية</h4>
+                    <ul>
+                        <li><a href="privacy.html">سياسة الخصوصية</a></li>
+                        <li><a href="terms.html">شروط الاستخدام</a></li>
+                        <li><a href="accessibility.html">معايير الإتاحة WCAG 2.2</a></li>
+                    </ul>
+                    <div style="margin-top:20px;">
+                        <span style="display:inline-block;background:rgba(255,255,255,0.1);padding:6px 12px;border-radius:8px;font-size:12px;color:#cbd5e1;">
+                            مشروع تخرج جامعي متميز © <span class="current-year">2026</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>جميع الحقوق محفوظة لمنصة خُطوة KHOTWA © <span class="current-year">2026</span> – صُممت بعناية ومحبة لدعم الاستقلالية والوصول الشامل.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ملفات الجافاسكريبت بالترتيب الصحيح -->
+    <script src="js/data.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/accessibility.js"></script>
+    <script src="js/app.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // ملء التصنيفات في الصفحة الرئيسية
+            const catContainer = document.getElementById("homeCategoriesGrid");
+            const categories = KhotwaStore.getCategories();
+            if (catContainer && categories) {
+                catContainer.innerHTML = categories.slice(0, 8).map(cat => `
+                    <div class="need-card" style="padding:20px 15px;">
+                        <div class="need-icon" style="width:52px;height:52px;font-size:26px;margin-bottom:12px;">${cat.icon}</div>
+                        <h3 style="font-size:16px;">${cat.name}</h3>
+                        <p style="font-size:13px;line-height:1.6;margin-bottom:14px;">${cat.description}</p>
+                        <a href="discover.html?category=${cat.id}" class="btn btn-light btn-sm" style="width:100%;">تصفح الأماكن ←</a>
+                    </div>
+                `).join("");
+            }
+
+            // ملء الأماكن المميزة
+            const placesContainer = document.getElementById("homeFeaturedPlacesGrid");
+            const places = KhotwaStore.searchPlaces({ sortBy: "rating" }).slice(0, 3);
+            if (placesContainer && places) {
+                placesContainer.innerHTML = places.map(place => {
+                    const isFav = KhotwaStore.isFavorite(place.id);
+                    return `
+                        <article class="place-card">
+                            <div class="place-card-media">
+                                <img src="${place.images[0]}" alt="${place.name}" onerror="KhotwaApp.handleImageError(this, '${place.name}')">
+                                <button class="place-fav-btn ${isFav ? 'active' : ''}" onclick="toggleFavCard(event, '${place.id}')" aria-label="حفظ في المفضلة" title="حفظ في المفضلة">
+                                    ${isFav ? '❤️' : '♡'}
+                                </button>
+                                <span class="badge-verified">✓ ${place.verificationBadge}</span>
+                                <span class="badge-category">${place.categoryName}</span>
+                            </div>
+                            <div class="place-card-body">
+                                <h3><a href="place-details.html?id=${place.id}">${place.name}</a></h3>
+                                <div class="place-location">
+                                    <span>📍</span>
+                                    <span>${place.governorate} – ${place.city}</span>
+                                </div>
+                                <p class="place-card-desc">${place.description}</p>
+                                <div class="place-access-pills">
+                                    ${place.accessibilityDetails.mobility ? '<span class="access-pill">♿ حركي</span>' : ''}
+                                    ${place.accessibilityDetails.visual ? '<span class="access-pill">👁️ بصري</span>' : ''}
+                                    ${place.accessibilityDetails.hearing ? '<span class="access-pill">🦻 سمعي</span>' : ''}
+                                    ${place.accessibilityDetails.autism ? '<span class="access-pill">🌿 حسي/توحد</span>' : ''}
+                                </div>
+                                <div class="place-card-footer">
+                                    <div class="rating-display">
+                                        ${KhotwaApp.renderStars(place.rating)}
+                                        <span style="color:#64748b;font-size:12px;">(${place.reviewsCount} تقييم)</span>
+                                    </div>
+                                    <a href="place-details.html?id=${place.id}" class="btn btn-primary btn-sm">عرض التفاصيل</a>
+                                </div>
+                            </div>
+                        </article>
+                    `;
+                }).join("");
+            }
+
+            // تفعيل البحث من الهيرو
+            const searchBtn = document.getElementById("heroSearchBtn");
+            if (searchBtn) {
+                searchBtn.addEventListener("click", function () {
+                    const q = document.getElementById("heroSearchQuery").value.trim();
+                    const cat = document.getElementById("heroCategorySelect").value;
+                    const gov = document.getElementById("heroGovSelect").value;
+                    let url = "discover.html?";
+                    const params = [];
+                    if (q) params.push("q=" + encodeURIComponent(q));
+                    if (cat) params.push("category=" + encodeURIComponent(cat));
+                    if (gov) params.push("gov=" + encodeURIComponent(gov));
+                    window.location.href = url + params.join("&");
+                });
+            }
+        });
+
+        function toggleFavCard(event, placeId) {
+            event.preventDefault();
+            event.stopPropagation();
+            const btn = event.currentTarget;
+            const added = KhotwaStore.toggleFavorite(placeId);
+            if (added) {
+                btn.classList.add("active");
+                btn.textContent = "❤️";
+                KhotwaApp.showToast("تمت إضافة المكان إلى قائمة مفضلتك بنجاح! ❤️", "success");
+            } else {
+                btn.classList.remove("active");
+                btn.textContent = "♡";
+                KhotwaApp.showToast("تم حذف المكان من مفضلتك.", "info");
+            }
+        }
+    </script>
+</body>
+</html>

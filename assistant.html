@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مساعد خُطوة الذكي | KHOTWA – مرشدك الموثوق</title>
+    <meta name="description" content="مساعد افتراضي ذكي لمساعدتك في استكشاف ميزات منصة خُطوة، اختيار فلاتر الإتاحة، والتعرف على الأماكن الميسرة بدقة وموثوقية.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .chat-place-card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 12px;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .chat-place-card img {
+            width: 70px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- رأس الصفحة -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="brand-logo" aria-label="خُطوة">
+                <span class="brand-icon" aria-hidden="true">🧭</span>
+                <span class="brand-title">
+                    <span class="ar">خُطوة</span>
+                    <span class="en">KHOTWA</span>
+                </span>
+            </a>
+
+            <button class="nav-toggle-btn" aria-label="فتح القائمة الرئيسية" aria-expanded="false">
+                ☰
+            </button>
+
+            <nav class="main-nav" aria-label="التنقل الرئيسي">
+                <a href="index.html" class="nav-link">الرئيسية</a>
+                <a href="discover.html" class="nav-link">اكتشف الأماكن</a>
+                <a href="map.html" class="nav-link">الخريطة</a>
+                <a href="favorites.html" class="nav-link">المفضلة</a>
+                <a href="assistant.html" class="nav-link active">المساعد الذكي 💬</a>
+                <a href="about.html" class="nav-link">من نحن</a>
+                <a href="contact.html" class="nav-link">تواصل معنا</a>
+                
+                <div id="navAuthContainer"></div>
+            </nav>
+        </div>
+    </header>
+
+    <main id="mainContent" style="padding:20px 0 60px;">
+        <div class="container">
+            
+            <div class="assistant-layout">
+                <!-- رأس نافذة المحادثة -->
+                <div class="assistant-header">
+                    <div class="assistant-info">
+                        <div class="assistant-avatar">🤖</div>
+                        <div>
+                            <h1 style="margin:0;font-size:18px;color:#ffffff;">مساعد خُطوة الذكي</h1>
+                            <span style="font-size:12px;color:#e2e8f0;">● متصل ومستند لقاعدة البيانات الموثقة</span>
+                        </div>
+                    </div>
+                    <div>
+                        <button type="button" id="btnClearChatHistory" class="btn btn-sm btn-light" style="background:rgba(255,255,255,0.2);color:white;border:none;">
+                            محادثة جديدة 🔄
+                        </button>
+                    </div>
+                </div>
+
+                <!-- مساحة الرسائل -->
+                <div class="chat-messages" id="chatMessagesContainer" role="log" aria-live="polite">
+                    <!-- رسالة الترحيب الأولى -->
+                    <div class="chat-bubble bubble-bot">
+                        مرحباً بك! 👋 أنا <strong>مساعد خُطوة الذكي</strong>. 
+                        أنا هنا لمساعدتك في استكشاف المنصة، واقتراح الأماكن المجهزة المناسبة لاحتياجاتك، وشرح حالات الإتاحة.
+                        <br><br>
+                        <strong>أنا ألتزم بالشفافية المطلقة:</strong> جميع إجاباتي مستندة فقط إلى المعلومات الموثقة والميدانية في قاعدة بيانات المنصة دون أي اختلاق أو افتراضات غير مؤكدة.
+                        <br><br>
+                        كيف يمكنني مساعدتك اليوم؟ يمكنك كتابة سؤالك أو اختيار أحد الأسئلة المقترحة أدناه:
+                    </div>
+                </div>
+
+                <!-- أسئلة مقترحة سريعة (Prompt Chips) -->
+                <div class="assistant-prompts" aria-label="أسئلة شائعة مقترحة">
+                    <button type="button" class="prompt-chip" data-prompt="كيف أبحث عن أماكن مجهزة للكراسي المتحركة؟">
+                        ♿ أماكن للكراسي المتحركة؟
+                    </button>
+                    <button type="button" class="prompt-chip" data-prompt="اقترح لي مستشفى مؤكداً ومجهزاً في الجيزة أو القاهرة">
+                        🏥 اقتراح مستشفى مجهز
+                    </button>
+                    <button type="button" class="prompt-chip" data-prompt="ما معنى حالة 'غير متحقق' في المنصة؟">
+                        ❓ ما معنى حالة "غير متحقق"؟
+                    </button>
+                    <button type="button" class="prompt-chip" data-prompt="هل تتوفر أماكن تراعي طيف التوحد وحساسية الضوضاء؟">
+                        🌿 أماكن تراعي التوحد والهدوء؟
+                    </button>
+                    <button type="button" class="prompt-chip" data-prompt="كيف أقترح مكاناً جديداً لدعمه في المنصة؟">
+                        ✍️ كيف أقترح مكاناً جديداً؟
+                    </button>
+                </div>
+
+                <!-- مربع إدخال الرسالة -->
+                <form id="chatInputForm" class="assistant-input-box">
+                    <input type="text" id="userChatInput" placeholder="اكتب استفسارك هنا (مثال: ابحث لي عن متاحف أو مواصلات مجهزة)..." autocomplete="off" required>
+                    <button type="button" id="btnVoiceInput" class="btn btn-secondary" title="إدخال صوتي" style="padding:10px 14px;">
+                        🎤
+                    </button>
+                    <button type="submit" class="btn btn-primary" style="padding:10px 22px;">
+                        إرسال ✈️
+                    </button>
+                </form>
+            </div>
+
+            <!-- بطاقة توضيحية لأسس عمل المساعد -->
+            <div style="max-width:900px;margin:20px auto 0;background:#ffffff;border:1px solid var(--border-color);border-radius:var(--radius-md);padding:18px 24px;font-size:13.5px;color:var(--text-muted);line-height:1.8;">
+                <strong style="color:var(--secondary-dark);">ميثاق أمان ومصداقية المساعد:</strong>
+                يهدف المساعد إلى توجيهك بأمان داخل المنصة. إذا كان هناك مكان أو رقم اتصال غير متوفر في قاعدة البيانات الموثقة، سيوضح لك المساعد ذلك بصراحة تامة ويقترح عليك طرق التحقق المباشر من إدارة المكان، حفاظاً على راحتك وأمانك.
+            </div>
+
+        </div>
+    </main>
+
+    <!-- تذييل الصفحة -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>منصة خُطوة KHOTWA © <span class="current-year">2026</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- سكريبتات النظام -->
+    <script src="js/data.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/accessibility.js"></script>
+    <script src="js/app.js"></script>
+
+    <script>
+        const chatContainer = document.getElementById("chatMessagesContainer");
+        const chatForm = document.getElementById("chatInputForm");
+        const chatInput = document.getElementById("userChatInput");
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // ربط الأزرار المقترحة
+            document.querySelectorAll(".prompt-chip").forEach(chip => {
+                chip.addEventListener("click", function () {
+                    const text = chip.getAttribute("data-prompt");
+                    sendUserMessage(text);
+                });
+            });
+
+            // إرسال الرسالة من النموذج
+            chatForm.addEventListener("submit", function (e) {
+                e.preventDefault();
+                const text = chatInput.value.trim();
+                if (!text) return;
+                chatInput.value = "";
+                sendUserMessage(text);
+            });
+
+            // تفريغ المحادثة
+            document.getElementById("btnClearChatHistory").addEventListener("click", function () {
+                chatContainer.innerHTML = `
+                    <div class="chat-bubble bubble-bot">
+                        تم بدء محادثة جديدة! كيف يمكنني مساعدتك الآن؟ 🧭
+                    </div>
+                `;
+            });
+
+            // الإدخال الصوتي التجريبي
+            const voiceBtn = document.getElementById("btnVoiceInput");
+            if ("webkitSpeechRecognition" in window || "SpeechRecognition" in window) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                const recognition = new SpeechRecognition();
+                recognition.lang = "ar-SA";
+
+                voiceBtn.addEventListener("click", function () {
+                    KhotwaApp.showToast("تحدث الآن... جارٍ الاستماع 🎙️", "info", 2500);
+                    recognition.start();
+                });
+
+                recognition.onresult = function (event) {
+                    const transcript = event.results[0][0].transcript;
+                    chatInput.value = transcript;
+                    chatForm.dispatchEvent(new Event("submit"));
+                };
+            } else {
+                voiceBtn.style.display = "none";
+            }
+        });
+
+        function sendUserMessage(text) {
+            // إضافة فقاعة المستخدم
+            const userBubble = document.createElement("div");
+            userBubble.className = "chat-bubble bubble-user";
+            userBubble.textContent = text;
+            chatContainer.appendChild(userBubble);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            // إظهار مؤشر الكتابة للروبوت
+            const typingBubble = document.createElement("div");
+            typingBubble.className = "chat-bubble bubble-bot";
+            typingBubble.style.color = "var(--text-muted)";
+            typingBubble.textContent = "مساعد خُطوة يفكر ويكتب...";
+            chatContainer.appendChild(typingBubble);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            setTimeout(() => {
+                chatContainer.removeChild(typingBubble);
+                const botReply = generateSmartResponse(text);
+                
+                const botBubble = document.createElement("div");
+                botBubble.className = "chat-bubble bubble-bot";
+                botBubble.innerHTML = botReply;
+                chatContainer.appendChild(botBubble);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }, 600);
+        }
+
+        // محرك الإجابة الذكي المستند حصرياً لقاعدة بيانات خُطوة
+        function generateSmartResponse(query) {
+            const q = query.toLowerCase();
+
+            // 1. السؤال عن حالات الإتاحة
+            if (q.includes("معنى") || q.includes("حالة") || q.includes("غير متحقق") || q.includes("مؤكد")) {
+                return `
+                    <strong>شرح حالات الإتاحة في منصة خُطوة:</strong><br><br>
+                    • <span class="status-badge status-available">متاح ومؤكد ✓</span> : تم التحقق منه ميدانياً والتأكد من مطابقة التجهيز للمعايير.<br><br>
+                    • <span class="status-badge status-unavailable">غير متوفر ✕</span> : المكان لا يحتوي على هذا التجهيز حالياً، لن تجد مفاجأة عند زيارتك.<br><br>
+                    • <span class="status-badge status-unverified">غير متحقق / قيد التدقيق ⏳</span> : هناك إشارة لوجود التسهيل لكن لم يزره فريقنا بعد أو بياناته غير مكتملة.<br><br>
+                    • <strong>لم تتوفر معلومات:</strong> لا نملك معلومة مؤكدة، وننصحك بالتواصل مع إدارة المكان قبل الزيارة.
+                `;
+            }
+
+            // 2. السؤال عن اقتراح مكان جديد
+            if (q.includes("اقترح") && (q.includes("مكان") || q.includes("جديد") || q.includes("اضافة"))) {
+                return `
+                    يسعدنا جداً اقتراحك! 🌟<br>
+                    يمكنك إضافة أي مكان تعرفه من خلال صفحة: 
+                    <a href="suggest-place.html" class="btn btn-light btn-sm" style="display:inline-block;margin:6px 0;">نموذج اقتراح مكان جديد ✍️</a><br>
+                    سيقوم فريق التوثيق والإدارة بمراجعة التفاصيل واعتمادها لتظهر لجميع المستخدمين.
+                `;
+            }
+
+            // 3. السؤال عن البحث عن إتاحة حركية وكراسي متحركة
+            if (q.includes("حركي") || q.includes("كرسي") || q.includes("كراسي") || q.includes("منحدر") || q.includes("مصعد")) {
+                const mobilityPlaces = KhotwaStore.searchPlaces({ needs: ["mobility"] }).slice(0, 3);
+                let cardsHtml = mobilityPlaces.map(p => `
+                    <div class="chat-place-card">
+                        <img src="${p.images[0]}" alt="${p.name}">
+                        <div style="flex:1;">
+                            <strong style="color:var(--secondary-dark);font-size:13.5px;display:block;">${p.name}</strong>
+                            <span style="font-size:12px;color:var(--text-muted);">📍 ${p.city} | تقييم ★ ${p.rating}</span>
+                        </div>
+                        <a href="place-details.html?id=${p.id}" class="btn btn-primary btn-sm">عرض</a>
+                    </div>
+                `).join("");
+
+                return `
+                    للبحث عن أماكن مجهزة بحركة مستوية ومنحدرات ومصاعد، يمكنك استخدام فلتر <strong>"إتاحة حركية"</strong> في صفحة الاكتشاف.<br><br>
+                    إليك أبرز الأماكن الموثقة حركياً في قاعدة بياناتنا الآن:
+                    ${cardsHtml}
+                    <br><a href="discover.html?need=mobility" style="font-weight:bold;color:var(--primary);">تصفح جميع الأماكن المهيأة حركياً ←</a>
+                `;
+            }
+
+            // 4. السؤال عن مستشفيات أو رعاية صحية
+            if (q.includes("مستشفى") || q.includes("عياد") || q.includes("طبي") || q.includes("صحة")) {
+                const hospitals = KhotwaStore.searchPlaces({ category: "hospitals" });
+                let cardsHtml = hospitals.map(p => `
+                    <div class="chat-place-card">
+                        <img src="${p.images[0]}" alt="${p.name}">
+                        <div style="flex:1;">
+                            <strong style="color:var(--secondary-dark);font-size:13.5px;display:block;">${p.name}</strong>
+                            <span style="font-size:12px;color:var(--text-muted);">📍 ${p.address}</span>
+                        </div>
+                        <a href="place-details.html?id=${p.id}" class="btn btn-primary btn-sm">التفاصيل</a>
+                    </div>
+                `).join("");
+
+                return `
+                    لدينا منشآت صحية نموذجية ذات إتاحة مؤكدة:
+                    ${cardsHtml}
+                    تتميز هذه الأماكن بمداخل طوارئ ممهدة، ومصاعد تتسع للأسرة والكراسي المتحركة، وطاقم إرشاد متخصص.
+                `;
+            }
+
+            // 5. السؤال عن التوحد والحساسية الحسية والهدوء
+            if (q.includes("توحد") || q.includes("حسي") || q.includes("هدوء") || q.includes("ضوضاء") || q.includes("ازدحام")) {
+                const autismPlaces = KhotwaStore.searchPlaces({ needs: ["autism"] }).slice(0, 2);
+                let cardsHtml = autismPlaces.map(p => `
+                    <div class="chat-place-card">
+                        <img src="${p.images[0]}" alt="${p.name}">
+                        <div style="flex:1;">
+                            <strong style="color:var(--secondary-dark);font-size:13.5px;display:block;">${p.name}</strong>
+                            <span style="font-size:12px;color:var(--text-muted);">🌿 ${p.city}</span>
+                        </div>
+                        <a href="place-details.html?id=${p.id}" class="btn btn-primary btn-sm">عرض</a>
+                    </div>
+                `).join("");
+
+                return `
+                    نعم بكل تأكيد! تهتم منصة خُطوة بذوي اضطراب طيف التوحد والحساسيات الحسية من خلال توثيق الأماكن التي توفر غرف استرخاء هادئة، إضاءة غير باهرة، ومؤشرات لأوقات الهدوء وتجنب الازدحام.<br><br>
+                    أمثلة لأماكن تراعي ذلك:
+                    ${cardsHtml}
+                    <br><a href="discover.html?need=autism" style="font-weight:bold;color:var(--primary);">استكشف قائمة الأماكن المناسبة للتوحد ←</a>
+                `;
+            }
+
+            // 6. استعلام عام / بحث عن مكان بالاسم
+            const searchMatches = KhotwaStore.searchPlaces({ query: q });
+            if (searchMatches.length > 0) {
+                const match = searchMatches[0];
+                return `
+                    وجدت لك مكاناً يطابق استفسارك في قاعدة بياناتنا:
+                    <div class="chat-place-card">
+                        <img src="${match.images[0]}" alt="${match.name}">
+                        <div style="flex:1;">
+                            <strong style="color:var(--secondary-dark);font-size:14px;display:block;">${match.name}</strong>
+                            <span style="font-size:12px;color:var(--text-muted);">📍 ${match.city} – ${match.categoryName}</span>
+                        </div>
+                        <a href="place-details.html?id=${match.id}" class="btn btn-primary btn-sm">فتح التفاصيل</a>
+                    </div>
+                    <p style="margin-top:8px;font-size:13px;">حالة التوثيق: <strong>${match.verificationBadge}</strong>، التقييم: ★ ${match.rating}.</p>
+                `;
+            }
+
+            // الإجابة الافتراضية الصادقة عند عدم الفهم المباشر
+            return `
+                شكراً لسؤالك! لم أجد تطابقاً مباشراً لكلمة "<strong>${escapeHtml(query)}</strong>" في الأماكن المسجلة حالياً.<br><br>
+                💡 <strong>أقترح عليك:</strong><br>
+                ١. الذهاب إلى صفحة <a href="discover.html" style="font-weight:bold;color:var(--primary);">اكتشف الأماكن</a> وتجربة البحث باختيار المحافظة أو التصنيف.<br>
+                ٢. الاطلاع على <a href="map.html" style="font-weight:bold;color:var(--primary);">الخريطة التفاعلية</a> لتصفح المواقع جغرافياً.<br>
+                ٣. أو يمكنك سؤالي عن: المستشفيات، المترو، المتاحف، الحدائق، أو كيفية عمل فلاتر الإتاحة.
+            `;
+        }
+
+        function escapeHtml(string) {
+            return String(string).replace(/[&<>"'\/]/g, function (s) {
+                return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '/': '&#x2F;' })[s];
+            });
+        }
+    </script>
+</body>
+</html>

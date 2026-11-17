@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إعدادات ودليل سهولة الوصول (Accessibility) | خُطوة – KHOTWA</title>
+    <meta name="description" content="دليل معايير الإتاحة المتبعة في منصة خُطوة ولوحة تخصيص خيارات العرض وقراءة الشاشة لجميع الفئات وفق WCAG 2.2 AA.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- رأس الصفحة -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="brand-logo" aria-label="خُطوة">
+                <span class="brand-icon" aria-hidden="true">🧭</span>
+                <span class="brand-title">
+                    <span class="ar">خُطوة</span>
+                    <span class="en">KHOTWA</span>
+                </span>
+            </a>
+
+            <button class="nav-toggle-btn" aria-label="فتح القائمة الرئيسية" aria-expanded="false">
+                ☰
+            </button>
+
+            <nav class="main-nav" aria-label="التنقل الرئيسي">
+                <a href="index.html" class="nav-link">الرئيسية</a>
+                <a href="discover.html" class="nav-link">اكتشف الأماكن</a>
+                <a href="map.html" class="nav-link">الخريطة</a>
+                <a href="favorites.html" class="nav-link">المفضلة</a>
+                <a href="assistant.html" class="nav-link">المساعد الذكي 💬</a>
+                <a href="about.html" class="nav-link">من نحن</a>
+                <a href="contact.html" class="nav-link">تواصل معنا</a>
+                
+                <div id="navAuthContainer"></div>
+            </nav>
+        </div>
+    </header>
+
+    <main id="mainContent" style="padding:40px 0 80px;">
+        <div class="container" style="max-width:950px;">
+
+            <div style="text-align:center;margin-bottom:40px;">
+                <span class="section-tag">معايير WCAG 2.2 AA العالمية</span>
+                <h1 style="font-size:32px;color:var(--secondary-dark);margin:0 0 10px 0;">إعدادات ودليل سهولة الوصول ♿</h1>
+                <p style="color:var(--text-muted);font-size:16px;max-width:700px;margin:auto;line-height:1.9;">
+                    في خُطوة، لا نتحدث فقط عن إمكانية الوصول في الأماكن، بل صممنا الموقع نفسه ليكون قابلاً للاستخدام والتخصيص التام من الجميع بكل استقلالية وكرامة.
+                </p>
+            </div>
+
+            <!-- لوحة التحكم المباشرة في العرض والقراءة -->
+            <section class="details-card" style="padding:32px 28px;margin-bottom:35px;border:2px solid var(--primary-light);">
+                <h2>لوحة تخصيص العرض والراحة البصرية 🎛️</h2>
+                <p style="color:var(--text-muted);font-size:14px;margin-bottom:24px;">
+                    يتم تطبيق هذه الإعدادات وحفظها فوراً على هذا الجهاز لتعمل في جميع صفحات الموقع تلقائياً:
+                </p>
+
+                <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));gap:24px;margin-bottom:24px;">
+                    
+                    <!-- حجم النص -->
+                    <div class="tool-group">
+                        <label class="tool-label" style="font-size:14px;">حجم خط النصوص:</label>
+                        <div class="tool-options" style="gap:8px;">
+                            <button type="button" class="btn btn-secondary btn-sm" id="btnFontNormal">افتراضي A</button>
+                            <button type="button" class="btn btn-secondary btn-sm" id="btnFontMedium">متوسط A+ (115%)</button>
+                            <button type="button" class="btn btn-secondary btn-sm" id="btnFontLarge">كبير A++ (130%)</button>
+                        </div>
+                    </div>
+
+                    <!-- تباين الألوان -->
+                    <div class="tool-group">
+                        <label class="tool-label" style="font-size:14px;">تباين ونسق الألوان:</label>
+                        <div class="tool-options" style="gap:8px;">
+                            <button type="button" class="btn btn-secondary btn-sm" id="btnContrastDefault">افتراضي</button>
+                            <button type="button" class="btn btn-secondary btn-sm" id="btnContrastHigh" style="background:#000;color:#ffff00;border-color:#ffff00;">تباين عالٍ 👁️</button>
+                            <button type="button" class="btn btn-secondary btn-sm" id="btnContrastDark" style="background:#1e293b;color:#f8fafc;">داكن 🌙</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- خيارات إضافية -->
+                <div style="background:var(--bg-page);border-radius:var(--radius-sm);padding:18px;margin-bottom:20px;border:1px solid var(--border-color);">
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:14px;">
+                        <label class="toggle-control" style="font-weight:700;">
+                            <input type="checkbox" id="chkPageDyslexic">
+                            <span>تفعيل خط عسر القراءة (OpenDyslexic)</span>
+                        </label>
+                        <label class="toggle-control" style="font-weight:700;">
+                            <input type="checkbox" id="chkPageReduceMotion">
+                            <span>إيقاف كافة الحركات والتأثيرات (Reduce Motion)</span>
+                        </label>
+                        <label class="toggle-control" style="font-weight:700;">
+                            <input type="checkbox" id="chkPageHighlightLinks">
+                            <span>إبراز الروابط والأزرار بإطار ملون</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- تجربة القارئ الصوتي المدمج -->
+                <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;border-top:1px solid var(--border-color);padding-top:16px;">
+                    <div>
+                        <strong style="font-size:14px;color:var(--secondary-dark);">تجربة القارئ الصوتي المدمج (Arabic Speech):</strong>
+                        <p style="margin:2px 0 0;font-size:13px;color:var(--text-muted);">استمع إلى ملخص هذه الصفحة بصوت واضح عبر تقنية تحويل النص إلى كلام.</p>
+                    </div>
+                    <button type="button" id="btnTestSpeech" class="btn btn-primary btn-sm">
+                        🔊 استمع لنص تجريبي
+                    </button>
+                </div>
+            </section>
+
+            <!-- دليل معايير ورموز الإتاحة المتبعة في خُطوة -->
+            <section class="details-card">
+                <h2>دليل رموز وفئات الإتاحة المعتمدة في المنصة</h2>
+                <p style="color:var(--text-muted);font-size:14.5px;line-height:1.9;margin-bottom:25px;">
+                    لتيسير الفهم للجميع، نستخدم رموزاً وتصنيفات دولية موحدة تعبر عن التسهيلات المتوفرة في كل مكان:
+                </p>
+
+                <div class="cards-grid-3" style="gap:18px;">
+                    <div style="border:1px solid var(--border-color);border-radius:var(--radius-sm);padding:18px;background:var(--bg-page);">
+                        <div style="font-size:32px;margin-bottom:8px;">♿</div>
+                        <h3 style="margin:0 0 8px;font-size:17px;color:var(--secondary-dark);">الإتاحة الحركية</h3>
+                        <ul style="padding-right:20px;font-size:13px;color:var(--text-muted);margin:0;line-height:1.9;">
+                            <li>منحدرات ميسرة بانحدار آمن (١:١٢)</li>
+                            <li>مصاعد واسعة بأزرار منخفضة</li>
+                            <li>أبواب بمقاس ٩٠ سم خالية من العتبات</li>
+                            <li>دورات مياه مجهزة بمقابض مساعدة</li>
+                            <li>مواقف سيارات قريبة محددة بالأزرق</li>
+                        </ul>
+                    </div>
+
+                    <div style="border:1px solid var(--border-color);border-radius:var(--radius-sm);padding:18px;background:var(--bg-page);">
+                        <div style="font-size:32px;margin-bottom:8px;">👁️</div>
+                        <h3 style="margin:0 0 8px;font-size:17px;color:var(--secondary-dark);">الإتاحة البصرية</h3>
+                        <ul style="padding-right:20px;font-size:13px;color:var(--text-muted);margin:0;line-height:1.9;">
+                            <li>لوحات إرشادية بطريقة برايل</li>
+                            <li>مسارات أرضية لمسية بارزة (Tactile)</li>
+                            <li>تباين ألوان مرتفع وخطوط كبيرة</li>
+                            <li>إرشادات ومعلومات صوتية</li>
+                            <li>مرشدون مدربون لتقديم المساعدة</li>
+                        </ul>
+                    </div>
+
+                    <div style="border:1px solid var(--border-color);border-radius:var(--radius-sm);padding:18px;background:var(--bg-page);">
+                        <div style="font-size:32px;margin-bottom:8px;">🦻</div>
+                        <h3 style="margin:0 0 8px;font-size:17px;color:var(--secondary-dark);">الإتاحة السمعية</h3>
+                        <ul style="padding-right:20px;font-size:13px;color:var(--text-muted);margin:0;line-height:1.9;">
+                            <li>شاشات نداء وعرض رقمية مرئية</li>
+                            <li>قنوات تواصل مكتوبة (واتساب / شات)</li>
+                            <li>موظفون يجيدون لغة الإشارة</li>
+                            <li>أنظمة حلقة حث سمعي (Hearing Loops)</li>
+                            <li>إنذارات طوارئ ضوئية وامضة</li>
+                        </ul>
+                    </div>
+
+                    <div style="border:1px solid var(--border-color);border-radius:var(--radius-sm);padding:18px;background:var(--bg-page);">
+                        <div style="font-size:32px;margin-bottom:8px;">🧩</div>
+                        <h3 style="margin:0 0 8px;font-size:17px;color:var(--secondary-dark);">الإتاحة الفكرية وصعوبات التعلم</h3>
+                        <ul style="padding-right:20px;font-size:13px;color:var(--text-muted);margin:0;line-height:1.9;">
+                            <li>تعليمات وإرشادات مبسطة وسهلة</li>
+                            <li>لوحات معززة بالصور والأيقونات الملونة</li>
+                            <li>إجراءات دخول مبسطة دون طوابير</li>
+                            <li>تسهيل وترحيب بدخول المرافقين</li>
+                        </ul>
+                    </div>
+
+                    <div style="border:1px solid var(--border-color);border-radius:var(--radius-sm);padding:18px;background:var(--bg-page);">
+                        <div style="font-size:32px;margin-bottom:8px;">🌿</div>
+                        <h3 style="margin:0 0 8px;font-size:17px;color:var(--secondary-dark);">طيف التوحد والبيئة الحسية</h3>
+                        <ul style="padding-right:20px;font-size:13px;color:var(--text-muted);margin:0;line-height:1.9;">
+                            <li>مساحات أو غرف هادئة للاسترخاء الحسي</li>
+                            <li>بيئة منخفضة الضوضاء والموسيقى</li>
+                            <li>إضاءة هادئة غير وامضة</li>
+                            <li>مؤشر أوقات الهدوء وتجنب الازدحام</li>
+                        </ul>
+                    </div>
+
+                    <div style="border:1px solid var(--border-color);border-radius:var(--radius-sm);padding:18px;background:var(--bg-page);">
+                        <div style="font-size:32px;margin-bottom:8px;">⌨️</div>
+                        <h3 style="margin:0 0 8px;font-size:17px;color:var(--secondary-dark);">التنقل بلوحة المفاتيح</h3>
+                        <ul style="padding-right:20px;font-size:13px;color:var(--text-muted);margin:0;line-height:1.9;">
+                            <li>مفتاح <strong>Tab</strong> للتنقل المتسلسل</li>
+                            <li>مفتاح <strong>Enter / Space</strong> لتفعيل الأزرار</li>
+                            <li>مفتاح <strong>Alt + A</strong> لفتح إعدادات الإتاحة فوراً</li>
+                            <li>مفتاح <strong>Esc</strong> لإغلاق أي نافذة منبثقة</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- تذييل الصفحة -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>منصة خُطوة KHOTWA © <span class="current-year">2026</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- سكريبتات النظام -->
+    <script src="js/data.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/accessibility.js"></script>
+    <script src="js/app.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const currentSettings = KhotwaAccessibility.getSettings();
+
+            // ضبط حالة المدخلات في الصفحة
+            document.getElementById("chkPageDyslexic").checked = currentSettings.dyslexicFont;
+            document.getElementById("chkPageReduceMotion").checked = currentSettings.reduceMotion;
+            document.getElementById("chkPageHighlightLinks").checked = currentSettings.highlightLinks;
+
+            // تغيير الخطوط
+            document.getElementById("btnFontNormal").addEventListener("click", () => updateSetting("fontSize", "normal"));
+            document.getElementById("btnFontMedium").addEventListener("click", () => updateSetting("fontSize", "medium"));
+            document.getElementById("btnFontLarge").addEventListener("click", () => updateSetting("fontSize", "large"));
+
+            // تغيير التباين
+            document.getElementById("btnContrastDefault").addEventListener("click", () => updateSetting("contrast", "default"));
+            document.getElementById("btnContrastHigh").addEventListener("click", () => updateSetting("contrast", "high-contrast"));
+            document.getElementById("btnContrastDark").addEventListener("click", () => updateSetting("contrast", "dark"));
+
+            // خيارات إضافية
+            document.getElementById("chkPageDyslexic").addEventListener("change", (e) => updateSetting("dyslexicFont", e.target.checked));
+            document.getElementById("chkPageReduceMotion").addEventListener("change", (e) => updateSetting("reduceMotion", e.target.checked));
+            document.getElementById("chkPageHighlightLinks").addEventListener("change", (e) => updateSetting("highlightLinks", e.target.checked));
+
+            // اختبار القراءة الصوتية
+            let isReading = false;
+            const testBtn = document.getElementById("btnTestSpeech");
+            testBtn.addEventListener("click", function () {
+                if (isReading) {
+                    KhotwaAccessibility.stopSpeaking();
+                    testBtn.textContent = "🔊 استمع لنص تجريبي";
+                    isReading = false;
+                } else {
+                    const sampleText = "أهلاً بك في منصة خُطوة. نحن ملتزمون بتوفير بيئة رقمية متكاملة وسهلة الوصول للجميع وفق أعلى المعايير الدولية.";
+                    KhotwaAccessibility.speakText(
+                        sampleText,
+                        () => { isReading = true; testBtn.textContent = "⏹️ إيقاف القراءة"; },
+                        () => { isReading = false; testBtn.textContent = "🔊 استمع لنص تجريبي"; }
+                    );
+                }
+            });
+
+            function updateSetting(key, val) {
+                const s = KhotwaAccessibility.getSettings();
+                s[key] = val;
+                KhotwaAccessibility.saveSettings(s);
+                KhotwaApp.showToast("تم تطبيق تفضيل العرض بنجاح! ✓", "success", 2000);
+            }
+        });
+    </script>
+</body>
+</html>

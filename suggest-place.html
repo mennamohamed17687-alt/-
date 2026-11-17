@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اقترح مكاناً جديداً | خُطوة – KHOTWA</title>
+    <meta name="description" content="ساهم في توسيع شبكة الأماكن الميسرة عبر اقتراح مكان عام أو خاص ومشاركة تفاصيل الإتاحة المتوفرة فيه.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- رأس الصفحة -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="brand-logo" aria-label="خُطوة">
+                <span class="brand-icon" aria-hidden="true">🧭</span>
+                <span class="brand-title">
+                    <span class="ar">خُطوة</span>
+                    <span class="en">KHOTWA</span>
+                </span>
+            </a>
+
+            <button class="nav-toggle-btn" aria-label="فتح القائمة الرئيسية" aria-expanded="false">
+                ☰
+            </button>
+
+            <nav class="main-nav" aria-label="التنقل الرئيسي">
+                <a href="index.html" class="nav-link">الرئيسية</a>
+                <a href="discover.html" class="nav-link">اكتشف الأماكن</a>
+                <a href="map.html" class="nav-link">الخريطة</a>
+                <a href="favorites.html" class="nav-link">المفضلة</a>
+                <a href="assistant.html" class="nav-link">المساعد الذكي 💬</a>
+                <a href="about.html" class="nav-link">من نحن</a>
+                <a href="contact.html" class="nav-link">تواصل معنا</a>
+                
+                <div id="navAuthContainer"></div>
+            </nav>
+        </div>
+    </header>
+
+    <main id="mainContent" style="padding:40px 0 70px;">
+        <div class="container" style="max-width:850px;">
+
+            <div style="text-align:center;margin-bottom:35px;">
+                <span class="section-tag">مشاركة مجتمعية</span>
+                <h1 style="font-size:32px;color:var(--secondary-dark);margin:0 0 10px 0;">اقترح مكاناً جديداً للإتاحة ✍️</h1>
+                <p style="color:var(--text-muted);font-size:15.5px;max-width:620px;margin:auto;line-height:1.9;">
+                    هل زرت مستشفى، متجراً، مطعماً، أو مرفقاً عاماً يتميز بوجود تسهيلات للأشخاص ذوي الإعاقة؟ شاركنا معلوماته لنقوم بمراجعتها وإضافتها للمنصة.
+                </p>
+            </div>
+
+            <div class="details-card" style="padding:35px 30px;">
+                <form id="suggestPlaceForm">
+                    
+                    <h3 style="font-size:18px;color:var(--primary-dark);margin:0 0 16px;border-bottom:1px solid var(--border-color);padding-bottom:10px;">
+                        ١. المعلومات الأساسية للمكان
+                    </h3>
+
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+                        <div class="form-group" style="margin:0;">
+                            <label for="sugName">اسم المكان بالعربية *</label>
+                            <input type="text" id="sugName" class="form-control" required placeholder="مثال: مستشفى الشفاء التخصصي">
+                        </div>
+                        <div class="form-group" style="margin:0;">
+                            <label for="sugCategory">نوع / تصنيف المكان *</label>
+                            <select id="sugCategory" class="form-control" required>
+                                <option value="">اختر التصنيف</option>
+                                <option value="hospitals">مستشفيات وعيادات</option>
+                                <option value="pharmacies">صيدليات</option>
+                                <option value="rehab">مراكز تأهيل وعلاج طبيعي</option>
+                                <option value="education">مدارس وجامعات</option>
+                                <option value="government">مؤسسات حكومية</option>
+                                <option value="restaurants">مطاعم وكافيهات</option>
+                                <option value="malls">مراكز تسوق</option>
+                                <option value="entertainment">ثقافة وترفيه</option>
+                                <option value="parks">حدائق ومتنزهات</option>
+                                <option value="daily_services">بنوك وخدمات يومية</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+                        <div class="form-group" style="margin:0;">
+                            <label for="sugGov">المحافظة *</label>
+                            <select id="sugGov" class="form-control" required>
+                                <option value="القاهرة">القاهرة</option>
+                                <option value="الجيزة">الجيزة</option>
+                                <option value="الإسكندرية">الإسكندرية</option>
+                                <option value="أسوان">أسوان</option>
+                                <option value="الدقهلية">الدقهلية</option>
+                                <option value="محافظة أخرى">محافظة أخرى</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin:0;">
+                            <label for="sugCity">المدينة أو الحي *</label>
+                            <input type="text" id="sugCity" class="form-control" required placeholder="مثال: مدينة نصر، المعادي، الدقي...">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sugAddress">العنوان التفصيلي</label>
+                        <input type="text" id="sugAddress" class="form-control" placeholder="اسم الشارع، أقرب علامة مميزة...">
+                    </div>
+
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
+                        <div class="form-group" style="margin:0;">
+                            <label for="sugPhone">رقم هاتف المكان إن توفر</label>
+                            <input type="tel" id="sugPhone" class="form-control" placeholder="مثال: 0223456789 أو الخط الساخن">
+                        </div>
+                        <div class="form-group" style="margin:0;">
+                            <label for="sugHours">أوقات العمل التقريبية</label>
+                            <input type="text" id="sugHours" class="form-control" placeholder="مثال: يومياً من 9 صباحاً حتى 10 مساءً">
+                        </div>
+                    </div>
+
+                    <h3 style="font-size:18px;color:var(--primary-dark);margin:0 0 16px;border-bottom:1px solid var(--border-color);padding-bottom:10px;">
+                        ٢. تجهيزات الإتاحة المتوفرة في المكان
+                    </h3>
+
+                    <p style="font-size:13.5px;color:var(--text-muted);margin-bottom:12px;">حدد كل التسهيلات التي شاهدتها أو تأكدت من وجودها:</p>
+
+                    <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));gap:10px;margin-bottom:24px;">
+                        <label class="chip-label">
+                            <input type="checkbox" name="sugFeature" value="منحدرات ميسرة عند المدخل">
+                            <span>♿ منحدرات ميسرة عند المدخل</span>
+                        </label>
+                        <label class="chip-label">
+                            <input type="checkbox" name="sugFeature" value="مصاعد واسعة">
+                            <span>🛗 مصاعد واسعة</span>
+                        </label>
+                        <label class="chip-label">
+                            <input type="checkbox" name="sugFeature" value="دورات مياه مجهزة">
+                            <span>🚻 دورات مياه مجهزة بمقابض</span>
+                        </label>
+                        <label class="chip-label">
+                            <input type="checkbox" name="sugFeature" value="مواقف سيارات مخصصة">
+                            <span>🅿️ مواقف سيارات مخصصة</span>
+                        </label>
+                        <label class="chip-label">
+                            <input type="checkbox" name="sugFeature" value="لوحات إرشادية واضحة أو برايل">
+                            <span>👁️ لوحات برايل أو تباين عالي</span>
+                        </label>
+                        <label class="chip-label">
+                            <input type="checkbox" name="sugFeature" value="شاشات أو تواصل مرئي للصم">
+                            <span>🦻 شاشات أو تواصل مرئي للصم</span>
+                        </label>
+                        <label class="chip-label">
+                            <input type="checkbox" name="sugFeature" value="بيئة هادئة ومساحة للاسترخاء">
+                            <span>🌿 بيئة هادئة ومساحة للاسترخاء</span>
+                        </label>
+                        <label class="chip-label">
+                            <input type="checkbox" name="sugFeature" value="مساعدة وإرشاد من الموظفين">
+                            <span>🤝 مساعدة وإرشاد من الموظفين</span>
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sugNotes">ملاحظات إضافية وتفاصيل تجربتك الشخصية:</label>
+                        <textarea id="sugNotes" rows="3" class="form-control" placeholder="اكتب أي ملاحظة قد تساعد فريق المراجعة والزوار الآخرين..."></textarea>
+                    </div>
+
+                    <h3 style="font-size:18px;color:var(--primary-dark);margin:0 0 16px;border-bottom:1px solid var(--border-color);padding-bottom:10px;">
+                        ٣. بيانات المُقتَرِح (اختياري)
+                    </h3>
+
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
+                        <div class="form-group" style="margin:0;">
+                            <label for="submitterName">اسمك أو صفتك</label>
+                            <input type="text" id="submitterName" class="form-control" placeholder="مثال: مروان كمال (ناشط مجتمعي)">
+                        </div>
+                        <div class="form-group" style="margin:0;">
+                            <label for="submitterEmail">بريدك الإلكتروني للتواصل</label>
+                            <input type="email" id="submitterEmail" class="form-control" placeholder="example@domain.com">
+                        </div>
+                    </div>
+
+                    <div style="background:#f8fafc;padding:16px;border-radius:var(--radius-sm);margin-bottom:24px;border:1px solid var(--border-color);font-size:13px;color:var(--text-muted);line-height:1.8;">
+                        🔒 <strong>سياسة الخصوصية والمراجعة:</strong> تخضع جميع المقترحات لمراجعة وتدقيق فريق إدارة خُطوة للتأكد من موثوقية التسهيلات قبل نشرها للجمهور، لن يتم مشاركة بريدك الإلكتروني مع أي طرف خارجي.
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg" style="width:100%;">
+                        إرسال الاقتراح للمراجعة والاعتماد 🚀
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- تذييل الصفحة -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>منصة خُطوة KHOTWA © <span class="current-year">2026</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- سكريبتات النظام -->
+    <script src="js/data.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/accessibility.js"></script>
+    <script src="js/app.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // إذا كان المستخدم مسجلاً دخوله، نقوم بتعبئة اسمه وبريده تلقائياً
+            const currentUser = KhotwaAuth.getCurrentUser();
+            if (currentUser) {
+                document.getElementById("submitterName").value = currentUser.name;
+                document.getElementById("submitterEmail").value = currentUser.email;
+            }
+
+            document.getElementById("suggestPlaceForm").addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                const name = document.getElementById("sugName").value.trim();
+                const category = document.getElementById("sugCategory").value;
+                const governorate = document.getElementById("sugGov").value;
+                const city = document.getElementById("sugCity").value.trim();
+                const address = document.getElementById("sugAddress").value.trim();
+                const phone = document.getElementById("sugPhone").value.trim();
+                const notes = document.getElementById("sugNotes").value.trim();
+                const submitterName = document.getElementById("submitterName").value.trim() || "مستخدم مساهم";
+                const submitterEmail = document.getElementById("submitterEmail").value.trim();
+
+                const selectedFeatures = [];
+                document.querySelectorAll('input[name="sugFeature"]:checked').forEach(cb => {
+                    selectedFeatures.push(cb.value);
+                });
+
+                const featuresSummary = selectedFeatures.length > 0 ? selectedFeatures.join("، ") : "إتاحة مقترحة";
+
+                // إضافة الاقتراح إلى مخزن البيانات المركزي
+                KhotwaStore.addSuggestion({
+                    name,
+                    category,
+                    governorate,
+                    city,
+                    address,
+                    phone,
+                    notes,
+                    featuresSummary,
+                    submittedBy: submitterName,
+                    submitterEmail
+                });
+
+                KhotwaApp.showToast("تم إرسال اقتراحك بنجاح! سيراجعه فريق الإدارة قريباً. شكراً لمساهمتك الكريمة. 🌟", "success", 5000);
+
+                // تفريغ النموذج والتوجيه بعد ثانيتين
+                document.getElementById("suggestPlaceForm").reset();
+                setTimeout(() => {
+                    window.location.href = "discover.html";
+                }, 2200);
+            });
+        });
+    </script>
+</body>
+</html>
