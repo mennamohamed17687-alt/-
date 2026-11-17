@@ -1,7 +1,7 @@
 /* ==========================================================================
    خُطوة – KHOTWA
-   Universal Design System - WCAG 2.2 Level AA Compliant
-   الملف الأول: نظام التصميم الشامل والتنسيقات البصرية المتكاملة
+   نظام التصميم الشامل والهوية البصرية المتكاملة (Universal Design System)
+   متوافق مع معايير إمكانية الوصول العالمية WCAG 2.2 Level AA
    ========================================================================== */
 
 :root {
@@ -13,18 +13,17 @@
     --secondary-dark: #0e3443;
     --accent: #d97706;
     --accent-light: #fef3c7;
-    --accent-gold: #f59e0b;
-
+    
     --bg-page: #f8fafc;
     --bg-surface: #ffffff;
     --bg-card: #ffffff;
     --border-color: #e2e8f0;
     --border-subtle: #edf2f7;
-
+    
     --text-main: #1e293b;
     --text-muted: #64748b;
     --text-light: #94a3b8;
-
+    
     --success: #15803d;
     --success-bg: #dcfce7;
     --warning: #b45309;
@@ -36,25 +35,22 @@
 
     --radius-sm: 8px;
     --radius-md: 14px;
-    --radius-lg: 22px;
+    --radius-lg: 20px;
     --radius-full: 9999px;
-
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
-    --shadow-md: 0 6px 20px rgba(22, 78, 99, 0.08);
-    --shadow-lg: 0 14px 35px rgba(22, 78, 99, 0.12);
-    --shadow-glow: 0 0 25px rgba(8, 126, 120, 0.25);
-
+    
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 15px rgba(22, 78, 99, 0.08);
+    --shadow-lg: 0 10px 30px rgba(22, 78, 99, 0.12);
+    
     --font-base: 'Segoe UI', Tahoma, Arial, sans-serif;
     --transition-fast: 0.18s ease;
     --transition-normal: 0.28s ease;
 }
 
 /* ==========================================================================
-   التأسيس العام (Base & Reset)
+   إعدادات التأسيس والقواعد العامة (Base Styles)
    ========================================================================== */
-*,
-*::before,
-*::after {
+*, *::before, *::after {
     box-sizing: border-box;
 }
 
@@ -80,26 +76,13 @@ main {
     flex: 1;
 }
 
-/* نظام عرض وتبديل الصفحات في ملف واحد (SPA View Management) */
-.page-view {
-    display: none;
-    opacity: 0;
-    transition: opacity 0.25s ease-in-out;
-}
-
-.page-view.active {
-    display: block;
-    opacity: 1;
-}
-
 a {
     color: var(--primary);
     text-decoration: none;
     transition: color var(--transition-fast);
 }
 
-a:hover,
-a:focus-visible {
+a:hover, a:focus-visible {
     color: var(--primary-dark);
 }
 
@@ -109,32 +92,13 @@ img {
     display: block;
 }
 
-button,
-input,
-select,
-textarea {
+button, input, select, textarea {
     font-family: inherit;
     font-size: inherit;
     color: inherit;
 }
 
-.container {
-    width: min(1180px, 92%);
-    margin: 0 auto;
-}
-
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-}
-
+/* زر التخطي لمستخدمي لوحة المفاتيح وقارئات الشاشة */
 .skip-to-content {
     position: absolute;
     top: -100px;
@@ -154,8 +118,27 @@ textarea {
     outline: 3px solid var(--accent);
 }
 
+/* فئة لإخفاء المحتوى بصرياً مع إبقائه لقارئات الشاشة */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* الحاوية المتجاوبة العامة */
+.container {
+    width: min(1180px, 92%);
+    margin: 0 auto;
+}
+
 /* ==========================================================================
-   الهيدر وشريط التنقل الرئيسي (Header & Brand Identity)
+   رأس الصفحة وشريط التنقل (Header & Navigation)
    ========================================================================== */
 .site-header {
     background: var(--bg-surface);
@@ -170,77 +153,67 @@ textarea {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    min-height: 80px;
+    min-height: 78px;
     gap: 20px;
 }
 
 .brand-logo {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     text-decoration: none;
+    font-size: 24px;
+    font-weight: 800;
     color: var(--primary);
 }
 
 .brand-icon {
-    width: 46px;
-    height: 46px;
-    background: linear-gradient(135deg, var(--primary-light), #cbe7df);
+    width: 42px;
+    height: 42px;
+    background: var(--primary-light);
     border-radius: var(--radius-md);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 22px;
     color: var(--primary);
-    border: 1.5px solid var(--primary-soft);
-    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--primary-soft);
 }
 
 .brand-title {
     display: flex;
     flex-direction: column;
-    line-height: 1.15;
+    line-height: 1.2;
 }
 
 .brand-title .ar {
-    font-size: 24px;
-    font-weight: 800;
+    font-size: 22px;
     letter-spacing: -0.5px;
-    color: var(--primary-dark);
 }
 
 .brand-title .en {
-    font-size: 11.5px;
-    letter-spacing: 2px;
+    font-size: 11px;
+    letter-spacing: 1.5px;
     color: var(--secondary);
-    font-weight: 800;
-}
-
-.brand-title .slogan-mini {
-    font-size: 10.5px;
-    color: var(--accent);
-    font-weight: 600;
-    margin-top: 2px;
+    font-weight: 700;
 }
 
 .main-nav {
     display: flex;
     align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
+    gap: 22px;
 }
 
 .nav-link {
     color: var(--secondary);
-    font-size: 14.5px;
+    font-size: 15px;
     font-weight: 600;
     padding: 8px 12px;
     border-radius: var(--radius-sm);
     transition: all var(--transition-fast);
 }
 
-.nav-link:hover,
-.nav-link:focus-visible {
+.nav-link:hover, .nav-link:focus-visible {
     color: var(--primary);
     background: var(--primary-light);
 }
@@ -262,117 +235,7 @@ textarea {
 }
 
 /* ==========================================================================
-   نافذة الترحيب التفاعلية عند فتح الموقع (Welcome Splash Modal)
-   ========================================================================== */
-.welcome-modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(14, 52, 67, 0.75);
-    backdrop-filter: blur(6px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 20000;
-    padding: 20px;
-    animation: fadeIn 0.3s ease;
-}
-
-.welcome-modal-card {
-    background: #ffffff;
-    border-radius: var(--radius-lg);
-    max-width: 680px;
-    width: 100%;
-    padding: 40px 35px;
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
-    border: 2px solid var(--primary-light);
-    position: relative;
-    text-align: center;
-    animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.welcome-close-btn {
-    position: absolute;
-    top: 18px;
-    left: 20px;
-    background: var(--bg-page);
-    border: 1px solid var(--border-color);
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    font-size: 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-muted);
-    transition: all var(--transition-fast);
-}
-
-.welcome-close-btn:hover {
-    background: var(--danger-bg);
-    color: var(--danger);
-}
-
-.welcome-brand-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--primary-light);
-    color: var(--primary-dark);
-    padding: 6px 16px;
-    border-radius: var(--radius-full);
-    font-size: 13.5px;
-    font-weight: 700;
-    margin-bottom: 15px;
-}
-
-.welcome-modal-card h2 {
-    font-size: 34px;
-    color: var(--primary-dark);
-    margin: 0 0 4px 0;
-    font-weight: 800;
-}
-
-.welcome-modal-card .en-sub {
-    font-size: 16px;
-    color: var(--secondary);
-    font-weight: 800;
-    letter-spacing: 3px;
-    margin-bottom: 12px;
-}
-
-.welcome-modal-card .slogan-highlight {
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--accent);
-    background: var(--accent-light);
-    padding: 8px 18px;
-    border-radius: var(--radius-md);
-    display: inline-block;
-    margin-bottom: 20px;
-    border: 1px solid #fde68a;
-}
-
-.welcome-text {
-    font-size: 15.5px;
-    line-height: 1.9;
-    color: var(--text-main);
-    margin: 0 auto 28px auto;
-    max-width: 560px;
-}
-
-.welcome-quick-actions {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
-}
-
-/* ==========================================================================
-   الأزرار وعناصر التفاعل (Buttons)
+   الأزرار وعناصر التفاعل (Buttons & Interactive Elements)
    ========================================================================== */
 .btn {
     display: inline-flex;
@@ -462,7 +325,7 @@ textarea {
    قسم الترحيب الرئيسي (Hero Section)
    ========================================================================== */
 .hero-section {
-    background: linear-gradient(135deg, #eaf6f4 0%, #f4faf8 55%, #def0eb 100%);
+    background: linear-gradient(135deg, #eaf6f4 0%, #f4faf8 60%, #e1f0ec 100%);
     padding: 65px 0 80px;
     border-bottom: 1px solid #dcece8;
     position: relative;
@@ -494,16 +357,8 @@ textarea {
     font-size: 42px;
     line-height: 1.35;
     color: var(--secondary-dark);
-    margin: 0 0 8px 0;
+    margin: 0 0 20px 0;
     font-weight: 800;
-}
-
-.hero-subtitle-en {
-    font-size: 18px;
-    color: var(--secondary);
-    font-weight: 800;
-    letter-spacing: 3px;
-    margin-bottom: 16px;
 }
 
 .hero-title span {
@@ -514,7 +369,7 @@ textarea {
     font-size: 18px;
     line-height: 1.9;
     color: var(--text-main);
-    margin-bottom: 28px;
+    margin-bottom: 30px;
 }
 
 .hero-actions {
@@ -535,7 +390,7 @@ textarea {
 
 .hero-visual-img {
     width: 100%;
-    height: 400px;
+    height: 380px;
     object-fit: cover;
 }
 
@@ -544,14 +399,14 @@ textarea {
     bottom: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(to top, rgba(14, 52, 67, 0.95) 0%, rgba(14, 52, 67, 0.6) 60%, transparent 100%);
+    background: linear-gradient(to top, rgba(14, 52, 67, 0.9) 0%, transparent 100%);
     padding: 24px;
     color: #ffffff;
 }
 
 .hero-visual-overlay h3 {
     margin: 0 0 6px 0;
-    font-size: 20px;
+    font-size: 19px;
     color: #ffffff;
 }
 
@@ -586,8 +441,7 @@ textarea {
     margin-bottom: 4px;
 }
 
-.search-input-group input,
-.search-input-group select {
+.search-input-group input, .search-input-group select {
     padding: 10px 14px;
     border: 1px solid var(--border-color);
     border-radius: var(--radius-sm);
@@ -597,122 +451,9 @@ textarea {
     transition: border-color var(--transition-fast);
 }
 
-.search-input-group input:focus,
-.search-input-group select:focus {
+.search-input-group input:focus, .search-input-group select:focus {
     border-color: var(--primary);
     background: #ffffff;
-}
-
-/* ==========================================================================
-   قسم بطاقات الإعاقات المصورة والأماكن المناسبة لهم (Disabilities Showcase)
-   ========================================================================== */
-.disability-cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 28px;
-}
-
-.disability-card {
-    background: var(--bg-surface);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    box-shadow: var(--shadow-sm);
-    transition: all var(--transition-normal);
-    display: flex;
-    flex-direction: column;
-}
-
-.disability-card:hover {
-    transform: translateY(-6px);
-    box-shadow: var(--shadow-lg);
-    border-color: var(--primary);
-}
-
-.disability-card-media {
-    position: relative;
-    height: 220px;
-    overflow: hidden;
-}
-
-.disability-card-media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.4s ease;
-}
-
-.disability-card:hover .disability-card-media img {
-    transform: scale(1.04);
-}
-
-.disability-type-badge {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    background: rgba(14, 52, 67, 0.9);
-    color: #ffffff;
-    font-size: 13px;
-    font-weight: 700;
-    padding: 6px 14px;
-    border-radius: var(--radius-full);
-    backdrop-filter: blur(4px);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.disability-card-content {
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-}
-
-.disability-card-content h3 {
-    margin: 0 0 10px 0;
-    font-size: 20px;
-    color: var(--secondary-dark);
-}
-
-.disability-card-desc {
-    font-size: 14px;
-    color: var(--text-muted);
-    line-height: 1.8;
-    margin: 0 0 16px 0;
-}
-
-.suitable-places-block {
-    background: var(--bg-page);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
-    padding: 14px 16px;
-    margin-bottom: 20px;
-}
-
-.suitable-places-title {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--primary-dark);
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.suitable-places-list {
-    margin: 0;
-    padding-right: 18px;
-    font-size: 13px;
-    color: var(--text-main);
-    line-height: 1.8;
-}
-
-.disability-card-footer {
-    margin-top: auto;
-    border-top: 1px solid var(--border-color);
-    padding-top: 16px;
 }
 
 /* ==========================================================================
@@ -730,7 +471,7 @@ textarea {
 
 .section-header {
     text-align: center;
-    max-width: 760px;
+    max-width: 720px;
     margin: 0 auto 50px auto;
 }
 
@@ -758,6 +499,7 @@ textarea {
     margin: 0;
 }
 
+/* بطاقات التصنيفات والاحتياجات (Grid Cards) */
 .cards-grid-4 {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -816,9 +558,7 @@ textarea {
     flex: 1;
 }
 
-/* ==========================================================================
-   بطاقة المكان (Place Card)
-   ========================================================================== */
+/* بطاقة المكان (Place Card) */
 .place-card {
     background: var(--bg-surface);
     border: 1px solid var(--border-color);
@@ -888,7 +628,7 @@ textarea {
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 .badge-pending {
@@ -985,9 +725,7 @@ textarea {
     color: var(--accent);
 }
 
-/* ==========================================================================
-   خطوات العمل والدعوة للمشاركة (Steps & CTA)
-   ========================================================================== */
+/* خطوات كيف تعمل خُطوة (Steps) */
 .steps-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -1033,6 +771,7 @@ textarea {
     margin: 0;
 }
 
+/* بطاقة الدعوة للمشاركة (CTA Box) */
 .cta-banner {
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     color: #ffffff;
@@ -1058,7 +797,7 @@ textarea {
 }
 
 /* ==========================================================================
-   تفاصيل المكان (Place Details)
+   صفحة تفاصيل المكان (Place Details Page)
    ========================================================================== */
 .details-header {
     background: var(--bg-surface);
@@ -1122,6 +861,7 @@ textarea {
     padding-bottom: 12px;
 }
 
+/* شبكة ميزات الإتاحة المخصصة */
 .access-category-block {
     margin-bottom: 24px;
     background: var(--bg-page);
@@ -1196,12 +936,12 @@ textarea {
 }
 
 /* ==========================================================================
-   الخريطة التفاعلية (Map Layout)
+   الخريطة التفاعلية (Map Page & Leaflet Overrides)
    ========================================================================== */
 .map-layout {
     display: grid;
     grid-template-columns: 380px 1fr;
-    height: calc(100vh - 80px);
+    height: calc(100vh - 79px);
     overflow: hidden;
 }
 
@@ -1232,6 +972,7 @@ textarea {
     position: relative;
 }
 
+/* بوب أب الخريطة */
 .leaflet-popup-content-wrapper {
     border-radius: var(--radius-md) !important;
     padding: 0 !important;
@@ -1274,7 +1015,7 @@ textarea {
    ========================================================================== */
 .assistant-layout {
     max-width: 900px;
-    margin: 30px auto;
+    margin: 40px auto;
     background: var(--bg-surface);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
@@ -1282,7 +1023,7 @@ textarea {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    height: 720px;
+    height: 750px;
 }
 
 .assistant-header {
@@ -1346,24 +1087,6 @@ textarea {
     background: var(--primary);
     color: #ffffff;
     border-bottom-left-radius: 4px;
-}
-
-.chat-place-card {
-    background: #ffffff;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
-    padding: 12px;
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.chat-place-card img {
-    width: 70px;
-    height: 60px;
-    object-fit: cover;
-    border-radius: 6px;
 }
 
 .assistant-prompts {
@@ -1445,36 +1168,6 @@ textarea {
     box-shadow: 0 0 0 3px rgba(8, 126, 120, 0.15);
 }
 
-.checkbox-chips-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 10px;
-}
-
-.chip-label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--bg-page);
-    border: 1px solid var(--border-color);
-    padding: 8px 12px;
-    border-radius: var(--radius-sm);
-    font-size: 13.5px;
-    cursor: pointer;
-    transition: all var(--transition-fast);
-}
-
-.chip-label:hover {
-    border-color: var(--primary);
-    background: var(--primary-light);
-}
-
-.chip-label input[type="checkbox"] {
-    accent-color: var(--primary);
-    width: 17px;
-    height: 17px;
-}
-
 /* ==========================================================================
    لوحة الإدارة (Admin Dashboard)
    ========================================================================== */
@@ -1543,8 +1236,7 @@ textarea {
     font-size: 14px;
 }
 
-.data-table th,
-.data-table td {
+.data-table th, .data-table td {
     padding: 14px 16px;
     border-bottom: 1px solid var(--border-color);
     text-align: right;
@@ -1558,89 +1250,6 @@ textarea {
 
 .data-table tr:hover {
     background: #f8fafc;
-}
-
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10000;
-    padding: 20px;
-}
-
-.modal-card {
-    background: #ffffff;
-    border-radius: var(--radius-md);
-    max-width: 650px;
-    width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
-    padding: 28px;
-    box-shadow: var(--shadow-lg);
-    position: relative;
-}
-
-/* ==========================================================================
-   الأسئلة الشائعة (FAQ Accordion)
-   ========================================================================== */
-.faq-item {
-    background: #ffffff;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
-    margin-bottom: 12px;
-    overflow: hidden;
-    transition: border-color var(--transition-fast);
-}
-
-.faq-question {
-    width: 100%;
-    text-align: right;
-    padding: 18px 20px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--secondary-dark);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.faq-question:hover {
-    color: var(--primary);
-}
-
-.faq-answer {
-    padding: 0 20px 20px;
-    font-size: 14.5px;
-    line-height: 1.9;
-    color: var(--text-main);
-    display: none;
-    border-top: 1px solid var(--border-subtle);
-}
-
-.faq-item.open .faq-answer {
-    display: block;
-}
-
-.faq-item.open {
-    border-color: var(--primary);
-}
-
-.faq-arrow {
-    font-size: 14px;
-    transition: transform 0.2s;
-}
-
-.faq-item.open .faq-arrow {
-    transform: rotate(180deg);
 }
 
 /* ==========================================================================
@@ -1757,8 +1366,9 @@ textarea {
 }
 
 /* ==========================================================================
-   أنماط إمكانية الوصول الخاصة (WCAG Accessibility Themes)
+   أنماط إمكانية الوصول الخاصة (Accessibility Themes)
    ========================================================================== */
+/* تكبير الخط */
 html.font-medium {
     font-size: 18px;
 }
@@ -1767,6 +1377,7 @@ html.font-large {
     font-size: 21px;
 }
 
+/* وضع التباين العالي (High Contrast) */
 html.theme-high-contrast {
     --bg-page: #000000;
     --bg-surface: #000000;
@@ -1796,6 +1407,7 @@ html.theme-high-contrast .btn {
     font-weight: 900 !important;
 }
 
+/* الوضع الداكن (Dark Mode) */
 html.theme-dark {
     --bg-page: #0f172a;
     --bg-surface: #1e293b;
@@ -1816,12 +1428,14 @@ html.theme-dark .assistant-layout {
     background: #1e293b;
 }
 
+/* خط عسر القراءة (High Readability) */
 html.font-dyslexic {
     letter-spacing: 0.05em;
     word-spacing: 0.1em;
     line-height: 2.1;
 }
 
+/* إيقاف الحركات (Reduce Motion) */
 html.reduce-motion *,
 html.reduce-motion *::before,
 html.reduce-motion *::after {
@@ -1831,6 +1445,7 @@ html.reduce-motion *::after {
     scroll-behavior: auto !important;
 }
 
+/* إبراز الروابط (Highlight Links) */
 html.highlight-links a,
 html.highlight-links button {
     outline: 2px dashed #d97706 !important;
@@ -1866,21 +1481,10 @@ html.highlight-links button {
     animation: toastSlideIn 0.3s ease forwards;
 }
 
-.toast-success {
-    border-right: 5px solid var(--success);
-}
-
-.toast-error {
-    border-right: 5px solid var(--danger);
-}
-
-.toast-warning {
-    border-right: 5px solid var(--warning);
-}
-
-.toast-info {
-    border-right: 5px solid var(--info);
-}
+.toast-success { border-right: 5px solid var(--success); }
+.toast-error { border-right: 5px solid var(--danger); }
+.toast-warning { border-right: 5px solid var(--warning); }
+.toast-info { border-right: 5px solid var(--info); }
 
 .toast-close {
     background: transparent;
@@ -1892,37 +1496,8 @@ html.highlight-links button {
 }
 
 @keyframes toastSlideIn {
-    from {
-        transform: translateY(20px);
-        opacity: 0;
-    }
-
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes slideUp {
-    from {
-        transform: translateY(30px);
-        opacity: 0;
-    }
-
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
 
 /* ==========================================================================
@@ -1944,19 +1519,9 @@ html.highlight-links button {
 }
 
 .footer-brand h3 {
-    margin: 0 0 4px 0;
-    font-size: 24px;
+    margin: 0 0 10px 0;
+    font-size: 22px;
     color: #ffffff;
-    font-weight: 800;
-}
-
-.footer-brand .en-sub {
-    font-size: 13px;
-    color: var(--accent);
-    letter-spacing: 2px;
-    font-weight: 700;
-    display: block;
-    margin-bottom: 12px;
 }
 
 .footer-brand p {
@@ -2019,38 +1584,27 @@ html.highlight-links button {
     .hero-grid {
         grid-template-columns: 1fr;
     }
-
     .hero-search-box {
         grid-template-columns: 1fr 1fr;
     }
-
     .details-grid {
         grid-template-columns: 1fr;
     }
-
     .map-layout {
         grid-template-columns: 1fr;
         height: auto;
     }
-
     .map-sidebar {
         height: 380px;
     }
-
     .map-container {
         height: 480px;
     }
-
     .footer-grid {
         grid-template-columns: 1fr 1fr;
     }
-
     .steps-grid {
         grid-template-columns: 1fr 1fr;
-    }
-
-    .disability-cards-grid {
-        grid-template-columns: 1fr;
     }
 }
 
@@ -2058,11 +1612,10 @@ html.highlight-links button {
     .nav-toggle-btn {
         display: block;
     }
-
     .main-nav {
         display: none;
         position: absolute;
-        top: 80px;
+        top: 78px;
         right: 0;
         left: 0;
         background: var(--bg-surface);
@@ -2071,598 +1624,23 @@ html.highlight-links button {
         box-shadow: var(--shadow-lg);
         border-bottom: 1px solid var(--border-color);
     }
-
     .main-nav.open {
         display: flex;
     }
-
     .hero-search-box {
         grid-template-columns: 1fr;
     }
-
     .hero-title {
-        font-size: 32px;
+        font-size: 30px;
     }
-
     .steps-grid {
         grid-template-columns: 1fr;
     }
-
     .footer-grid {
         grid-template-columns: 1fr;
     }
-
     .assistant-layout {
         height: 600px;
         margin: 15px auto;
     }
-
-    .welcome-modal-card {
-        padding: 30px 20px;
-    }
-
-    .welcome-modal-card h2 {
-        font-size: 26px;
-    }
-}
-
-/* ==========================================================================
-   نظام GPS الحقيقي وخريطة الملاحة وحساب المسافات (Real GPS & Navigation)
-   ========================================================================== */
-.gps-pulse-marker {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.gps-beacon-dot {
-    width: 16px;
-    height: 16px;
-    background-color: #0284c7;
-    border: 3px solid #ffffff;
-    border-radius: 50%;
-    box-shadow: 0 0 10px rgba(2, 132, 199, 0.8);
-    position: relative;
-}
-
-.gps-beacon-ring {
-    position: absolute;
-    width: 38px;
-    height: 38px;
-    border: 2px solid #0284c7;
-    border-radius: 50%;
-    animation: gpsBeaconPulse 2s infinite ease-out;
-    opacity: 0;
-}
-
-@keyframes gpsBeaconPulse {
-    0% { transform: scale(0.4); opacity: 0.9; }
-    50% { opacity: 0.5; }
-    100% { transform: scale(1.6); opacity: 0; }
-}
-
-.gps-nav-panel {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
-    width: 360px;
-    max-width: calc(100% - 40px);
-    background: rgba(255, 255, 255, 0.96);
-    backdrop-filter: blur(8px);
-    border-radius: var(--radius-lg);
-    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.18);
-    border: 1px solid var(--border-color);
-    padding: 18px;
-    animation: slideDown 0.3s ease-out;
-}
-
-.gps-nav-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 12px;
-}
-
-.gps-nav-title {
-    font-size: 16px;
-    font-weight: 800;
-    color: var(--secondary-dark);
-    margin: 0 0 4px 0;
-}
-
-.gps-nav-destination {
-    font-size: 13px;
-    color: var(--text-muted);
-}
-
-.gps-nav-close-btn {
-    background: transparent;
-    border: none;
-    font-size: 18px;
-    cursor: pointer;
-    color: var(--text-muted);
-    padding: 2px 6px;
-    border-radius: 4px;
-}
-
-.gps-nav-close-btn:hover {
-    background: #f1f5f9;
-    color: var(--danger);
-}
-
-.gps-nav-metrics-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 14px;
-}
-
-.gps-metric-box {
-    background: #f8fafc;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
-    padding: 10px;
-    text-align: center;
-}
-
-.gps-metric-val {
-    display: block;
-    font-size: 18px;
-    font-weight: 800;
-    color: var(--primary);
-}
-
-.gps-metric-lbl {
-    font-size: 11px;
-    color: var(--text-muted);
-}
-
-.gps-safety-warning {
-    background: #fffbeb;
-    border: 1px solid #fde68a;
-    border-radius: var(--radius-sm);
-    padding: 8px 10px;
-    font-size: 12px;
-    color: #92400e;
-    line-height: 1.5;
-    margin-bottom: 12px;
-    display: flex;
-    gap: 8px;
-    align-items: flex-start;
-}
-
-.gps-route-steps {
-    max-height: 140px;
-    overflow-y: auto;
-    border-top: 1px dashed var(--border-color);
-    padding-top: 10px;
-    margin-bottom: 12px;
-    font-size: 13px;
-    color: var(--text-main);
-}
-
-.gps-step-item {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 6px;
-    align-items: flex-start;
-}
-
-.gps-step-num {
-    background: var(--primary-light);
-    color: var(--primary);
-    font-weight: 700;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    flex-shrink: 0;
-}
-
-/* ==========================================================================
-   جواز إتاحة المكان المعياري (Place Accessibility Passport)
-   ========================================================================== */
-.passport-container {
-    background: #ffffff;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-lg);
-    padding: 24px;
-    box-shadow: var(--shadow-sm);
-    margin: 24px 0;
-    position: relative;
-    overflow: hidden;
-}
-
-.passport-container::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    height: 5px;
-    background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
-}
-
-.passport-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 20px;
-    padding-bottom: 14px;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.passport-title-wrap {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.passport-icon {
-    font-size: 28px;
-}
-
-.passport-title {
-    font-size: 20px;
-    font-weight: 800;
-    color: var(--secondary-dark);
-    margin: 0;
-}
-
-.passport-sub {
-    font-size: 12px;
-    color: var(--text-muted);
-}
-
-.passport-audit-meta {
-    font-size: 12px;
-    color: var(--text-muted);
-    background: #f8fafc;
-    padding: 6px 12px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--border-color);
-}
-
-.passport-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 14px;
-}
-
-.passport-item {
-    background: #f8fafc;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
-    padding: 12px 14px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    transition: var(--transition);
-}
-
-.passport-item:hover {
-    border-color: var(--primary);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-
-.passport-item-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.passport-item-icon {
-    font-size: 20px;
-}
-
-.passport-item-name {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-main);
-    display: block;
-}
-
-.passport-item-spec {
-    font-size: 11px;
-    color: var(--text-muted);
-}
-
-/* الشارات ثلاثية الحالة */
-.status-badge-tri {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 700;
-    white-space: nowrap;
-}
-
-.status-badge-tri.available {
-    background-color: #dcfce7;
-    color: #15803d;
-    border: 1px solid #86efac;
-}
-
-.status-badge-tri.unavailable {
-    background-color: #fee2e2;
-    color: #b91c1c;
-    border: 1px solid #fca5a5;
-}
-
-.status-badge-tri.unverified {
-    background-color: #fef3c7;
-    color: #b45309;
-    border: 1px solid #fde68a;
-}
-
-/* ==========================================================================
-   نظام خُطوة للتكيف الذكي مع احتياجات المستخدم (Adaptive System)
-   ========================================================================== */
-body.adaptive-motor-large button,
-body.adaptive-motor-large a.btn,
-body.adaptive-motor-large select,
-body.adaptive-motor-large input {
-    min-height: 52px !important;
-    font-size: 17px !important;
-    padding: 12px 24px !important;
-}
-
-body.adaptive-motor-large .nav-link {
-    padding: 14px 18px !important;
-    font-size: 16px !important;
-}
-
-body.adaptive-calm * {
-    animation: none !important;
-    transition: none !important;
-}
-
-body.adaptive-calm {
-    background-color: #f1f5f9 !important;
-    color: #334155 !important;
-}
-
-body.adaptive-calm .hero-section {
-    background: #e2e8f0 !important;
-}
-
-body.adaptive-simplified .lead-text,
-body.adaptive-simplified .hero-desc {
-    font-size: 19px !important;
-    line-height: 2 !important;
-}
-
-/* شريط اختصارات لوحة المفاتيح */
-.keyboard-shortcuts-bar {
-    background: #0f172a;
-    color: #f8fafc;
-    padding: 8px 16px;
-    font-size: 13px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 16px;
-    flex-wrap: wrap;
-    border-bottom: 1px solid #334155;
-}
-
-.keyboard-shortcut-pill {
-    background: #1e293b;
-    border: 1px solid #475569;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-family: monospace;
-    font-weight: 700;
-    color: var(--accent);
-}
-
-/* لوحة عبارات التعبير السريع (Speech Phrases Board) */
-.speech-phrases-board {
-    background: #ffffff;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-lg);
-    padding: 20px;
-    margin: 20px 0;
-}
-
-.phrases-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 12px;
-    margin-top: 14px;
-}
-
-.phrase-card-btn {
-    background: #f8fafc;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
-    padding: 14px;
-    text-align: right;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    transition: var(--transition);
-}
-
-.phrase-card-btn:hover {
-    background: var(--primary-light);
-    border-color: var(--primary);
-    transform: translateY(-2px);
-}
-
-.phrase-card-btn strong {
-    font-size: 15px;
-    color: var(--secondary-dark);
-}
-
-.phrase-card-btn small {
-    color: var(--text-muted);
-    font-size: 12px;
-}
-
-/* ==========================================================================
-   زر المساعدة الثابت في جميع الصفحات (Persistent Floating Help Button)
-   ========================================================================== */
-.floating-help-btn {
-    position: fixed;
-    bottom: 24px;
-    left: 24px;
-    z-index: 9998;
-    background: var(--secondary-dark);
-    color: #ffffff;
-    border: 2px solid #ffffff;
-    border-radius: 30px;
-    padding: 12px 20px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    box-shadow: 0 8px 24px rgba(14, 52, 67, 0.35);
-    cursor: pointer;
-    font-family: inherit;
-    font-weight: 700;
-    font-size: 14px;
-    transition: var(--transition);
-}
-
-.floating-help-btn:hover,
-.floating-help-btn:focus-visible {
-    background: var(--primary);
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 12px 28px rgba(8, 126, 120, 0.45);
-    outline: 3px solid var(--accent);
-}
-
-.floating-help-btn .help-icon {
-    font-size: 20px;
-}
-
-/* نافذة المساعدة المنبثقة */
-.help-modal-overlay {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 10000;
-    background: rgba(15, 23, 42, 0.7);
-    backdrop-filter: blur(4px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-
-.help-modal-card {
-    background: #ffffff;
-    border-radius: var(--radius-lg);
-    max-width: 650px;
-    width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
-    padding: 30px;
-    box-shadow: var(--shadow-xl);
-    border: 1px solid var(--border-color);
-    position: relative;
-    animation: scaleUp 0.25s ease-out;
-}
-
-/* ==========================================================================
-   شريط وأداة مقارنة الأماكن المتاحة (Places Comparison Tool)
-   ========================================================================== */
-.compare-floating-bar {
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 9997;
-    background: #0f172a;
-    color: #ffffff;
-    padding: 12px 24px;
-    border-radius: 30px;
-    box-shadow: 0 12px 36px rgba(0,0,0,0.35);
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    border: 1px solid #334155;
-    animation: slideUp 0.3s ease-out;
-}
-
-.compare-table-wrapper {
-    overflow-x: auto;
-    margin-top: 16px;
-}
-
-.compare-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.compare-table th, .compare-table td {
-    padding: 14px;
-    border: 1px solid var(--border-color);
-    text-align: right;
-    font-size: 14px;
-}
-
-.compare-table th {
-    background: #f1f5f9;
-    color: var(--secondary-dark);
-}
-
-/* ==========================================================================
-   خريطة فجوات الإتاحة والتوثيق (Accessibility Gap Map Legend)
-   ========================================================================== */
-.gap-map-legend {
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: var(--radius-md);
-    padding: 12px 16px;
-    border: 1px solid var(--border-color);
-    box-shadow: var(--shadow-md);
-    margin-top: 12px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    flex-wrap: wrap;
-    font-size: 13px;
-}
-
-.gap-legend-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.gap-dot {
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    display: inline-block;
-}
-
-.gap-dot.dense { background-color: #10b981; }
-.gap-dot.medium { background-color: #3b82f6; }
-.gap-dot.gap { background-color: #f59e0b; }
-
-/* شريط وضع العمل دون اتصال (Offline Banner) */
-.offline-notice-bar {
-    background: #ea580c;
-    color: #ffffff;
-    text-align: center;
-    padding: 8px 16px;
-    font-size: 13px;
-    font-weight: 700;
-    display: none;
-    position: sticky;
-    top: 0;
-    z-index: 10001;
 }
